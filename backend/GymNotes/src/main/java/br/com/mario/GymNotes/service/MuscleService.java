@@ -17,4 +17,12 @@ public class MuscleService {
     public List<Muscle> findAll() {
         return repository.findAll();
     }
+
+    public Muscle save(Muscle muscle) {
+        return repository.save(muscle);
+    }
+
+    public List<Muscle> saveAll(List<Muscle> muscles) {
+        return repository.saveAll(muscles);
+    }
 }
