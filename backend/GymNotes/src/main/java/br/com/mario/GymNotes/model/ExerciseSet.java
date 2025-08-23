@@ -1,23 +1,13 @@
 package br.com.mario.GymNotes.model;
 
 
-import jakarta.persistence.*;
 
-@Entity
 public class ExerciseSet {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private Double weight;
     private Double reps;
     private Double rir;
     private String notes;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "session_id")
-    private WorkoutSession session;
 
     public ExerciseSet() {
     }
@@ -59,21 +49,5 @@ public class ExerciseSet {
 
     public void setNotes(String notes) {
         this.notes = notes;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public WorkoutSession getSession() {
-        return session;
-    }
-
-    public void setSession(WorkoutSession session) {
-        this.session = session;
     }
 }

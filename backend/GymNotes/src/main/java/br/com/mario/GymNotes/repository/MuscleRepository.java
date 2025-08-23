@@ -1,9 +1,7 @@
 package br.com.mario.GymNotes.repository;
 
 import br.com.mario.GymNotes.model.Muscle;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-@Repository
-public interface MuscleRepository extends JpaRepository<Muscle, Long> {
+public interface MuscleRepository extends MongoRepository<Muscle, String> {
 }

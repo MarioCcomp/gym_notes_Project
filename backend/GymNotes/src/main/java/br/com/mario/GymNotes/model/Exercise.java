@@ -1,36 +1,35 @@
 package br.com.mario.GymNotes.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+@Document(collection = "exercises")
 public class Exercise {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private String name;
 
-    private String targetMuscle;
+    @DBRef(lazy = false)
+    private Muscle targetMuscle;
 
     public Exercise() {
     }
 
-    public Exercise(Long id, String name, String targetMuscle) {
+    public Exercise(String id, String name, Muscle targetMuscle) {
         this.id = id;
         this.name = name;
         this.targetMuscle = targetMuscle;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -42,11 +41,11 @@ public class Exercise {
         this.name = name;
     }
 
-    public String getTargetMuscle() {
+    public Muscle getTargetMuscle() {
         return targetMuscle;
     }
 
-    public void setTargetMuscle(String targetMuscle) {
+    public void setTargetMuscle(Muscle targetMuscle) {
         this.targetMuscle = targetMuscle;
     }
 }

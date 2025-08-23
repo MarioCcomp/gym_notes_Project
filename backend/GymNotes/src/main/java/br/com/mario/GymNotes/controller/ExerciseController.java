@@ -2,11 +2,12 @@ package br.com.mario.GymNotes.controller;
 
 
 import br.com.mario.GymNotes.model.Exercise;
+import br.com.mario.GymNotes.model.Muscle;
 import br.com.mario.GymNotes.service.ExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +22,11 @@ public class ExerciseController {
     @GetMapping(path = "/exercises")
     public List<Exercise> findAll() {
         return service.findAll();
+    }
+
+    @PostMapping(path = "/exercises/batch")
+    public ResponseEntity<List<Exercise>> createExercises(@RequestBody List<Exercise> exercises) {
+        List<Exercise> savedExercises = service.saveAll(exercises);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedExercises);
     }
 }

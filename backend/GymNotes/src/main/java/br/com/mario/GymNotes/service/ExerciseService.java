@@ -16,4 +16,8 @@ public class ExerciseService {
     public List<Exercise> findAll() {
         return repository.findAll();
     }
+
+    public List<Exercise> saveAll(List<Exercise> exercises) {
+        return repository.saveAll(exercises);
+    }
 }

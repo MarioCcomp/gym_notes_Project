@@ -1,26 +1,34 @@
 package br.com.mario.GymNotes.model;
 
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Document(collection = "workoutRoutines")
 public class WorkoutRoutine {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkoutExercise> exercises =  new ArrayList<>();;
 
     public WorkoutRoutine() {
     }
 
-    public WorkoutRoutine(List<WorkoutExercise> exercises) {
+    public WorkoutRoutine(String id, List<WorkoutExercise> exercises) {
+        this.id = id;
         this.exercises = exercises;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public List<WorkoutExercise> getExercises() {
@@ -29,13 +37,5 @@ public class WorkoutRoutine {
 
     public void setExercises(List<WorkoutExercise> exercises) {
         this.exercises = exercises;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

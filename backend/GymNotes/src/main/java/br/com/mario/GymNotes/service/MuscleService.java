@@ -25,4 +25,5 @@ public class MuscleService {
     public List<Muscle> saveAll(List<Muscle> muscles) {
         return repository.saveAll(muscles);
     }
+
 }

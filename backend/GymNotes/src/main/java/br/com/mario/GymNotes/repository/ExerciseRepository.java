@@ -1,9 +1,7 @@
 package br.com.mario.GymNotes.repository;
 
 import br.com.mario.GymNotes.model.Exercise;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-@Repository
-public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
+public interface ExerciseRepository extends MongoRepository<Exercise, String> {
 }
