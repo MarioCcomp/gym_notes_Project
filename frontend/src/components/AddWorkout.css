@@ -1,0 +1,110 @@
+.creatingWorkout {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  margin-top: 20px;
+  border: 1px solid #333;
+}
+
+.creatingWorkout label {
+  font-weight: 500;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.creatingWorkout input[type="text"],
+.creatingWorkout input[type="number"],
+.creatingWorkout select {
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+  transition: border-color 0.3s;
+}
+
+.creatingWorkout input:focus,
+.creatingWorkout select:focus {
+  border-color: #777;
+  outline: none;
+}
+
+.creatingWorkout button {
+  margin-top: 8px;
+  padding: 10px 14px;
+  background-color: #444;
+  color: #f0f0f0;
+  border: 1px solid #555;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.creatingWorkout button:hover {
+  background-color: #555;
+  border-color: #777;
+}
+
+.addedExercises {
+  margin-top: 20px;
+  background-color: #2a2a2a;
+  border-left: 3px solid #555;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.addedExercises h4 {
+  margin: 0 0 10px 0;
+  font-size: 15px;
+  color: #ddd;
+}
+
+.addedExercises ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.addedExercises li {
+  padding: 6px 0;
+  border-bottom: 1px solid #333;
+  font-size: 14px;
+  color: #ccc;
+}
+
+
+.saveWorkoutBtn {
+  margin-top: 20px;
+  padding: 12px 18px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.saveWorkoutBtn:hover {
+  background-color: #005fcc;
+}
+
+.saveWorkoutBtn:active {
+  transform: scale(0.98);
+}
+
+.infoWarning {
+  background-color: #1c1c1c;
+  color: #ffcc00;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+  border: 1px solid #444;
+}

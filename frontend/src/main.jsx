@@ -18,7 +18,7 @@ ReactDOM.createRoot(root).render(
       <Route path="/" element={<Home />}  />
       <Route path="/workouts" element={<WorkoutsLayout />}>
         <Route index element={<MyWorkouts />} />
-        <Route path=':workoutId' element={<Workout/>} />
+        <Route path=':workoutName' element={<Workout/>} />
       </Route>
       
 

@@ -28,13 +28,13 @@ public class WorkoutRoutineService {
         repository.save(routine);
     }
 
-    public WorkoutRoutine update(String id, WorkoutRoutine routine) {
-        return repository.findById(id).map(existing -> {
+    public WorkoutRoutine update(String name, WorkoutRoutine routine) {
+        return repository.findByName(name).map(existing -> {
             routine.getExercises().forEach(wEx -> {
                 Exercise fullExercise = exerciseRepository.findById(wEx.getExercise().getId()).orElseThrow(() -> new RuntimeException("Exercise not found"));
                 wEx.setExercise(fullExercise);
             });
-            routine.setId(id);
+            routine.setId(existing.getId());
             return repository.save(routine);
         }).orElse(null);
     }

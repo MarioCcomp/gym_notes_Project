@@ -10,27 +10,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/routine")
+@RequestMapping(path = "/api")
 public class WorkoutRoutineController {
 
 
     @Autowired
     private WorkoutRoutineService service;
 
-    @GetMapping()
+    @GetMapping(path = "/routines")
     public List<WorkoutRoutine> findAll() {
         return service.findAll();
     }
 
-    @PostMapping()
+    @PostMapping(path = "/routine")
     public ResponseEntity<WorkoutRoutine> create(@RequestBody WorkoutRoutine routine) {
         service.create(routine);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping(path = "/{id}")
-    public ResponseEntity<WorkoutRoutine> update(@PathVariable String id, @RequestBody WorkoutRoutine routine) {
-        WorkoutRoutine updated = service.update(id, routine);
+    @PutMapping(path = "/routine/{name}")
+    public ResponseEntity<WorkoutRoutine> update(@PathVariable String name, @RequestBody WorkoutRoutine routine) {
+        WorkoutRoutine updated = service.update(name, routine);
         if(updated == null) {
             return ResponseEntity.notFound().build();
         }

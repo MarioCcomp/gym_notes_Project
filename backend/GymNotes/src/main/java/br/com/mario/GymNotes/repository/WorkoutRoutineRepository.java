@@ -3,5 +3,8 @@ package br.com.mario.GymNotes.repository;
 import br.com.mario.GymNotes.model.WorkoutRoutine;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.Optional;
+
 public interface WorkoutRoutineRepository extends MongoRepository<WorkoutRoutine, String> {
+    Optional<WorkoutRoutine> findByName(String name);
 }

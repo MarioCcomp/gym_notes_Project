@@ -8,17 +8,20 @@ export const useMuscles = () => useContext(MusclesContext);
 export const MusclesProvider = ({ children }) => {
   const [muscles, setMuscles] = useState([]);
   const [exercises, setExercises] = useState([]);
+  const [routines, setRoutines] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const musclesRes = await axios.get("http://localhost:8080/api/muscles");
         const exercisesRes = await axios.get("http://localhost:8080/api/exercises");
+        const routinesRes = await axios.get("http://localhost:8080/api/routines")
         setMuscles(musclesRes.data);
         setExercises(exercisesRes.data);
+        setRoutines(routinesRes.data);
         console.log(exercisesRes.data);
       } catch (err) {
-        console.error("Erro ao buscar músculos ou exercícios:", err);
+        console.error("Erro ao buscar músculos ou exercícios ou rotinas:", err);
       }
     };
 
@@ -26,7 +29,7 @@ export const MusclesProvider = ({ children }) => {
   }, []);
 
   return (
-    <MusclesContext.Provider value={{ muscles, exercises }}>
+    <MusclesContext.Provider value={{ muscles, exercises, routines, setRoutines }}>
       {children}
     </MusclesContext.Provider>
   );
