@@ -25,6 +25,7 @@ const Workout = ({}) => {
   const [plannedSets, setPlannedSets] = useState("");
   const [editingSets, setEditingSets] = useState({});
   const [notification, setNotification] = useState(null);
+  const [optionsExpanded, setOptionsExpanded] = useState({});
 
   const { workoutName } = useParams();
 
@@ -78,7 +79,10 @@ const Workout = ({}) => {
     if (!exercise || exercise.sessions.length === 0) return null;
 
     const minus = isWorkoutRunning ? 1 : 0;
-    const last = exercise.sessions[exercise.sessions.length - 1 - minus];
+    const last =
+      exercise.sessions.length > 1
+        ? exercise.sessions[exercise.sessions.length - 1 - minus]
+        : exercise.sessions[exercise.sessions.length - 1];
     return last.sets[infoBox.setIndex];
   };
 
@@ -220,6 +224,17 @@ const Workout = ({}) => {
     setConfirmCancel(false);
   };
 
+  useEffect(() => {
+    setExpandedExercises({});
+  }, [isWorkoutRunning, isAddingExercise]);
+
+  const handleExpandOptions = (index) => {
+    setOptionsExpanded((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+
   return (
     <div className="main">
       <div
@@ -235,13 +250,14 @@ const Workout = ({}) => {
       <div className="header">
         <img src={gymNotes} alt="" />
         <p>{workout ? workout.name : "Carregando treino..."}</p>
-        {isWorkoutRunning ? (
-          <button onClick={handleCancelClick}>Cancelar</button>
-        ) : (
-          <button className="startBtn" onClick={handleStart}>
-            Iniciar Treino
-          </button>
-        )}
+        {!isAddingExercise &&
+          (isWorkoutRunning ? (
+            <button onClick={handleCancelClick}>Cancelar</button>
+          ) : (
+            <button className="startBtn" onClick={handleStart}>
+              Iniciar Treino
+            </button>
+          ))}
         {confirmCancel && (
           <div className="overlay" onClick={closeCancelModal}>
             <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -288,86 +304,109 @@ const Workout = ({}) => {
 
       {!isAddingExercise && (
         <div className="exercises">
-          {exercises.map((exercise) => {
+          {exercises.map((exercise, ind) => {
             const isExpanded =
               expandedExercises[exercise.exercise.name] || false;
 
             return (
-              <div className="exercise" key={exercise.exercise.id}>
-                <h3>{exercise.exercise.name}</h3>
-                <p>
-                  Séries: {exercise.plannedSets}{" "}
-                  <span onClick={() => toggleExercise(exercise.exercise.name)}>
-                    {isExpanded ? "↓" : "→"}
-                  </span>
-                </p>
-                <div className="sets">
-                  {isExpanded &&
-                    exercise.plannedSets &&
-                    repeat(exercise.plannedSets, (index) => {
-                      const key = getSetKey(exercise.exercise.id, index);
-                      const isEditing = editingSets[key] ?? true;
+              <div className="outExercise">
+                <div className="exercise" key={exercise.exercise.id}>
+                  <p
+                    className="options"
+                    onClick={() => handleExpandOptions(ind)}
+                  >
+                    ...
+                  </p>
+                  <h3>{exercise.exercise.name}</h3>
+                  <p>
+                    Séries: {exercise.plannedSets}{" "}
+                    <span
+                      onClick={() => toggleExercise(exercise.exercise.name)}
+                    >
+                      {isExpanded ? "↓" : "→"}
+                    </span>
+                  </p>
+                  <div className="sets">
+                    {isExpanded &&
+                      exercise.plannedSets &&
+                      repeat(exercise.plannedSets, (index) => {
+                        const key = getSetKey(exercise.exercise.id, index);
+                        const isEditing = editingSets[key] ?? true;
 
-                      return (
-                        <div className="set info" key={index}>
-                          <div
-                            className="infoBtn"
-                            onClick={() => handleInfoBtn(index, exercise)}
-                          >
-                            🛈
+                        return (
+                          <div className="set info" key={index}>
+                            <div
+                              className="infoBtn"
+                              onClick={() => handleInfoBtn(index, exercise)}
+                            >
+                              🛈
+                            </div>
+                            <p>Série {index + 1}</p>
+                            <form
+                              key={isWorkoutRunning}
+                              onSubmit={(e) =>
+                                handleSaveSet(e, index, exercise)
+                              }
+                            >
+                              <div className="above-set">
+                                <input
+                                  type="text"
+                                  placeholder="peso"
+                                  name="weight"
+                                  disabled={!isEditing || !isWorkoutRunning}
+                                />
+                                <input
+                                  type="text"
+                                  placeholder="repetições"
+                                  name="reps"
+                                  disabled={!isEditing || !isWorkoutRunning}
+                                />
+                              </div>
+
+                              <div className="down-set">
+                                <input
+                                  type="text"
+                                  placeholder="rir (opcional)"
+                                  name="rir"
+                                  disabled={!isEditing || !isWorkoutRunning}
+                                />
+                                <input
+                                  type="text"
+                                  placeholder="observações (opcional)"
+                                  name="notes"
+                                  disabled={!isEditing || !isWorkoutRunning}
+                                />
+                              </div>
+                              {isEditing ? (
+                                <input type="submit" value="Adicionar" />
+                              ) : (
+                                <button
+                                  type="button"
+                                  onClick={() => handleEditSet(index, exercise)}
+                                  className="editBtn"
+                                >
+                                  Editar
+                                </button>
+                              )}
+                            </form>
                           </div>
-                          <p>Série {index + 1}</p>
-                          <form
-                            onSubmit={(e) => handleSaveSet(e, index, exercise)}
-                          >
-                            <div className="above-set">
-                              <input
-                                type="text"
-                                placeholder="peso"
-                                name="weight"
-                                disabled={!isEditing}
-                              />
-                              <input
-                                type="text"
-                                placeholder="repetições"
-                                name="reps"
-                                disabled={!isEditing}
-                              />
-                            </div>
-
-                            <div className="down-set">
-                              <input
-                                type="text"
-                                placeholder="rir (opcional)"
-                                name="rir"
-                                disabled={!isEditing}
-                              />
-                              <input
-                                type="text"
-                                placeholder="observações (opcional)"
-                                name="notes"
-                                disabled={!isEditing}
-                              />
-                            </div>
-                            {isEditing ? (
-                              <input type="submit" value="Adicionar" />
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => handleEditSet(index, exercise)}
-                                className="editBtn"
-                              >
-                                Editar
-                              </button>
-                            )}
-                          </form>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                  </div>
                 </div>
+                {optionsExpanded[ind] && (
+                  <div className="lis">
+                    <p onClick={() => handleExpandOptions(ind)}>X</p>
+                    <ul>
+                      <li>Editar exercicio</li>
+                      <li>Excluir exercicio</li>
+                    </ul>
+                  </div>
+                )}
               </div>
             );
           })}
+
           {isWorkoutRunning && (
             <button className="endBtn" onClick={handleFinish}>
               Finalizar Treino
@@ -389,7 +428,12 @@ const Workout = ({}) => {
             </button>
           )}
 
-          {isAddingExercise && <AddExercises routine={workout} />}
+          {isAddingExercise && (
+            <AddExercises
+              routine={workout}
+              setIsAddingExercise={setIsAddingExercise}
+            />
+          )}
         </div>
       )}
 

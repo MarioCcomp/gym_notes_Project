@@ -142,7 +142,9 @@ const MyWorkouts = () => {
         </ul>
       )}
 
-      {isCreatingWorkout && <AddWorkout />}
+      {isCreatingWorkout && (
+        <AddWorkout setIsAddingWorkout={setIsCreatingWorkout} />
+      )}
     </div>
   );
 };

@@ -17,7 +17,7 @@ const Home = () => {
             <ul className='buttons'>
                 <li onClick={() => navigate('/workouts')}>Meus Treinos</li>
                 <li>Meu Progresso</li>
-            </ul>
+            </ul> 
 
     </div>
   )

@@ -4,7 +4,7 @@ import "./AddWorkout.css";
 import { capitalizeWords, getFilteredExercises } from "../utils/utils";
 import { useWorkouts } from "../hooks/useWorkouts";
 
-const AddWorkout = () => {
+const AddWorkout = ({setIsAddingWorkout}) => {
   const { muscles, exercises, routines } = useMuscles();
   const [selectedMuscle, setSelectedMuscle] = useState("");
   const [newRoutineName, setNewRoutineName] = useState("");
@@ -38,6 +38,7 @@ const AddWorkout = () => {
       exercises: addedExercises,
     };
 
+    setIsAddingWorkout(false)
     saveWorkout(newRoutine);
 
     // console.log(routines);
@@ -46,6 +47,7 @@ const AddWorkout = () => {
 
   return (
     <div>
+      
       <form className="creatingWorkout" onSubmit={(e) => e.preventDefault()}>
         <div className="infoWarning">
           ⚠️ Caso não selecione exercícios agora, poderá fazer isso depois.

@@ -1,23 +1,49 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMuscles } from "../context/MusclesContext";
 import { capitalizeWords, getFilteredExercises } from "../utils/utils";
 import "./AddExercises.css";
 import { useExercises } from "../hooks/useExercises";
 
-const AddExercises = ({ routine }) => {
+const AddExercises = ({ routine, setIsAddingExercise }) => {
   const [isCreatingWorkout, setIsCreatingWorkout] = useState(false);
   const [selectedMuscle, setSelectedMuscle] = useState("");
-  const [plannedSets, setPlannedSets] = useState();
+  const [plannedSets, setPlannedSets] = useState("");
   const [selectedExercise, setSelectedExercise] = useState();
   const { muscles, exercises } = useMuscles();
   const exercisesPerPage = 5;
+  const [notification, setNotification] = useState(null);
+
+  const [workoutExercises, setWorkoutExercises] = useState(new Set());
+
+  useEffect(() => {
+    setWorkoutExercises(new Set(routine.exercises.map((ex) => ex.exercise.name)));
+  }, routine);
 
   const [exerciseSearch, setExerciseSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
   const { addWorkoutExercises } = useExercises();
 
+  const handleNotification = () => {
+    setNotification("Teste");
+    console.log(workoutExercises);
+
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
+  };
+
   const handleSaveExercise = () => {
+    if (workoutExercises.has(selectedExercise.name)) {
+      setNotification("Você já tem esse exercício no seu treino");
+      console.log("aaaa");
+
+      setTimeout(() => {
+        setNotification(null);
+      }, 3000);
+      return;
+    }
+
     const newWorkoutExercise = {
       exercise: selectedExercise,
       plannedSets: plannedSets,
@@ -30,11 +56,14 @@ const AddExercises = ({ routine }) => {
       exercises: [...routine.exercises, newWorkoutExercise],
     };
 
+    setIsAddingExercise(false);
     addWorkoutExercises(newRoutine);
+    
   };
 
   return (
     <div>
+      {notification && <div className="notification">{notification}</div>}
       {/* <h3>Adicione um exercício ao seu treino</h3> */}
       <form className="creatingExercise">
         <label>Selecione o músculo</label>
