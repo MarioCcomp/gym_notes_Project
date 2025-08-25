@@ -10,6 +10,7 @@
 
 
 .back {
+    align-self: flex-start;
     font-size: 1.2rem;
     border: 1px solid #ddd;
     padding: 1rem 3rem;
@@ -22,13 +23,13 @@
     box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.6);
     transition: background-color 0.2s, color 0.2s;
     position: absolute;
+    color: #00bfff;
     
     
 }
 
 .back:hover {
-    background-color: #f8f8f8;
-    color: #000;
+    color: #1e90ff;
 
 }
 

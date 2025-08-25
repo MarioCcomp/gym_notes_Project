@@ -5,82 +5,79 @@
   list-style: none;
 }
 
-html, body {
-  background-color: rgb(48, 38, 38);
-  color: #f8f8f8;
+html,
+body {
+  background: linear-gradient(180deg, #1e1e1e, #121212);
+  color: #f1f1f1;
+  font-family: "Inter", sans-serif;
 }
-
-
 
 /* Estilos gerais */
 
-
 .main {
-    display: flex;
-    flex-direction: column;
-    /* justify-content: center; */
-    justify-content: flex-start;
-     position: relative;
-    align-items: center;
-    gap: 5rem;
-    margin-top: 1rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    min-height: 100vh;
-    color: #f8f8f8;
-    margin-bottom: 5rem;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  justify-content: flex-start;
+  position: relative;
+  align-items: center;
+  gap: 5rem;
+  margin-top: 1rem;
+  padding: 20px;
 
+  min-height: 100vh;
+  color: #f0f0f0;
+  margin-bottom: 5rem;
 }
 
 .header {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    gap: .5rem;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
 .header img {
-    width: 100%;
-    max-width: 250px;
-    height: auto;
+  width: 100%;
+  max-width: 250px;
+  height: auto;
 }
 
 .header h2 {
-    font-size: 2.4rem;
+  font-size: 2.4rem;
 }
 
 .header p {
-    font-weight: bold;
-    font-size: 1.3rem;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
-
-
-
 .buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
 .buttons li {
-    background-color: #2f2f2f; 
-    border: 1px solid #555;
-    padding: 1rem 3rem;
-    border-radius: .9rem;
-    cursor: pointer;
-    text-align: center;
-    font-weight: bold;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    box-shadow: 0 4px 16px rgba(0, 191, 255, 0.15);
-    font-size: 1.1rem;
+  background-color: #2f2f2f;
+  border: 1px solid #555;
+  padding: 1rem 3rem;
+  border-radius: 0.9rem;
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0, 191, 255, 0.15);
+  font-size: 1.1rem;
 }
 
 .buttons li:hover {
-    background-color: #00bfff;
-    color: #000;
+  background-color: #00bfff;
+  color: #000;
 }
 
 .buttons li:active {
-    transform: scale(0.97);
-    box-shadow: 0 2px 12px rgba(0, 191, 255, 0.4);
+  transform: scale(0.97);
+  box-shadow: 0 2px 12px rgba(0, 191, 255, 0.4);
 }

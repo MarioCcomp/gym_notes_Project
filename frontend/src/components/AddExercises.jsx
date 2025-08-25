@@ -68,7 +68,7 @@ const AddExercises = ({ routine }) => {
             .map((ex) => (
               <div
                 className={`exercise-card ${
-                  selectedExercise.name === ex.name ? "selected" : ""
+                  selectedExercise?.name === ex.name ? "selected" : ""
                 }`}
                 onClick={() => setSelectedExercise(ex)}
               >
