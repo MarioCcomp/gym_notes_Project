@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import "./Workout.css";
+import axios from 'axios'
 import gymNotes from "../assets/gymnotes.png";
 import { useState, useEffect } from "react";
 import { useMuscles } from "../context/MusclesContext";
@@ -31,7 +32,9 @@ const Workout = ({}) => {
 
   const navigate = useNavigate();
 
-  const workout = routines.find((routine) => routine.name === workoutName);
+  const [workout, setWorkout] = useState(
+    routines.find((routine) => routine.name === workoutName)
+  );
   const [exercises, setExercises] = useState([]);
 
   const { addWorkoutExercises } = useExercises();
@@ -208,6 +211,17 @@ const Workout = ({}) => {
   };
 
   const [confirmCancel, setConfirmCancel] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [isEditingExercise, setIsEditingExercise] = useState(false);
+  const [exerciseBeingEdited, setExerciseBeingEdited] = useState();
+
+  const toggleEditingExercise = () => {
+    setIsEditingExercise(!isEditingExercise);
+  };
+
+  const toggleConfirmDelete = () => {
+    setConfirmDelete(!confirmDelete);
+  };
 
   const handleCancelClick = () => {
     setConfirmCancel(true);
@@ -233,6 +247,36 @@ const Workout = ({}) => {
       ...prev,
       [index]: !prev[index],
     }));
+  };
+
+  const confirmDeleteExercise = () => {
+    console.log("aq eu chamo o backend p excluir");
+  };
+
+  const handleEditExercise = async (e) => {
+    e.preventDefault();
+
+    const newPlannedSets = e.target[0].value;
+    if (!exerciseBeingEdited) return;
+
+    try {
+      const res = await axios.put(
+        `/api/routines/${workout.id}/exercises/${exerciseBeingEdited.id}`,
+        { plannedSets: Number(newPlannedSets) }
+      );
+
+      if (!res.ok) throw new Error("Erro ao atualizar exercício");
+
+      const updatedRoutine = res.data;
+
+      setWorkout(updatedRoutine);
+
+      setExerciseBeingEdited(null);
+      toggleEditingExercise();
+    } catch (err) {
+      console.error(err);
+      alert("Falha ao salvar alterações");
+    }
   };
 
   return (
@@ -298,6 +342,44 @@ const Workout = ({}) => {
             </div>
           </div>
         )}
+        {confirmDelete && (
+          <div className="overlay" onClick={toggleConfirmDelete}>
+            <div className="modal" onClick={(e) => e.stopPropagation()}>
+              <p>
+                Tem certeza que deseja excluir esse exercicio? Todo progresso
+                deste exercicio será excluido
+              </p>
+              <div className="actions">
+                <button onClick={confirmDeleteExercise}>Sim, cancelar</button>
+                <button onClick={toggleConfirmDelete}>Não</button>
+              </div>
+            </div>
+          </div>
+        )}
+        {isEditingExercise && (
+          <div className="overlay" onClick={toggleEditingExercise}>
+            <div className="modal" onClick={(e) => e.stopPropagation()}>
+              <form onSubmit={handleEditExercise}>
+                <label>
+                  Digite a nova quantidade séries para o exercicio{" "}
+                  {exerciseBeingEdited ? exerciseBeingEdited.name : ""}
+                </label>
+                <input type="number" />
+                <div className="actions">
+                  <button type="submit">Salvar</button>
+                  <button
+                    onClick={() => {
+                      setExerciseBeingEdited(null);
+                      toggleEditingExercise();
+                    }}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
 
       {notification && <div className="notification">{notification}</div>}
@@ -310,7 +392,10 @@ const Workout = ({}) => {
 
             return (
               <div className="outExercise">
-                <div className="exercise" key={exercise.exercise.id}>
+                <div
+                  className={`exercise ${isExpanded ? "expanded" : ""}`}
+                  key={exercise.exercise.id}
+                >
                   <p
                     className="options"
                     onClick={() => handleExpandOptions(ind)}
@@ -398,8 +483,15 @@ const Workout = ({}) => {
                   <div className="lis">
                     <p onClick={() => handleExpandOptions(ind)}>X</p>
                     <ul>
-                      <li>Editar exercicio</li>
-                      <li>Excluir exercicio</li>
+                      <li
+                        onClick={(e) => {
+                          setExerciseBeingEdited(exercise.exercise);
+                          toggleEditingExercise();
+                        }}
+                      >
+                        Editar exercicio
+                      </li>
+                      <li onClick={toggleConfirmDelete}>Excluir exercicio</li>
                     </ul>
                   </div>
                 )}

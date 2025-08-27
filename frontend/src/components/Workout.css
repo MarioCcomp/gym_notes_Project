@@ -11,10 +11,15 @@
   border-radius: 16px;
   padding: 1.5rem 2rem;
   min-width: 280px;
+  max-width: 280px;
   text-align: center;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
   transition: all 0.3s ease;
   position: relative;
+}
+
+.exercise.expanded {
+  max-width: 700px;
 }
 
 .exercise:hover {
@@ -373,7 +378,10 @@ button {
 
 .outExercise {
   display: flex;
-  gap: .5rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
 }
 
 .lis {
@@ -384,7 +392,11 @@ button {
   max-width: 220px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
   transition: all 0.3s ease;
-  position: relative;
+  position: absolute;
+  min-height: 80px;
+  max-height: 200px;
+  right: -185px; /* distância da box principal */
+  top: 0;
 }
 
 .lis ul {
@@ -396,7 +408,7 @@ button {
 .lis ul li {
   border-radius: 16px;
   background-color: #9b78b8;
-  padding: .2rem .5rem;
+  padding: 0.2rem 0.5rem;
   cursor: pointer;
 }
 
@@ -405,10 +417,8 @@ button {
   top: 10px;
   right: 10px;
   cursor: pointer;
-
 }
 
 .lis p:hover {
   color: #00bfff;
-
 }
