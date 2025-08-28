@@ -1,16 +1,27 @@
 import { useNavigate, useParams } from "react-router-dom";
 import "./Workout.css";
-import axios from 'axios'
+import axios from "axios";
 import gymNotes from "../assets/gymnotes.png";
 import { useState, useEffect } from "react";
 import { useMuscles } from "../context/MusclesContext";
 import AddExercises from "./AddExercises";
 import { useExercises } from "../hooks/useExercises";
+import { capitalizeWords } from "../utils/utils";
+import Graphic from "./Graphic";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 const Workout = ({}) => {
   // ------------------------------------------------------
 
-  const { routines } = useMuscles();
+  const { routines, updateRoutine } = useMuscles();
 
   // Estados para adicionar exercicios
 
@@ -44,6 +55,10 @@ const Workout = ({}) => {
       setExercises([...workout.exercises]);
     }
   }, [workout]);
+
+  useEffect(() => {
+    setWorkout(routines.find((routine) => routine.name === workoutName));
+  }, [routines]);
 
   const [expandedExercises, setExpandedExercises] = useState({});
   const [infoBox, setInfoBox] = useState({
@@ -86,6 +101,7 @@ const Workout = ({}) => {
       exercise.sessions.length > 1
         ? exercise.sessions[exercise.sessions.length - 1 - minus]
         : exercise.sessions[exercise.sessions.length - 1];
+    // aqui eu tenho q verificar se o indice infobox.setindex existia no ultimo treino, pq ele pode ter adicionado um agora
     return last.sets[infoBox.setIndex];
   };
 
@@ -136,6 +152,7 @@ const Workout = ({}) => {
     }
 
     saveWorkout();
+    setEditingSets({});
   };
 
   const saveWorkout = () => {
@@ -249,8 +266,19 @@ const Workout = ({}) => {
     }));
   };
 
-  const confirmDeleteExercise = () => {
-    console.log("aq eu chamo o backend p excluir");
+  const confirmDeleteExercise = async () => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8080/api/${workout.name}/exercises/${exerciseBeingEdited.id}`
+      );
+
+      setWorkout(response.data);
+      updateRoutine(response.data);
+
+      toggleConfirmDelete();
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   const handleEditExercise = async (e) => {
@@ -261,15 +289,14 @@ const Workout = ({}) => {
 
     try {
       const res = await axios.put(
-        `/api/routines/${workout.id}/exercises/${exerciseBeingEdited.id}`,
+        `http://localhost:8080/api/${workout.name}/exercises/${exerciseBeingEdited.id}`,
         { plannedSets: Number(newPlannedSets) }
       );
-
-      if (!res.ok) throw new Error("Erro ao atualizar exercício");
 
       const updatedRoutine = res.data;
 
       setWorkout(updatedRoutine);
+      updateRoutine(updatedRoutine);
 
       setExerciseBeingEdited(null);
       toggleEditingExercise();
@@ -281,6 +308,8 @@ const Workout = ({}) => {
 
   return (
     <div className="main">
+      {/* <p>TESTEEEEEEEEEEEE</p> */}
+      {/* <Graphic /> */}
       <div
         className="back"
         onClick={() => {
@@ -293,14 +322,20 @@ const Workout = ({}) => {
 
       <div className="header">
         <img src={gymNotes} alt="" />
-        <p>{workout ? workout.name : "Carregando treino..."}</p>
+        <h2>
+          {workout ? capitalizeWords(workout.name) : "Carregando treino..."}
+        </h2>
         {!isAddingExercise &&
-          (isWorkoutRunning ? (
-            <button onClick={handleCancelClick}>Cancelar</button>
+          (exercises.length > 0 ? (
+            isWorkoutRunning ? (
+              <button onClick={handleCancelClick}>Cancelar</button>
+            ) : (
+              <button className="startBtn" onClick={handleStart}>
+                Iniciar Treino
+              </button>
+            )
           ) : (
-            <button className="startBtn" onClick={handleStart}>
-              Iniciar Treino
-            </button>
+            <p>Adicione exercícios para poder iniciar seu treino</p>
           ))}
         {confirmCancel && (
           <div className="overlay" onClick={closeCancelModal}>
@@ -350,14 +385,26 @@ const Workout = ({}) => {
                 deste exercicio será excluido
               </p>
               <div className="actions">
-                <button onClick={confirmDeleteExercise}>Sim, cancelar</button>
+                <button
+                  onClick={() => {
+                    confirmDeleteExercise();
+                  }}
+                >
+                  Sim, desejo excluir
+                </button>
                 <button onClick={toggleConfirmDelete}>Não</button>
               </div>
             </div>
           </div>
         )}
         {isEditingExercise && (
-          <div className="overlay" onClick={toggleEditingExercise}>
+          <div
+            className="overlay"
+            onClick={() => {
+              toggleEditingExercise();
+              setExerciseBeingEdited(null);
+            }}
+          >
             <div className="modal" onClick={(e) => e.stopPropagation()}>
               <form onSubmit={handleEditExercise}>
                 <label>
@@ -462,17 +509,20 @@ const Workout = ({}) => {
                                   disabled={!isEditing || !isWorkoutRunning}
                                 />
                               </div>
-                              {isEditing ? (
-                                <input type="submit" value="Adicionar" />
-                              ) : (
-                                <button
-                                  type="button"
-                                  onClick={() => handleEditSet(index, exercise)}
-                                  className="editBtn"
-                                >
-                                  Editar
-                                </button>
-                              )}
+                              {isWorkoutRunning &&
+                                (isEditing ? (
+                                  <input type="submit" value="Adicionar" />
+                                ) : (
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      handleEditSet(index, exercise)
+                                    }
+                                    className="editBtn"
+                                  >
+                                    Editar
+                                  </button>
+                                ))}
                             </form>
                           </div>
                         );
@@ -491,7 +541,14 @@ const Workout = ({}) => {
                       >
                         Editar exercicio
                       </li>
-                      <li onClick={toggleConfirmDelete}>Excluir exercicio</li>
+                      <li
+                        onClick={() => {
+                          toggleConfirmDelete();
+                          setExerciseBeingEdited(exercise.exercise);
+                        }}
+                      >
+                        Excluir exercicio
+                      </li>
                     </ul>
                   </div>
                 )}

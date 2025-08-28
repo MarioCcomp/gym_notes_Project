@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -35,6 +36,29 @@ public class WorkoutRoutineController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(updated);
+    }
+
+    @PutMapping("/{routineName}/exercises/{exerciseId}")
+    public ResponseEntity<WorkoutRoutine> updatePlannedSets(
+            @PathVariable String routineName,
+            @PathVariable String exerciseId,
+            @RequestBody Map<String, Integer> body) {
+
+        Integer plannedSets = body.get("plannedSets");
+        WorkoutRoutine updated = service.updatePlannedSets(routineName, exerciseId, plannedSets);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/{routineName}/exercises/{exerciseId}")
+    public ResponseEntity<WorkoutRoutine> deleteExercise(@PathVariable String routineName, @PathVariable String exerciseId) {
+        WorkoutRoutine routine = service.deleteExercise(routineName, exerciseId);
+        return ResponseEntity.ok(routine);
+    }
+
+    @DeleteMapping("/{routineName}")
+    public ResponseEntity<WorkoutRoutine> deleteRoutine(@PathVariable String routineName) {
+        service.deleteRoutine(routineName);
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -1,6 +1,6 @@
 import "./MyWorkouts.css";
 import gymNotes from "../assets/gymnotes.png";
-
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddWorkout from "./AddWorkout";
@@ -8,40 +8,6 @@ import { useMuscles } from "../context/MusclesContext";
 
 const MyWorkouts = () => {
   const navigate = useNavigate();
-
-  // Estrutura q vem do banco eh assim
-
-  const [routiness, setRoutines] = useState([
-    {
-      id: "68a9172219a9ae8c2604b7e0",
-      exercises: [
-        {
-          exercise: {
-            id: "68a910a0e86ef2168078cac3",
-            name: "Rosca direta",
-            targetMuscle: {
-              id: "68a90a4d34d6a3f84d91f6ff",
-              name: "biceps",
-            },
-          },
-          plannedSets: 4,
-          sessions: [],
-        },
-        {
-          exercise: {
-            id: "68a910a0e86ef2168078cac4",
-            name: "Rosca martelo",
-            targetMuscle: {
-              id: "68a90a4d34d6a3f84d91f6ff",
-              name: "biceps",
-            },
-          },
-          plannedSets: 4,
-          sessions: [],
-        },
-      ],
-    },
-  ]);
 
   const handleBack = () => {
     if (isCreatingWorkout) {
@@ -51,7 +17,7 @@ const MyWorkouts = () => {
     navigate("/");
   };
 
-  const { exercises, routines } = useMuscles();
+  const { exercises, routines, setRoutines } = useMuscles();
 
   const [isCreatingWorkout, setIsCreatingWorkout] = useState(false);
 
@@ -104,7 +70,29 @@ const MyWorkouts = () => {
     setIsCreatingWorkout(false);
   };
 
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [selectedWorkout, setSelectedWorkout] = useState({});
+
   //  -----------------
+
+  const toggleConfirmDelete = () => {
+    setConfirmDelete(!confirmDelete);
+  };
+
+  const confirmDeleteWorkout = () => {
+    try {
+      const response = axios.delete(
+        `http://localhost:8080/api/${selectedWorkout.name}`
+      );
+      setRoutines((prev) =>
+        prev.filter((routine) => routine.name !== selectedWorkout.name)
+      );
+      setSelectedWorkout(null);
+      toggleConfirmDelete();
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   return (
     <div className="main mainWorkouts">
@@ -126,6 +114,33 @@ const MyWorkouts = () => {
             ? "Crie seu treino abaixo"
             : "Aqui estão suas rotinas de treinos"}
         </p>
+        {confirmDelete && (
+          <div className="overlay" onClick={toggleConfirmDelete}>
+            <div className="modal" onClick={(e) => e.stopPropagation()}>
+              <p>
+                Tem certeza que deseja excluir esse treino? Todo progresso será
+                excluido
+              </p>
+              <div className="actions">
+                <button
+                  onClick={() => {
+                    confirmDeleteWorkout();
+                  }}
+                >
+                  Sim, desejo excluir
+                </button>
+                <button
+                  onClick={() => {
+                    toggleConfirmDelete();
+                    setSelectedWorkout(null);
+                  }}
+                >
+                  Não
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {!isCreatingWorkout && (
@@ -137,6 +152,16 @@ const MyWorkouts = () => {
                 onClick={() => navigate(`/workouts/${routine.name}`)}
               >
                 {routine.name ? routine.name : "Treino " + (index + 1)}
+                <p
+                  className="options"
+                  onClick={(e) => {
+                    setSelectedWorkout(routine);
+                    e.stopPropagation();
+                    toggleConfirmDelete();
+                  }}
+                >
+                  🗑️
+                </p>
               </li>
             ))}
         </ul>

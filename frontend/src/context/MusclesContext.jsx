@@ -14,8 +14,12 @@ export const MusclesProvider = ({ children }) => {
     const fetchData = async () => {
       try {
         const musclesRes = await axios.get("http://localhost:8080/api/muscles");
-        const exercisesRes = await axios.get("http://localhost:8080/api/exercises");
-        const routinesRes = await axios.get("http://localhost:8080/api/routines")
+        const exercisesRes = await axios.get(
+          "http://localhost:8080/api/exercises"
+        );
+        const routinesRes = await axios.get(
+          "http://localhost:8080/api/routines"
+        );
         setMuscles(musclesRes.data);
         setExercises(exercisesRes.data);
         setRoutines(routinesRes.data);
@@ -28,8 +32,24 @@ export const MusclesProvider = ({ children }) => {
     fetchData();
   }, []);
 
+  const updateRoutine = (updatedRoutine) => {
+    setRoutines((prev) =>
+      prev.map((r) => (r.name === updatedRoutine.name ? updatedRoutine : r))
+    );
+  };
+
+  const addRoutine = (newRoutine) => {
+    setRoutines((prev) => [...prev, newRoutine]);
+  };
+
+  const removeRoutine = (name) => {
+    setRoutines((prev) => prev.filter((r) => r.name !== name));
+  };
+
   return (
-    <MusclesContext.Provider value={{ muscles, exercises, routines, setRoutines }}>
+    <MusclesContext.Provider
+      value={{ muscles, exercises, routines, setRoutines, updateRoutine }}
+    >
       {children}
     </MusclesContext.Provider>
   );

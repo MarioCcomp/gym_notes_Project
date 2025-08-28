@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface WorkoutRoutineRepository extends MongoRepository<WorkoutRoutine, String> {
     Optional<WorkoutRoutine> findByName(String name);
+    Optional<WorkoutRoutine> deleteByName(String name);
 }
