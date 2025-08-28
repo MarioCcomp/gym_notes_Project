@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useMuscles } from "../context/MusclesContext";
-import { capitalizeWords, getFilteredExercises } from "../utils/utils";
+import { useMuscles } from "../../context/MusclesContext";
+import { capitalizeWords, getFilteredExercises } from "../../utils/utils";
 import "./AddExercises.css";
-import { useExercises } from "../hooks/useExercises";
+import { useExercises } from "../../hooks/useExercises";
 
 const AddExercises = ({ routine, setIsAddingExercise }) => {
   const [isCreatingWorkout, setIsCreatingWorkout] = useState(false);
@@ -16,7 +16,9 @@ const AddExercises = ({ routine, setIsAddingExercise }) => {
   const [workoutExercises, setWorkoutExercises] = useState(new Set());
 
   useEffect(() => {
-    setWorkoutExercises(new Set(routine.exercises.map((ex) => ex.exercise.name)));
+    setWorkoutExercises(
+      new Set(routine.exercises.map((ex) => ex.exercise.name))
+    );
   }, routine);
 
   const [exerciseSearch, setExerciseSearch] = useState("");
@@ -58,7 +60,6 @@ const AddExercises = ({ routine, setIsAddingExercise }) => {
 
     setIsAddingExercise(false);
     addWorkoutExercises(newRoutine);
-    
   };
 
   return (

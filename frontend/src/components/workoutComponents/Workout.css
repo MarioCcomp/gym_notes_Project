@@ -1,0 +1,153 @@
+.exercises {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  width: 100%;
+}
+
+.exercise {
+  background: #2c2c2c;
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  min-width: 280px;
+  max-width: 280px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.exercise.expanded {
+  max-width: 700px;
+}
+
+.exercise:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+}
+
+.exercise h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.exercise p {
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+.exercise span {
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-left: 0.6rem;
+  color: #00bfff;
+  transition: color 0.2s ease;
+}
+
+.exercise span:hover {
+  color: #1e90ff;
+}
+
+.sets {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+
+
+
+
+/* Criacao de exercicios */
+
+.addExerciseBtn,
+button {
+  margin: 20px 0;
+  padding: 0.6rem 1.2rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addExerciseBtn:hover {
+  background: #1e90ff;
+}
+
+.startBtn,
+.endBtn {
+  background-color: #d62828;
+  font-size: 1rem;
+  padding: 0.8rem 1.5rem;
+  margin-top: 1rem;
+}
+
+.startBtn:hover,
+.endBtn:hover {
+  background-color: #9b0c0c;
+}
+
+.editBtn {
+  margin: 10px 0;
+  padding: 8px 14px;
+  background-color: #198754;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.editBtn:hover {
+  background-color: #146c43;
+}
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #198754;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.3s ease;
+  z-index: 1000;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.options {
+  position: absolute;
+  right: 10px;
+  top: 1px;
+  cursor: pointer;
+}
+
+.outExercise {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+
