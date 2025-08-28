@@ -23,17 +23,12 @@ const Workout = ({}) => {
 
   const { routines, updateRoutine } = useMuscles();
 
-  // Estados para adicionar exercicios
 
-  const [exerciseSearch, setExerciseSearch] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
   const exercisesPerPage = 5;
 
   const [isWorkoutRunning, setIsWorkoutRunning] = useState(false);
 
   const [isAddingExercise, setIsAddingExercise] = useState(false);
-  const [selectedMuscle, setSelectedMuscle] = useState("");
-  const [selectedExercise, setSelectedExercise] = useState("");
   const [plannedSets, setPlannedSets] = useState("");
   const [editingSets, setEditingSets] = useState({});
   const [notification, setNotification] = useState(null);
@@ -276,6 +271,10 @@ const Workout = ({}) => {
       updateRoutine(response.data);
 
       toggleConfirmDelete();
+      setOptionsExpanded((prev) => ({
+        ...prev,
+        [exerciseBeingEdited.index]: false,
+      }));
     } catch (err) {
       console.log(err.message);
     }
@@ -300,6 +299,10 @@ const Workout = ({}) => {
 
       setExerciseBeingEdited(null);
       toggleEditingExercise();
+      setOptionsExpanded((prev) => ({
+        ...prev,
+        [exerciseBeingEdited.index]: false,
+      }));
     } catch (err) {
       console.error(err);
       alert("Falha ao salvar alterações");
@@ -535,7 +538,10 @@ const Workout = ({}) => {
                     <ul>
                       <li
                         onClick={(e) => {
-                          setExerciseBeingEdited(exercise.exercise);
+                          setExerciseBeingEdited({
+                            ...exercise.exercise,
+                            index: ind,
+                          });
                           toggleEditingExercise();
                         }}
                       >
@@ -544,7 +550,10 @@ const Workout = ({}) => {
                       <li
                         onClick={() => {
                           toggleConfirmDelete();
-                          setExerciseBeingEdited(exercise.exercise);
+                          setExerciseBeingEdited({
+                            ...exercise.exercise,
+                            index: ind,
+                          });
                         }}
                       >
                         Excluir exercicio
