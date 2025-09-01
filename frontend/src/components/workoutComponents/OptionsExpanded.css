@@ -9,7 +9,7 @@
   position: absolute;
   min-height: 80px;
   max-height: 200px;
-  right: -190px; /* distância da box principal */
+  right: -190px; /*distância da box principal */
   top: 0;
 }
 
@@ -39,11 +39,7 @@
 
 @media (max-width: 700px) {
   .lis {
-  position: static;
-}
-
-.lis p {
-  top: 5px;
-  right: 55px;
+  position: relative;
+  right: 0;
 }
 }
