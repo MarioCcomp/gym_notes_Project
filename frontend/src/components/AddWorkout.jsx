@@ -4,7 +4,7 @@ import "./AddWorkout.css";
 import { capitalizeWords, getFilteredExercises } from "../utils/utils";
 import { useWorkouts } from "../hooks/useWorkouts";
 
-const AddWorkout = ({setIsAddingWorkout}) => {
+const AddWorkout = ({ setIsAddingWorkout }) => {
   const { muscles, exercises, routines } = useMuscles();
   const [selectedMuscle, setSelectedMuscle] = useState("");
   const [newRoutineName, setNewRoutineName] = useState("");
@@ -17,7 +17,8 @@ const AddWorkout = ({setIsAddingWorkout}) => {
 
   const exercisesPerPage = 5;
 
-  const handleSaveExercise = () => {
+  const handleSaveExercise = (e) => {
+    e.preventDefault();
     const newWorkoutExercise = {
       exercise: selectedExercise,
       plannedSets: plannedSets,
@@ -38,7 +39,7 @@ const AddWorkout = ({setIsAddingWorkout}) => {
       exercises: addedExercises,
     };
 
-    setIsAddingWorkout(false)
+    setIsAddingWorkout(false);
     saveWorkout(newRoutine);
 
     // console.log(routines);
@@ -47,8 +48,7 @@ const AddWorkout = ({setIsAddingWorkout}) => {
 
   return (
     <div>
-      
-      <form className="creatingWorkout" onSubmit={(e) => e.preventDefault()}>
+      <form className="creatingWorkout" onSubmit={handleSaveExercise}>
         <div className="infoWarning">
           ⚠️ Caso não selecione exercícios agora, poderá fazer isso depois.
         </div>
@@ -91,7 +91,9 @@ const AddWorkout = ({setIsAddingWorkout}) => {
             .map((ex) => (
               <div
                 className={`exercise-card ${
-                  selectedExercise && selectedExercise.name === ex.name ? "selected" : ""
+                  selectedExercise && selectedExercise.name === ex.name
+                    ? "selected"
+                    : ""
                 }`}
                 onClick={() => setSelectedExercise(ex)}
               >
@@ -133,9 +135,7 @@ const AddWorkout = ({setIsAddingWorkout}) => {
               value={plannedSets}
               onChange={(e) => setPlannedSets(e.target.value)}
             />
-            <button type="button" onClick={handleSaveExercise}>
-              Salvar exercício
-            </button>
+            <button type="submit">Salvar exercício</button>
           </>
         )}
 
