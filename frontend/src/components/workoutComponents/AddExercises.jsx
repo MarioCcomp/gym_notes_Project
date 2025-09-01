@@ -35,7 +35,8 @@ const AddExercises = ({ routine, setIsAddingExercise }) => {
     }, 3000);
   };
 
-  const handleSaveExercise = () => {
+  const handleSaveExercise = (e) => {
+    e.preventDefault();
     if (workoutExercises.has(selectedExercise.name)) {
       setNotification("Você já tem esse exercício no seu treino");
       console.log("aaaa");
@@ -66,7 +67,7 @@ const AddExercises = ({ routine, setIsAddingExercise }) => {
     <div>
       {notification && <div className="notification">{notification}</div>}
       {/* <h3>Adicione um exercício ao seu treino</h3> */}
-      <form className="creatingExercise">
+      <form className="creatingExercise" onSubmit={handleSaveExercise}>
         <label>Selecione o músculo</label>
         <select
           value={selectedMuscle}
@@ -140,9 +141,7 @@ const AddExercises = ({ routine, setIsAddingExercise }) => {
               value={plannedSets}
               onChange={(e) => setPlannedSets(e.target.value)}
             />
-            <button type="button" onClick={handleSaveExercise}>
-              Salvar exercício
-            </button>
+            <button type="submit">Salvar exercício</button>
           </>
         )}
       </form>
