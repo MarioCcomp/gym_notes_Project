@@ -376,106 +376,108 @@ const Workout = ({}) => {
           handleEditExercise={handleEditExercise}
         />
       </div>
+      <div className="body">
+        {notification && <div className="notification">{notification}</div>}
 
-      {notification && <div className="notification">{notification}</div>}
+        {/* --------------- */}
 
-      {/* --------------- */}
+        {!isAddingExercise && (
+          <div className="exercises">
+            {/* Mostrando exercicios */}
+            {exercises.map((exercise, ind) => {
+              const isExpanded =
+                expandedExercises[exercise.exercise.name] || false;
 
-      {!isAddingExercise && (
-        <div className="exercises">
-          {/* Mostrando exercicios */}
-          {exercises.map((exercise, ind) => {
-            const isExpanded =
-              expandedExercises[exercise.exercise.name] || false;
-
-            return (
-              <div className="outExercise">
-                <div
-                  className={`exercise ${isExpanded ? "expanded" : ""}`}
-                  key={exercise.exercise.id}
-                >
-                  <p
-                    className="options"
-                    onClick={() => handleExpandOptions(ind)}
+              return (
+                <div className="outExercise">
+                  <div
+                    className={`exercise ${isExpanded ? "expanded" : ""}`}
+                    key={exercise.exercise.id}
                   >
-                    ...
-                  </p>
-                  <h3>{exercise.exercise.name}</h3>
-                  <p>
-                    Séries: {exercise.plannedSets}{" "}
-                    <span
-                      onClick={() => toggleExercise(exercise.exercise.name)}
+                    <p
+                      className="options"
+                      onClick={() => handleExpandOptions(ind)}
                     >
-                      {isExpanded ? "↓" : "→"}
-                    </span>
-                  </p>
-                  <div className="sets">
-                    {/* series expandidas com forms */}
-                    <ExpandedSet
-                      isExpanded={isExpanded}
-                      exercise={exercise}
-                      editingSets={editingSets}
-                      handleInfoBtn={handleInfoBtn}
-                      handleEditSet={handleEditSet}
-                      handleSaveSet={handleSaveSet}
-                      isWorkoutRunning={isWorkoutRunning}
-                      getSetKey={getSetKey}
-                    />
+                      ...
+                    </p>
+                    <h3>{exercise.exercise.name}</h3>
+                    <p>
+                      Séries: {exercise.plannedSets}{" "}
+                      <span
+                        onClick={() => toggleExercise(exercise.exercise.name)}
+                      >
+                        {isExpanded ? "↓" : "→"}
+                      </span>
+                    </p>
+                    <div className="sets">
+                      {/* series expandidas com forms */}
+                      <ExpandedSet
+                        isExpanded={isExpanded}
+                        exercise={exercise}
+                        editingSets={editingSets}
+                        handleInfoBtn={handleInfoBtn}
+                        handleEditSet={handleEditSet}
+                        handleSaveSet={handleSaveSet}
+                        isWorkoutRunning={isWorkoutRunning}
+                        getSetKey={getSetKey}
+                      />
+                    </div>
                   </div>
+
+                  {/* opçao de excluir/editar exercicio */}
+                  
+                  <OptionsExpanded
+                    optionsExpanded={optionsExpanded}
+                    ind={ind}
+                    handleExpandOptions={handleExpandOptions}
+                    setExerciseBeingEdited={setExerciseBeingEdited}
+                    toggleEditingExercise={toggleEditingExercise}
+                    toggleConfirmDelete={toggleConfirmDelete}
+                    exercise={exercise}
+                  />
                 </div>
+              );
+            })}
 
-                {/* opçao de excluir/editar exercicio */}
-                <OptionsExpanded
-                  optionsExpanded={optionsExpanded}
-                  ind={ind}
-                  handleExpandOptions={handleExpandOptions}
-                  setExerciseBeingEdited={setExerciseBeingEdited}
-                  toggleEditingExercise={toggleEditingExercise}
-                  toggleConfirmDelete={toggleConfirmDelete}
-                  exercise={exercise}
-                />
-              </div>
-            );
-          })}
+            {isWorkoutRunning && (
+              <button className="endBtn" onClick={handleFinish}>
+                Finalizar Treino
+              </button>
+            )}
+          </div>
+        )}
 
-          {isWorkoutRunning && (
-            <button className="endBtn" onClick={handleFinish}>
-              Finalizar Treino
-            </button>
-          )}
-        </div>
-      )}
+        {/* Adicionando exercicios */}
 
-      {/* Adicionando exercicios */}
+        {!isWorkoutRunning && (
+          <div className="add-exercise-section">
+            {!isAddingExercise && (
+              <button
+                className="addExerciseBtn"
+                onClick={() => setIsAddingExercise(true)}
+              >
+                Adicionar exercício
+              </button>
+            )}
 
-      {!isWorkoutRunning && (
-        <div className="add-exercise-section">
-          {!isAddingExercise && (
-            <button
-              className="addExerciseBtn"
-              onClick={() => setIsAddingExercise(true)}
-            >
-              Adicionar exercício
-            </button>
-          )}
+            {isAddingExercise && (
+              <AddExercises
+                routine={workout}
+                setIsAddingExercise={setIsAddingExercise}
+              />
+            )}
+          </div>
+        )}
 
-          {isAddingExercise && (
-            <AddExercises
-              routine={workout}
-              setIsAddingExercise={setIsAddingExercise}
-            />
-          )}
-        </div>
-      )}
+        {/* abaixo é o componente que gerencia a caixa de informações de cada série */}
 
-      {/* abaixo é o componente que gerencia a caixa de informações de cada série */}
-
-      <InfoBox
-        infoBox={infoBox}
-        closeInfoBox={closeInfoBox}
-        exercises={exercises}
-        getLastSet={getLastSet}
-      />
+        <InfoBox
+          infoBox={infoBox}
+          closeInfoBox={closeInfoBox}
+          exercises={exercises}
+          getLastSet={getLastSet}
+        />
+      </div>
     </div>
   );
 };

@@ -9,7 +9,7 @@
   position: absolute;
   min-height: 80px;
   max-height: 200px;
-  right: -185px; /* distância da box principal */
+  right: -190px; /* distância da box principal */
   top: 0;
 }
 
@@ -35,4 +35,15 @@
 
 .lis p:hover {
   color: #00bfff;
+}
+
+@media (max-width: 700px) {
+  .lis {
+  position: static;
+}
+
+.lis p {
+  top: 5px;
+  right: 55px;
+}
 }

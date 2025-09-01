@@ -158,8 +158,44 @@ button {
   align-items: center;
   gap: 0.5rem;
   position: relative;
+  flex-direction: column;
 }
 
+
+
+@media (max-width: 700px) {
+  .exercise {
+  background: #2c2c2c;
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  min-width: 280px;
+  max-width: 280px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+  transition: all 0.3s ease;
+  position: relative;
+}
+.exercise.expanded {
+  max-width: 490px;
+}
+
+.addExerciseBtn,
+  .back {
+  top: 180px;
+}
+
+.header img {
+  margin-bottom: 5rem;
+  margin-top: -4rem;
+}
+
+.outExercise {
+  flex-direction: column-reverse;
+}
+
+
+
+}
 
 
 

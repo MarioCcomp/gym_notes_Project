@@ -92,5 +92,13 @@
     padding: .7rem 1.4rem;
 }
 
+@media (max-width: 700px) {
+    .createWorkout {
+  top: 180px;
+    padding: 1rem 1rem;
+
+    }
+}
+
 
 
