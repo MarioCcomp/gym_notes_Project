@@ -27,8 +27,8 @@ public class WorkoutRoutineService {
         return repository.findAll();
     }
 
-    public void create(WorkoutRoutine routine) {
-        repository.save(routine);
+    public WorkoutRoutine create(WorkoutRoutine routine) {
+        return repository.save(routine);
     }
 
     public WorkoutRoutine update(String name, WorkoutRoutine routine) {
@@ -71,5 +71,13 @@ public class WorkoutRoutineService {
 
     public void deleteRoutine(String routineName) {
         repository.deleteByName(routineName).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Routine not found"));
+    }
+
+    public WorkoutRoutine updateName(String id, String name) {
+        WorkoutRoutine routine = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Routine not found"));
+        routine.setName(name);
+
+        return repository.save(routine);
+
     }
 }

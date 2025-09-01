@@ -25,13 +25,22 @@ public class WorkoutRoutineController {
 
     @PostMapping(path = "/routine")
     public ResponseEntity<WorkoutRoutine> create(@RequestBody WorkoutRoutine routine) {
-        service.create(routine);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(service.create(routine));
     }
 
     @PutMapping(path = "/routine/{name}")
     public ResponseEntity<WorkoutRoutine> update(@PathVariable String name, @RequestBody WorkoutRoutine routine) {
         WorkoutRoutine updated = service.update(name, routine);
+        if(updated == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updated);
+    }
+
+    @PutMapping(path = "/routine/name/{id}")
+    public ResponseEntity<WorkoutRoutine> updateName(@PathVariable String id, @RequestBody Map<String, String> body) {
+        String name = body.get("name");
+        WorkoutRoutine updated = service.updateName(id, name);
         if(updated == null) {
             return ResponseEntity.notFound().build();
         }

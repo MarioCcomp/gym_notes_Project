@@ -320,7 +320,13 @@ const Workout = ({}) => {
       <div className="header">
         <img src={gymNotes} alt="" />
         <h2>
-          {workout ? capitalizeWords(workout.name) : "Carregando treino..."}
+          {workout ? (
+            <>
+              Treino selecionado: <span>{capitalizeWords(workout.name)}</span>
+            </>
+          ) : (
+            "Carregando treino..."
+          )}
         </h2>
         {!isAddingExercise &&
           (exercises.length > 0 ? (

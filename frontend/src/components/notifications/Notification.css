@@ -37,6 +37,10 @@
   gap: 10px;
 }
 
+.modal label {
+    color: #000;
+}
+
 .modal .actions button:first-child {
   background-color: #e74c3c; /* vermelho */
   color: white;
@@ -46,6 +50,10 @@
   cursor: pointer;
   font-weight: bold;
   transition: background 0.2s ease;
+}
+
+.modal form input {
+  margin-top: 1.2rem;
 }
 
 .modal .actions button:first-child:hover {

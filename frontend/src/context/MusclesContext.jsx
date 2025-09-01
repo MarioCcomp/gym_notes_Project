@@ -38,6 +38,7 @@ export const MusclesProvider = ({ children }) => {
     );
   };
 
+
   const addRoutine = (newRoutine) => {
     setRoutines((prev) => [...prev, newRoutine]);
   };

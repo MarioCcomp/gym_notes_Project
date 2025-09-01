@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddWorkout from "./AddWorkout";
 import { useMuscles } from "../context/MusclesContext";
+import { useWorkouts } from "../hooks/useWorkouts";
 
 const MyWorkouts = () => {
   const navigate = useNavigate();
@@ -28,46 +29,14 @@ const MyWorkouts = () => {
   const [selectedExercise, setSelectedExercise] = useState("");
   const [plannedSets, setPlannedSets] = useState("");
   const [addedExercises, setAddedExercises] = useState([]);
+  const [optionsExpanded, setOptionsExpanded] = useState({});
+  const [isEditingRoutine, setIsEditingRoutine] = useState(false);
+  const [routineBeingEdited, setRoutineBeingEdited] = useState();
 
-  const handleAddExercise = () => {
-    if (!selectedExercise || !plannedSets) return;
+  const { updateWorkoutName } = useWorkouts();
 
-    const exercise = exercises.find((ex) => ex.name === selectedExercise);
-
-    if (!exercise) return;
-
-    setAddedExercises([
-      ...addedExercises,
-      {
-        name: exercise.name,
-        targetMuscle: selectedMuscle,
-        plannedSets: Number(plannedSets),
-      },
-    ]);
-
-    // Reset campos
-    setSelectedExercise("");
-    setPlannedSets("");
-  };
-
-  const handleSaveWorkout = () => {
-    if (!newRoutineName) return;
-
-    const newRoutine = {
-      id: Date.now(),
-      name: newRoutineName,
-      exercises: addedExercises,
-    };
-
-    setRoutines([...routines, newRoutine]);
-
-    // Resetar estados
-    setNewRoutineName("");
-    setSelectedMuscle("");
-    setSelectedExercise("");
-    setPlannedSets("");
-    setAddedExercises([]);
-    setIsCreatingWorkout(false);
+  const toggleEditingRoutine = () => {
+    setIsEditingRoutine(!isEditingRoutine);
   };
 
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -92,6 +61,32 @@ const MyWorkouts = () => {
     } catch (err) {
       console.log(err.message);
     }
+  };
+
+  const handleClickOptions = (e, routine) => {
+    e.stopPropagation();
+    setOptionsExpanded(routine);
+  };
+
+  const handleClose = () => {
+    setOptionsExpanded({});
+  };
+
+  const handleEditRoutine = (e) => {
+    e.preventDefault();
+    const name = e.target[0].value;
+    updateWorkoutName(routineBeingEdited, name);
+    toggleEditingRoutine();
+    setRoutineBeingEdited({})
+    // setRoutines(prev => prev.map((routine) => {
+    //   if(routine.name !== routineBeingEdited.name) return routine;
+
+    //     const newRoutine = {
+    //       ...routine,
+    //       name: name,
+    //     }
+
+    // }))
   };
 
   return (
@@ -141,28 +136,81 @@ const MyWorkouts = () => {
             </div>
           </div>
         )}
+        {isEditingRoutine && (
+          <div
+            className="overlay"
+            onClick={() => {
+              toggleEditingRoutine();
+              setRoutineBeingEdited(null);
+            }}
+          >
+            <div className="modal" onClick={(e) => e.stopPropagation()}>
+              <form onSubmit={handleEditRoutine}>
+                <label>Digite o novo apelido para o seu treino </label>
+                <input type="text" />
+                <div className="actions">
+                  <button type="submit">Salvar</button>
+                  <button
+                    onClick={() => {
+                      setRoutineBeingEdited(null);
+                      toggleEditingRoutine();
+                    }}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
 
       {!isCreatingWorkout && (
         <ul className="buttons">
           {routines &&
             routines.map((routine, index) => (
-              <li
-                key={routine.id}
-                onClick={() => navigate(`/workouts/${routine.name}`)}
-              >
-                {routine.name ? routine.name : "Treino " + (index + 1)}
-                <p
-                  className="options"
-                  onClick={(e) => {
-                    setSelectedWorkout(routine);
-                    e.stopPropagation();
-                    toggleConfirmDelete();
-                  }}
+              <div className="workouts">
+                <li
+                  key={routine.id}
+                  onClick={() => navigate(`/workouts/${routine.name}`)}
                 >
-                  🗑️
-                </p>
-              </li>
+                  {routine.name ? routine.name : "Treino " + (index + 1)}
+                  <p
+                    className="options"
+                    onClick={(e) => {
+                      handleClickOptions(e, routine);
+                      // setSelectedWorkout(routine);
+                      // e.stopPropagation();
+                      // toggleConfirmDelete();
+                    }}
+                  >
+                    ...
+                  </p>
+                </li>
+                {optionsExpanded.name &&
+                  optionsExpanded.name == routine.name && (
+                    <div className="options-workout">
+                      <p onClick={handleClose}>X</p>
+                      <button
+                        onClick={(e) => {
+                          setSelectedWorkout(routine);
+                          e.stopPropagation();
+                          toggleConfirmDelete();
+                        }}
+                      >
+                        Excluir treino
+                      </button>
+                      <button
+                        onClick={() => {
+                          setRoutineBeingEdited(routine);
+                          toggleEditingRoutine();
+                        }}
+                      >
+                        Editar treino
+                      </button>
+                    </div>
+                  )}
+              </div>
             ))}
         </ul>
       )}

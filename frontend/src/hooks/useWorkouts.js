@@ -16,7 +16,20 @@ export const useWorkouts = () => {
     setRoutines((prev) => [...prev, newRoutine]);
   };
 
-  return { saveWorkout };
+  const updateWorkoutName = async (routine, name) => {
+    const response = await axios.put(`http://localhost:8080/api/routine/name/${routine.id}`,
+      {name}
+    );
+
+    console.log(response.data);
+    setRoutines(prev => prev.map((rout) => {
+      if(rout.id !== routine.id) return rout;
+
+      return response.data;
+    }))
+  }
+
+  return { saveWorkout, updateWorkoutName };
 };
 
 
