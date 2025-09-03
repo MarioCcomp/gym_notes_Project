@@ -1,6 +1,3 @@
-
-
-
 .overlay {
   position: fixed;
   top: 0;
@@ -25,6 +22,17 @@
   animation: fadeIn 0.2s ease-in-out;
 }
 
+.modal form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal form span {
+  color: blue;
+  font-weight: bold;
+}
+
 .modal p {
   font-size: 16px;
   margin-bottom: 20px;
@@ -38,7 +46,7 @@
 }
 
 .modal label {
-    color: #000;
+  color: #000;
 }
 
 .modal .actions button:first-child {

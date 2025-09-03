@@ -395,12 +395,22 @@ const Workout = ({}) => {
                     key={exercise.exercise.id}
                   >
                     <p
-                      className="options"
+                      className="options especific"
                       onClick={() => handleExpandOptions(ind)}
                     >
-                      ...
+                      ⋮
                     </p>
+                    <iframe
+                      width="560"
+                      height="315"
+                      src="https://www.youtube.com/embed/_FkbD0FhgVE"
+                      title="Exemplo de exercício"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="rounded-2xl shadow-lg"
+                    />
                     <h3>{exercise.exercise.name}</h3>
+
                     <p>
                       Séries: {exercise.plannedSets}{" "}
                       <span
@@ -425,7 +435,7 @@ const Workout = ({}) => {
                   </div>
 
                   {/* opçao de excluir/editar exercicio */}
-                  
+
                   <OptionsExpanded
                     optionsExpanded={optionsExpanded}
                     ind={ind}

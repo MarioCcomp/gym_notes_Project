@@ -21,9 +21,9 @@ const GeneralNotification = ({
             <form onSubmit={handleEditExercise}>
               <label>
                 Digite a nova quantidade séries para o exercicio{" "}
-                {exerciseBeingEdited ? exerciseBeingEdited.name : ""}
+                <span>{exerciseBeingEdited ? exerciseBeingEdited.name : ""}</span>
               </label>
-              <input type="number" />
+              <input type="number" min="1"/>
               <div className="actions">
                 <button type="submit">Salvar</button>
                 <button

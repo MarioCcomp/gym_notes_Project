@@ -9,13 +9,25 @@
 .exercise {
   background: #2c2c2c;
   border-radius: 16px;
-  padding: 1.5rem 2rem;
-  min-width: 280px;
-  max-width: 280px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 420px;
   text-align: center;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
   transition: all 0.3s ease;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.exercise iframe {
+  margin-top: 1.2rem;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .exercise.expanded {
@@ -28,14 +40,10 @@
 }
 
 .exercise h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
-.exercise p {
-  font-size: 0.95rem;
-  color: #ccc;
+  font-size: 1.3rem;
+  margin: 0.5rem 0;
+  font-weight: 700;
+  color: #fff;
 }
 
 .exercise span {
@@ -60,10 +68,6 @@
 .header h2 span {
   color: rgb(34, 34, 206);
 }
-
-
-
-
 
 /* Criacao de exercicios */
 
@@ -144,12 +148,38 @@ button {
   }
 }
 
-
 .options {
   position: absolute;
-  right: 10px;
-  top: 1px;
+  right: 8px;
+  top: 12px;
+  transform: translateY(-50%);
   cursor: pointer;
+
+  width: 16px;
+  height: 18px;
+
+  background: #a855f7;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: background 0.2s, transform 0.15s ease-in-out;
+}
+
+.options:hover {
+  background: #9333ea;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.options.especific {
+  transform: scale(1.2);
 }
 
 .outExercise {
@@ -161,41 +191,50 @@ button {
   flex-direction: column;
 }
 
+@media (max-width: 700px) {
+  .exercise {
+    background: #2c2c2c;
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    min-width: 280px;
+    max-width: 280px;
+    text-align: center;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  .exercise.expanded {
+    max-width: 490px;
+  }
 
+  .addExerciseBtn,
+  .back {
+    top: 180px;
+  }
+
+  .header img {
+    margin-bottom: 5rem;
+    margin-top: -4rem;
+  }
+
+  .outExercise {
+    flex-direction: column-reverse;
+  }
+}
 
 @media (max-width: 700px) {
   .exercise {
-  background: #2c2c2c;
-  border-radius: 16px;
-  padding: 1.5rem 2rem;
-  min-width: 280px;
-  max-width: 280px;
-  text-align: center;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
-  transition: all 0.3s ease;
-  position: relative;
-}
-.exercise.expanded {
-  max-width: 490px;
+    max-width: 100%;
+    padding: 1rem;
+  }
+
+  .exercise h3 {
+    font-size: 1.1rem;
+  }
 }
 
-.addExerciseBtn,
-  .back {
-  top: 180px;
+@media (max-width: 500px) {
+  .exercise {
+   width: 96%;
 }
-
-.header img {
-  margin-bottom: 5rem;
-  margin-top: -4rem;
 }
-
-.outExercise {
-  flex-direction: column-reverse;
-}
-
-
-
-}
-
-
-

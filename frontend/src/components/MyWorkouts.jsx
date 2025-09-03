@@ -65,6 +65,12 @@ const MyWorkouts = () => {
 
   const handleClickOptions = (e, routine) => {
     e.stopPropagation();
+
+    if (optionsExpanded.name === routine.name) {
+      setOptionsExpanded({});
+      return;
+    }
+
     setOptionsExpanded(routine);
   };
 
@@ -77,7 +83,7 @@ const MyWorkouts = () => {
     const name = e.target[0].value;
     updateWorkoutName(routineBeingEdited, name);
     toggleEditingRoutine();
-    setRoutineBeingEdited({})
+    setRoutineBeingEdited({});
     // setRoutines(prev => prev.map((routine) => {
     //   if(routine.name !== routineBeingEdited.name) return routine;
 
@@ -184,7 +190,7 @@ const MyWorkouts = () => {
                       // toggleConfirmDelete();
                     }}
                   >
-                    ...
+                    ⋮
                   </p>
                 </li>
                 {optionsExpanded.name &&
