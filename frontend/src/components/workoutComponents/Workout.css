@@ -196,15 +196,15 @@ button {
     background: #2c2c2c;
     border-radius: 16px;
     padding: 1.5rem 2rem;
-    min-width: 280px;
-    max-width: 280px;
+    min-width: 200px;
+    max-width: 420px;
     text-align: center;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
     transition: all 0.3s ease;
     position: relative;
   }
   .exercise.expanded {
-    max-width: 490px;
+    max-width: 420px;
   }
 
   .addExerciseBtn,
@@ -219,12 +219,11 @@ button {
 
   .outExercise {
     flex-direction: column-reverse;
+    gap: 1rem;
   }
-}
 
-@media (max-width: 700px) {
   .exercise {
-    max-width: 100%;
+    /* max-width: 100%; */
     padding: 1rem;
   }
 
@@ -235,6 +234,6 @@ button {
 
 @media (max-width: 500px) {
   .exercise {
-   width: 96%;
-}
+    width: 96%;
+  }
 }

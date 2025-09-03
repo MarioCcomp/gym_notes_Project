@@ -1,45 +1,100 @@
 .lis {
   background: #2c2c2c;
   border-radius: 16px;
-  padding: 2rem 1.2rem;
-  text-align: center;
-  max-width: 220px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
-  transition: all 0.3s ease;
-  position: absolute;
-  min-height: 80px;
-  max-height: 200px;
-  right: -190px; /*distância da box principal */
-  top: 0;
+  padding: 2rem 1.5rem;
+  width: 260px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  border: 2px solid #9333ea;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  animation: scaleIn 0.2s ease;
+  position: relative;
+    z-index: 1000;
+
 }
 
 .lis ul {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
 .lis ul li {
-  border-radius: 16px;
-  background-color: #9b78b8;
-  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  background: #a855f7;
+  color: #fff;
+  font-weight: bold;
+  padding: 0.6rem 1rem;
   cursor: pointer;
+  text-align: center;
+  transition: background 0.2s;
 }
 
-.lis p {
+.lis ul li:hover {
+  background: #9333ea;
+}
+
+.lis::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: -1;
+}
+
+.close-btn {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 12px;
+  right: 12px;
   cursor: pointer;
+  font-size: 1.2rem;
+  color: #fff;
+  transition: color 0.2s;
 }
 
-.lis p:hover {
+.close-btn:hover {
   color: #00bfff;
 }
 
-@media (max-width: 700px) {
-  .lis {
-  position: relative;
-  right: 0;
+/* animações */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  animation: fadeIn 0.2s ease;
+}
+

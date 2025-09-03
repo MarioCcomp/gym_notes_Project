@@ -37,8 +37,6 @@
   box-shadow: 0 0 14px rgba(0, 191, 255, 0.3);
 }
 
-
-
 .set p {
   margin-bottom: 0.8rem;
   font-size: 1.1rem;
@@ -51,8 +49,6 @@
   align-items: center;
   width: 100%;
 }
-
-
 
 .set input[type="text"] {
   flex: 1;
@@ -83,4 +79,11 @@
 
 .set input[type="submit"]:hover {
   background-color: #1e90ff;
+}
+
+@media (max-width: 800px) {
+  .above-set,
+  .down-set {
+    flex-direction: column;
+  }
 }

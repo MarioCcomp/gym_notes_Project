@@ -269,6 +269,11 @@ const Workout = ({}) => {
       ...prev,
       [exerciseBeingEdited.index]: false,
     }));
+    setNotification("✅ Exercicio excluído com sucesso!");
+
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
   };
   useEffect(() => {
     setExpandedExercises({});
@@ -301,6 +306,12 @@ const Workout = ({}) => {
       ...prev,
       [exerciseBeingEdited.index]: false,
     }));
+
+    setNotification("✅ Exercício editado com sucesso!");
+
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
   };
 
   return (

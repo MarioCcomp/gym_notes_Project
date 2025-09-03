@@ -1,104 +1,113 @@
-
-
 .headerWithBack {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
-
 .back {
-    align-self: flex-start;
-    font-size: 1.2rem;
-    border: 1px solid #ddd;
-    padding: 1rem 3rem;
-    border-radius: .9rem;
-    position: absolute;
-    top: 0;
-    left: 1rem;
-    margin: 1rem;
-    cursor: pointer;
-    box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.6);
-    transition: background-color 0.2s, color 0.2s;
-    position: absolute;
-    color: #00bfff;
-    
-    
+  align-self: flex-start;
+  font-size: 1.2rem;
+  border: 1px solid #ddd;
+  padding: 1rem 3rem;
+  border-radius: 0.9rem;
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  margin: 1rem;
+  cursor: pointer;
+  box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.6);
+  transition: background-color 0.2s, color 0.2s;
+  position: absolute;
+  color: #00bfff;
 }
 
 .back:hover {
-    color: #1e90ff;
-
+  color: #1e90ff;
 }
 
 .createWorkout {
-    font-size: 1.2rem;
-    border: 1px solid #ddd;
-    padding: 1rem 3rem;
-    border-radius: .9rem;
-    position: absolute;
-    top: 0;
-    right: 1rem;
-    margin: 1rem;
-    cursor: pointer;
-    box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.6);
-    transition: background-color 0.2s, color 0.2s;
-    position: absolute;
-    
+  font-size: 1.2rem;
+  border: 1px solid #ddd;
+  padding: 1rem 3rem;
+  border-radius: 0.9rem;
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  margin: 1rem;
+  cursor: pointer;
+  box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.6);
+  transition: background-color 0.2s, color 0.2s;
+  position: absolute;
 }
 
 .createWorkout:hover {
-    background-color: #f8f8f8;
-    color: #000;
+  background-color: #f8f8f8;
+  color: #000;
 }
 
 .buttons li {
-    position: relative;
+  position: relative;
+  min-width: 100px;
+  max-width: 250px;
+  word-wrap: break-word;
+  white-space: normal;
 }
 
-
-
-
 .workouts {
-    position: relative;
-    display: flex;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
 }
 
 .options-workout {
   background: #2c2c2c;
   border-radius: 16px;
-  padding: .2rem 0rem;
+  padding: 0.2rem 0rem;
   text-align: center;
-  max-width: 170px;
+  max-width: 140px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
   transition: all 0.3s ease;
   position: absolute;
   min-height: 80px;
-  max-height: 200px;
-  right: -185px; /* distância da box principal */
+  max-height: 150px;
+  right: -150px; /* distância da box principal */
   top: 0;
 }
 
 .options-workout p {
-    position: absolute;
-    right: 10px;
-    cursor: pointer;
-    top: 3px;
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  top: 3px;
 }
 
 .options-workout button {
-    padding: .7rem 1.4rem;
+  padding: 0.35rem 0.7rem;
+}
+
+.options-workout button:first-of-type {
+  margin-top: 1.5rem;
+  margin-bottom: -1rem;
+}
+
+.lis li:first-of-type {
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 800px) {
+  .options-workout {
+    transform: scale(0.8);
+    right: -135px;
+    top: -10px;
+  }
 }
 
 @media (max-width: 700px) {
-    .createWorkout {
-  top: 180px;
+  .createWorkout {
+    top: 180px;
     padding: 1rem 1rem;
-
-    }
+  }
 }
-
-
-

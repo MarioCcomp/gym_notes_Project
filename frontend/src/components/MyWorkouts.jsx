@@ -31,6 +31,8 @@ const MyWorkouts = () => {
   const [addedExercises, setAddedExercises] = useState([]);
   const [optionsExpanded, setOptionsExpanded] = useState({});
   const [isEditingRoutine, setIsEditingRoutine] = useState(false);
+  const [notification, setNotification] = useState(null);
+
   const [routineBeingEdited, setRoutineBeingEdited] = useState();
 
   const { updateWorkoutName } = useWorkouts();
@@ -58,6 +60,11 @@ const MyWorkouts = () => {
       );
       setSelectedWorkout(null);
       toggleConfirmDelete();
+      setNotification("✅ Treino excluído com sucesso!");
+
+      setTimeout(() => {
+        setNotification(null);
+      }, 3000);
     } catch (err) {
       console.log(err.message);
     }
@@ -84,6 +91,11 @@ const MyWorkouts = () => {
     updateWorkoutName(routineBeingEdited, name);
     toggleEditingRoutine();
     setRoutineBeingEdited({});
+    setNotification("✅ Treino editado com sucesso!");
+
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
     // setRoutines(prev => prev.map((routine) => {
     //   if(routine.name !== routineBeingEdited.name) return routine;
 
@@ -97,6 +109,7 @@ const MyWorkouts = () => {
 
   return (
     <div className="main mainWorkouts">
+      {notification && <div className="notification">{notification}</div>}
       <div className="back" onClick={handleBack}>
         Voltar
       </div>
@@ -171,55 +184,59 @@ const MyWorkouts = () => {
         )}
       </div>
 
-      {!isCreatingWorkout && (
-        <ul className="buttons">
-          {routines &&
-            routines.map((routine, index) => (
-              <div className="workouts">
-                <li
-                  key={routine.id}
-                  onClick={() => navigate(`/workouts/${routine.name}`)}
-                >
+      <div className="workouts">
+        {!isCreatingWorkout &&
+          routines &&
+          routines.map((routine, index) => (
+            <div key={routine.id || index}>
+              <ul className="buttons">
+                <li onClick={() => navigate(`/workouts/${routine.name}`)}>
                   {routine.name ? routine.name : "Treino " + (index + 1)}
                   <p
                     className="options"
                     onClick={(e) => {
+                      e.stopPropagation();
                       handleClickOptions(e, routine);
-                      // setSelectedWorkout(routine);
-                      // e.stopPropagation();
-                      // toggleConfirmDelete();
                     }}
                   >
                     ⋮
                   </p>
                 </li>
-                {optionsExpanded.name &&
-                  optionsExpanded.name == routine.name && (
-                    <div className="options-workout">
-                      <p onClick={handleClose}>X</p>
-                      <button
-                        onClick={(e) => {
-                          setSelectedWorkout(routine);
-                          e.stopPropagation();
-                          toggleConfirmDelete();
-                        }}
-                      >
-                        Excluir treino
-                      </button>
-                      <button
-                        onClick={() => {
-                          setRoutineBeingEdited(routine);
-                          toggleEditingRoutine();
-                        }}
-                      >
-                        Editar treino
-                      </button>
+              </ul>
+
+              {optionsExpanded.name &&
+                optionsExpanded.name === routine.name && (
+                  <div className="overlay" onClick={handleClose}>
+                    <div className="lis" onClick={(e) => e.stopPropagation()}>
+                      <p onClick={handleClose} className="close-btn">
+                        X
+                      </p>
+                      <ul>
+                        <li
+                          onClick={() => {
+                            setSelectedWorkout(routine);
+                            toggleConfirmDelete();
+                            handleClose();
+                          }}
+                        >
+                          Excluir treino
+                        </li>
+                        <li
+                          onClick={() => {
+                            setRoutineBeingEdited(routine);
+                            toggleEditingRoutine();
+                            handleClose();
+                          }}
+                        >
+                          Editar treino
+                        </li>
+                      </ul>
                     </div>
-                  )}
-              </div>
-            ))}
-        </ul>
-      )}
+                  </div>
+                )}
+            </div>
+          ))}
+      </div>
 
       {isCreatingWorkout && (
         <AddWorkout setIsAddingWorkout={setIsCreatingWorkout} />
