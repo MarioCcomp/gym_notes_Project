@@ -14,15 +14,25 @@ public class WorkoutRoutine {
     private String id;
 
     private String name;
-    private List<WorkoutExercise> exercises =  new ArrayList<>();;
+    private List<WorkoutExercise> exercises =  new ArrayList<>();
+    private String ownerUsername;
 
     public WorkoutRoutine() {
     }
 
-    public WorkoutRoutine(String id, List<WorkoutExercise> exercises, String name) {
+    public WorkoutRoutine(String id, String name, List<WorkoutExercise> exercises, String ownerUsername) {
         this.id = id;
-        this.exercises = exercises;
         this.name = name;
+        this.exercises = exercises;
+        this.ownerUsername = ownerUsername;
+    }
+
+    public String getOwnerUsername() {
+        return ownerUsername;
+    }
+
+    public void setOwnerUsername(String ownerUsername) {
+        this.ownerUsername = ownerUsername;
     }
 
     public String getId() {

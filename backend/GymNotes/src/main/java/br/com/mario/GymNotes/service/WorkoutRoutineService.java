@@ -27,7 +27,8 @@ public class WorkoutRoutineService {
         return repository.findAll();
     }
 
-    public WorkoutRoutine create(WorkoutRoutine routine) {
+    public WorkoutRoutine create(WorkoutRoutine routine, String username) {
+        routine.setOwnerUsername(username);
         return repository.save(routine);
     }
 
@@ -79,5 +80,9 @@ public class WorkoutRoutineService {
 
         return repository.save(routine);
 
+    }
+
+    public List<WorkoutRoutine> findByOwner(String username) {
+        return repository.findByOwnerUsername(username);
     }
 }
