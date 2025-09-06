@@ -110,17 +110,6 @@ const MyWorkouts = () => {
   return (
     <div className="main mainWorkouts">
       {notification && <div className="notification">{notification}</div>}
-      <div className="back" onClick={handleBack}>
-        Voltar
-      </div>
-      {!isCreatingWorkout && (
-        <div
-          className="createWorkout"
-          onClick={() => setIsCreatingWorkout(true)}
-        >
-          Criar novo treino
-        </div>
-      )}
       <div className="header">
         <img src={gymNotes} alt="" />
         <p>
@@ -128,6 +117,20 @@ const MyWorkouts = () => {
             ? "Crie seu treino abaixo"
             : "Aqui estão suas rotinas de treinos"}
         </p>
+
+        <div className="headerActions">
+          <div className="back" onClick={handleBack}>
+            Voltar
+          </div>
+          {!isCreatingWorkout && (
+            <div
+              className="createWorkout"
+              onClick={() => setIsCreatingWorkout(true)}
+            >
+              Criar novo treino
+            </div>
+          )}
+        </div>
         {confirmDelete && (
           <div className="overlay" onClick={toggleConfirmDelete}>
             <div className="modal" onClick={(e) => e.stopPropagation()}>

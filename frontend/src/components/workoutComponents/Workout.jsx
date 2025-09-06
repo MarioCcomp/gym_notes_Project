@@ -316,7 +316,6 @@ const Workout = ({}) => {
 
   return (
     <div className="main">
-      {/* <p>TESTEEEEEEEEEEEE</p> */}
       {/* <Graphic /> */}
       <div
         className="back"

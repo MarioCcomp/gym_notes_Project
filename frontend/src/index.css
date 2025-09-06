@@ -36,7 +36,8 @@ body {
   text-align: center;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  position: relative;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
@@ -44,6 +45,7 @@ body {
   width: 100%;
   max-width: 250px;
   height: auto;
+  margin-top: -5rem;
 }
 
 .header h2 {
@@ -53,6 +55,10 @@ body {
 .header p {
   font-size: 1.25rem;
   font-weight: 700;
+}
+
+.header h2 span {
+  color: rgb(34, 34, 206);
 }
 
 .buttons {

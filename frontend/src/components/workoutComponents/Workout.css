@@ -4,7 +4,10 @@
   align-items: center;
   gap: 2.5rem;
   width: 100%;
+  margin-top: -5rem;
 }
+
+/* Exercicio */
 
 .exercise {
   background: #2c2c2c;
@@ -65,10 +68,6 @@
   margin-top: 1rem;
 }
 
-.header h2 span {
-  color: rgb(34, 34, 206);
-}
-
 /* Criacao de exercicios */
 
 .addExerciseBtn,
@@ -85,7 +84,7 @@ button {
 }
 
 .addExerciseBtn {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 20px;
 }
@@ -123,6 +122,7 @@ button {
   background-color: #146c43;
 }
 
+/* Notificações */
 .notification {
   position: fixed;
   top: 20px;
@@ -147,6 +147,8 @@ button {
     transform: translateY(0);
   }
 }
+
+/* Opcoes em cada exercicio */
 
 .options {
   position: absolute;
@@ -191,7 +193,7 @@ button {
   flex-direction: column;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
   .exercise {
     background: #2c2c2c;
     border-radius: 16px;
@@ -207,33 +209,31 @@ button {
     max-width: 420px;
   }
 
-  .addExerciseBtn,
+  /* .addExerciseBtn,
   .back {
     top: 180px;
-  }
-
-  .header img {
-    margin-bottom: 5rem;
-    margin-top: -4rem;
-  }
+  } */
 
   .outExercise {
     flex-direction: column-reverse;
     gap: 1rem;
   }
 
-  .exercise {
-    /* max-width: 100%; */
-    padding: 1rem;
-  }
-
   .exercise h3 {
     font-size: 1.1rem;
   }
+
+  .exercise.expanded {
+    max-width: 95%;
+  }
+
 }
 
-@media (max-width: 500px) {
-  .exercise {
-    width: 96%;
+@media (max-width: 650px) {
+    .back,
+  .addExerciseBtn {
+    transform: scale(.8);
   }
 }
+
+
