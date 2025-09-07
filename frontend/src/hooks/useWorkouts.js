@@ -20,7 +20,7 @@ export const useWorkouts = () => {
 
     console.log("novo treino", response.data);
 
-    setRoutines((prev) => [...prev, newRoutine]);
+    setRoutines((prev) => [...prev, response.data]);
   };
 
   const updateWorkoutName = async (routine, name) => {

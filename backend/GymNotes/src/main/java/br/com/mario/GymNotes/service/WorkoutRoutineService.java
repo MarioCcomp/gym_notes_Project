@@ -59,7 +59,6 @@ public class WorkoutRoutineService {
     public WorkoutRoutine deleteExercise(String routineId, String exerciseId) {
         WorkoutRoutine routine = repository.findById(routineId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Routine not found"));
 
-        routine.getExercises().forEach(exercise -> System.out.println(exercise.getExercise().getId()));
 
         boolean removed = routine.getExercises().removeIf((exercise) -> exercise.getExercise().getId().equals(exerciseId));
         if(!removed) {

@@ -68,7 +68,7 @@ export const useExercises = () => {
       updateRoutine(updatedRoutine);
       return res;
     } catch (err) {
-      console.error(err);
+      console.error(err.message);
       alert("Falha ao salvar alterações");
     }
   };
