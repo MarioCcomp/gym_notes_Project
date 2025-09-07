@@ -1,6 +1,9 @@
 import { useState } from "react";
 import gymNotes from "../assets/gymnotes.png";
 import "./Login.css";
+import { useToken } from "../context/TokenContext";
+import { useMuscles } from "../context/MusclesContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   // states para manipular o placeholder
@@ -20,6 +23,10 @@ const Login = () => {
   const [passwordValue, setPasswordValue] = useState("");
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
+
+  const { login, register } = useToken();
+  const { fetchData } = useMuscles();
+  const navigate = useNavigate();
 
   // funcoes para manipular as telas de input
 
@@ -46,7 +53,11 @@ const Login = () => {
 
   const handleRegister = () => {
     if (passwordValue !== confirmPasswordValue) {
-      setNotification("As duas senhas não são iguais");
+      setNotification({
+        type: "error",
+        message: "As duas senhas não são iguais",
+      });
+
       setTimeout(() => {
         setNotification(null);
       }, 3000);
@@ -60,16 +71,42 @@ const Login = () => {
       password: passwordValue,
     };
 
+    const response = register(
+      usernameValue,
+      nicknameValue,
+      emailValue,
+      passwordValue
+    );
+
+    if (response) {
+      setNotification({
+        type: "sucess",
+        message: "usuario cadastrado com sucesso",
+      });
+
+      setIsCreatingAccount(false);
+      handleLogin();
+    } else {
+      console.log("eh rapaz deu erro");
+    }
+
     // Aqui eu chamo a funcao de registrar, e ai caso ela retorne sucesso, eu limpo os inputs (somente de confirmPassword e email) e printo a notificacao de que registrou com sucesso
     // Caso de erro, eu dou uma notificacao e dou um return
     // const response =
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const user = {
       username: usernameValue,
       password: passwordValue,
     };
+
+    const token = await login(usernameValue, passwordValue);
+
+    if (token) {
+      fetchData(token);
+      navigate("/home");
+    }
     // Aqui eu chamo a funcao de logar, e ai caso ela retorne sucesso, eu limpo os inputs e printo a notificacao de que logou com sucesso
     // Caso de erro, eu dou uma notificacao e dou um return
     // const response =
@@ -77,11 +114,22 @@ const Login = () => {
 
   return (
     <div className="main main-login">
-      {notification && <div className="notification">{notification}</div>}
+      {notification && (
+        <div
+          className={`notification ${
+            notification.type === "error" ? "error" : "success"
+          }`}
+        >
+          {notification.message}
+        </div>
+      )}
+
       <div className="header">
         <img src={gymNotes} alt="" />
-        <p>Seu app de treino</p>
-        <p className="login-message">Faça login para utilizar o aplicativo</p>
+        <div className="ps">
+          <p>Seu app de treino</p>
+          <p className="login-message">Faça login para utilizar o aplicativo</p>
+        </div>
       </div>
 
       <form className="form-login" onSubmit={handleSubmit}>
@@ -102,7 +150,7 @@ const Login = () => {
         {isCreatingAccount && (
           <input
             type="email"
-            placeholder="Informe seu endereço de email"
+            placeholder="Informe seu email"
             value={emailValue}
             onChange={(e) => setEmailValue(e.target.value)}
           />

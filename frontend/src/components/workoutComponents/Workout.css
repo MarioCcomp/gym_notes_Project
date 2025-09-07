@@ -4,7 +4,7 @@
   align-items: center;
   gap: 2.5rem;
   width: 100%;
-  margin-top: -5rem;
+  margin-top: -7rem;
 }
 
 /* Exercicio */
@@ -16,12 +16,13 @@
   width: 100%;
   max-width: 420px;
   text-align: center;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
   transition: all 0.3s ease;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 4rem;
   gap: 1rem;
 }
 
@@ -34,12 +35,12 @@
 }
 
 .exercise.expanded {
-  max-width: 700px;
+  max-width: 90%;
 }
 
 .exercise:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45);
 }
 
 .exercise h3 {
@@ -71,22 +72,39 @@
 /* Criacao de exercicios */
 
 .addExerciseBtn,
-button {
+.back {
+  position: fixed;
+  top: 20px;
   margin: 20px 0;
-  padding: 1.2rem 2.4rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
   font-weight: 600;
+  padding: 0.8rem 2rem;
+  border-radius: 0.9rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.6);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.back {
+  left: 20px;
+  border: 1px solid #ddd;
+  background: #00bfff;
+  color: #fff;
 }
 
 .addExerciseBtn {
-  position: fixed;
-  top: 0;
   right: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.back:hover {
+  background: #1e90ff;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
 }
 
 .addExerciseBtn:hover {
@@ -99,6 +117,7 @@ button {
   font-size: 1rem;
   padding: 0.8rem 1.5rem;
   margin-top: 1rem;
+  z-index: 1000;
 }
 
 .startBtn:hover,
@@ -127,14 +146,22 @@ button {
   position: fixed;
   top: 20px;
   right: 20px;
-  background-color: #198754;
   color: #fff;
   padding: 12px 20px;
   border-radius: 10px;
   font-weight: bold;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   animation: fadeIn 0.3s ease;
-  z-index: 1000;
+}
+
+.notification.success {
+  background: #16a34a;
+}
+.notification.error {
+  background: #dc2626;
+}
+.notification.info {
+  background: #2563eb;
 }
 
 @keyframes fadeIn {
@@ -160,7 +187,7 @@ button {
   width: 16px;
   height: 18px;
 
-  background: #a855f7;
+  background: #3b82f6;
   border-radius: 50%;
 
   display: flex;
@@ -176,7 +203,7 @@ button {
 }
 
 .options:hover {
-  background: #9333ea;
+  background: #2563eb;
   transform: translateY(-50%) scale(1.1);
 }
 
@@ -189,11 +216,17 @@ button {
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+  margin-top: 1.5rem;
   position: relative;
   flex-direction: column;
 }
 
 @media (max-width: 768px) {
+  .back,
+  .addExerciseBtn {
+    position: absolute;
+  }
+
   .exercise {
     background: #2c2c2c;
     border-radius: 16px;
@@ -205,14 +238,6 @@ button {
     transition: all 0.3s ease;
     position: relative;
   }
-  .exercise.expanded {
-    max-width: 420px;
-  }
-
-  /* .addExerciseBtn,
-  .back {
-    top: 180px;
-  } */
 
   .outExercise {
     flex-direction: column-reverse;
@@ -222,18 +247,12 @@ button {
   .exercise h3 {
     font-size: 1.1rem;
   }
-
-  .exercise.expanded {
-    max-width: 95%;
-  }
-
 }
 
 @media (max-width: 650px) {
-    .back,
+  .back,
   .addExerciseBtn {
-    transform: scale(.8);
+    top: 20px;
+    transform: scale(0.8);
   }
 }
-
-

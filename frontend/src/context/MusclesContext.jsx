@@ -1,5 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { useToken } from "./TokenContext";
+import { useNavigate } from "react-router-dom";
+import api from "../config/axiosConfig";
 
 const MusclesContext = createContext();
 
@@ -10,34 +13,64 @@ export const MusclesProvider = ({ children }) => {
   const [exercises, setExercises] = useState([]);
   const [routines, setRoutines] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const musclesRes = await axios.get("http://localhost:8080/api/muscles");
-        const exercisesRes = await axios.get(
-          "http://localhost:8080/api/exercises"
-        );
-        const routinesRes = await axios.get(
-          "http://localhost:8080/api/routines"
-        );
-        setMuscles(musclesRes.data);
-        setExercises(exercisesRes.data);
-        setRoutines(routinesRes.data);
-        console.log(exercisesRes.data);
-      } catch (err) {
-        console.error("Erro ao buscar músculos ou exercícios ou rotinas:", err);
-      }
-    };
+  const navigate = useNavigate();
 
-    fetchData();
-  }, []);
+  const { token } = useToken();
+
+  const fetchData = async (authToken = token) => {
+    if (!authToken) return;
+    try {
+      const musclesRes = await api.get("http://localhost:8080/api/muscles", {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+
+      const exercisesRes = await api.get(
+        "http://localhost:8080/api/exercises",
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+
+      const routinesRes = await api.get(
+        "http://localhost:8080/api/routines",
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+
+      setMuscles(musclesRes.data);
+      setExercises(exercisesRes.data);
+      setRoutines(routinesRes.data);
+      console.log(exercisesRes.data);
+    } catch (err) {
+      console.error("Erro ao buscar músculos ou exercícios ou rotinas:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      fetchData();
+    } else {
+      const savedToken = localStorage.getItem("token");
+      if (savedToken) {
+        fetchData(savedToken);
+      } else {
+        navigate("/");
+      }
+    }
+  }, [token]);
 
   const updateRoutine = (updatedRoutine) => {
     setRoutines((prev) =>
       prev.map((r) => (r.name === updatedRoutine.name ? updatedRoutine : r))
     );
   };
-
 
   const addRoutine = (newRoutine) => {
     setRoutines((prev) => [...prev, newRoutine]);
@@ -49,7 +82,14 @@ export const MusclesProvider = ({ children }) => {
 
   return (
     <MusclesContext.Provider
-      value={{ muscles, exercises, routines, setRoutines, updateRoutine }}
+      value={{
+        muscles,
+        exercises,
+        routines,
+        setRoutines,
+        updateRoutine,
+        fetchData,
+      }}
     >
       {children}
     </MusclesContext.Provider>

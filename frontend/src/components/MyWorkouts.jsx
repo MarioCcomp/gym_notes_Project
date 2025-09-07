@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import AddWorkout from "./AddWorkout";
 import { useMuscles } from "../context/MusclesContext";
 import { useWorkouts } from "../hooks/useWorkouts";
+import { useToken } from "../context/TokenContext";
+import api from "../config/axiosConfig";
 
 const MyWorkouts = () => {
   const navigate = useNavigate();
@@ -32,6 +34,7 @@ const MyWorkouts = () => {
   const [optionsExpanded, setOptionsExpanded] = useState({});
   const [isEditingRoutine, setIsEditingRoutine] = useState(false);
   const [notification, setNotification] = useState(null);
+  const { token } = useToken();
 
   const [routineBeingEdited, setRoutineBeingEdited] = useState();
 
@@ -52,8 +55,13 @@ const MyWorkouts = () => {
 
   const confirmDeleteWorkout = () => {
     try {
-      const response = axios.delete(
-        `http://localhost:8080/api/${selectedWorkout.name}`
+      const response = api.delete(
+        `http://localhost:8080/api/${selectedWorkout.name}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setRoutines((prev) =>
         prev.filter((routine) => routine.name !== selectedWorkout.name)
@@ -119,7 +127,7 @@ const MyWorkouts = () => {
         </p>
 
         <div className="headerActions">
-          <div className="back" onClick={handleBack}>
+          <div className="back-workouts" onClick={handleBack}>
             Voltar
           </div>
           {!isCreatingWorkout && (

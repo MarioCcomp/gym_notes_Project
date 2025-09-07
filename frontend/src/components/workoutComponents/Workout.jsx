@@ -317,15 +317,24 @@ const Workout = ({}) => {
   return (
     <div className="main">
       {/* <Graphic /> */}
-      <div
-        className="back"
-        onClick={() => {
-          if (isAddingExercise) setIsAddingExercise(false);
-          else navigate("/workouts");
-        }}
-      >
-        Voltar
-      </div>
+        <button
+          className="back"
+          onClick={() => {
+            if (isAddingExercise) setIsAddingExercise(false);
+            else navigate("/workouts");
+          }}
+        >
+          Voltar
+        </button>
+
+        {!isAddingExercise && (
+          <button
+            className="addExerciseBtn"
+            onClick={() => setIsAddingExercise(true)}
+          >
+            Adicionar exercício
+          </button>
+        )}
 
       <div className="header">
         <img src={gymNotes} alt="" />
@@ -471,15 +480,6 @@ const Workout = ({}) => {
 
         {!isWorkoutRunning && (
           <div className="add-exercise-section">
-            {!isAddingExercise && (
-              <button
-                className="addExerciseBtn"
-                onClick={() => setIsAddingExercise(true)}
-              >
-                Adicionar exercício
-              </button>
-            )}
-
             {isAddingExercise && (
               <AddExercises
                 routine={workout}

@@ -17,17 +17,13 @@ body {
 .main {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   justify-content: flex-start;
   position: relative;
   align-items: center;
-  gap: 5rem;
-  margin-top: 1rem;
-  padding: 20px;
+  padding: 0 20px;
 
   min-height: 100vh;
   color: #f0f0f0;
-  margin-bottom: 5rem;
 }
 
 .header {
@@ -38,13 +34,15 @@ body {
   align-items: center;
   position: relative;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-top: 0;
+  margin-bottom: 1rem;
 }
 
 .header img {
   width: 100%;
   max-width: 250px;
   height: auto;
+  margin-top: 0;
   /* margin-top: -2rem; */
 }
 
@@ -89,4 +87,48 @@ body {
 .buttons li:active {
   transform: scale(0.97);
   box-shadow: 0 2px 12px rgba(0, 191, 255, 0.4);
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: .7rem 1.5rem;
+  border-radius: 12px;
+  border: none;
+
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #00bfff;
+
+  cursor: pointer;
+  box-shadow: 1px 4px 16px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s ease, background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Hover e focus */
+button:hover {
+  background-color: #1e90ff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+button:active {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+@media (max-width: 650px) {
+  button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    border-radius: 0.7rem;
+  }
 }

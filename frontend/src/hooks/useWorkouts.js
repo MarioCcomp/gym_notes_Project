@@ -1,35 +1,49 @@
 import { useMuscles } from "../context/MusclesContext";
 import axios from "axios";
+import { useToken } from "../context/TokenContext";
+import api from "../config/axiosConfig";
+
 
 export const useWorkouts = () => {
   const { routines, setRoutines } = useMuscles();
+  const { token } = useToken();
 
   const saveWorkout = async (newRoutine) => {
-    const response = await axios.post(
+    const response = await api.post(
       "http://localhost:8080/api/routine",
-      newRoutine
+      newRoutine,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
 
-    
     console.log("novo treino", response.data);
 
     setRoutines((prev) => [...prev, newRoutine]);
   };
 
   const updateWorkoutName = async (routine, name) => {
-    const response = await axios.put(`http://localhost:8080/api/routine/name/${routine.id}`,
-      {name}
+    const response = await api.put(
+      `http://localhost:8080/api/routine/name/${routine.id}`,
+      { name },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
 
     console.log(response.data);
-    setRoutines(prev => prev.map((rout) => {
-      if(rout.id !== routine.id) return rout;
+    setRoutines((prev) =>
+      prev.map((rout) => {
+        if (rout.id !== routine.id) return rout;
 
-      return response.data;
-    }))
-  }
+        return response.data;
+      })
+    );
+  };
 
   return { saveWorkout, updateWorkoutName };
 };
-
-

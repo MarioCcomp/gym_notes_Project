@@ -8,16 +8,17 @@
 
 .headerActions {
   position: absolute;
-  top: 120%; /* logo abaixo da imagem */
+  top: 120%; 
   left: 50%;
+  width: 100%;
   transform: translateX(-50%);
   display: flex;
-  gap: 1rem; /* espaço entre os botões */
+  gap: 1rem; 
 }
 
-.back,
+.back-workouts,
 .createWorkout {
-  position: relative; /* necessário dentro do container absolute */
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,20 +32,18 @@
   transition: background-color 0.2s, color 0.2s;
 }
 
-.back {
+.back-workouts {
   background: #00bfff;
   color: #fff;
 }
 
-.back:hover {
+.back-workouts:hover {
   background: #1e90ff;
-  transform: translateY(-2px);
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
 }
 
-
 .createWorkout:hover {
-  background-color: #ddd;
+  background-color: #573b3b;
 }
 
 .buttons li {
@@ -60,6 +59,7 @@
   flex-direction: column;
   gap: 2rem;
   position: relative;
+  margin-top: 10rem;
 }
 
 .options-workout {
@@ -73,7 +73,7 @@
   position: absolute;
   min-height: 80px;
   max-height: 150px;
-  right: -150px; /* distância da box principal */
+  right: -150px; 
   top: 0;
 }
 
@@ -98,11 +98,33 @@
 }
 
 @media (max-width: 800px) {
+  .headerActions {
+    position: absolute;
+    top: 120%; 
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem; 
+  }
+
+  .back-workouts,
+  .createWorkout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    border: 1px solid #ddd;
+    padding: 0.8rem 2rem;
+    border-radius: 0.9rem;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.6);
+    transition: background-color 0.2s, color 0.2s;
+  }
   .options-workout {
     transform: scale(0.8);
     right: -135px;
     top: -10px;
   }
 }
-
-
