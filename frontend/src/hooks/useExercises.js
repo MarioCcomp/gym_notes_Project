@@ -3,9 +3,10 @@ import { useMuscles } from "../context/MusclesContext";
 import { useToken } from "../context/TokenContext";
 import api from "../config/axiosConfig";
 
-
 export const useExercises = () => {
   const { routines, setRoutines, updateRoutine } = useMuscles();
+  const { token } = useToken();
+
   const addWorkoutExercises = async (newRoutine) => {
     setRoutines((prev) =>
       prev.map((routine) =>
@@ -16,10 +17,9 @@ export const useExercises = () => {
     );
 
     console.log("chegou aq a nova rotina", newRoutine);
-    const { token } = useToken();
 
     const response = await api.put(
-      `http://localhost:8080/api/routine/${newRoutine.name}`,
+      `/api/routine/${newRoutine.id}`,
       newRoutine,
       {
         headers: {
@@ -32,7 +32,7 @@ export const useExercises = () => {
   const deleteWorkoutExercises = async (workout, exerciseBeingEdited) => {
     try {
       const response = await api.delete(
-        `http://localhost:8080/api/${workout.name}/exercises/${exerciseBeingEdited.id}`,
+        `/api/${workout.id}/exercises/${exerciseBeingEdited.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ export const useExercises = () => {
   ) => {
     try {
       const res = await api.put(
-        `http://localhost:8080/api/${workout.name}/exercises/${exerciseBeingEdited.id}`,
+        `/api/${workout.id}/exercises/${exerciseBeingEdited.id}`,
         { plannedSets: Number(newPlannedSets) },
         {
           headers: {

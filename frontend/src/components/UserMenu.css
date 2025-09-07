@@ -1,0 +1,56 @@
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: .8rem 1.2rem;   
+  background: #1e1e1e;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 191, 255, 0.15);
+  font-size: 1rem;
+  font-weight: 500;
+  color: #f1f1f1;
+  margin: 1rem 0 2rem;   
+  width: 100%;
+  max-width: 360px;      
+}
+
+.avatar {
+  width: 42px;   
+  height: 42px;
+  border-radius: 50%;
+  background: #00bfff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.greeting {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.logoutBtn {
+  margin-left: auto;
+  background: #d62828;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+  font-size: 0.9rem;
+}
+
+.logoutBtn:hover {
+  background: #9b0c0c;
+  transform: scale(1.05);
+}
+
+.logoutBtn:active {
+  transform: scale(0.95);
+}

@@ -5,11 +5,11 @@
   align-items: center;
   overflow: hidden;
   justify-content: center;
-
   background: linear-gradient(135deg, #111827, #1e293b);
   padding: 2rem;
   color: #fff;
   font-family: "Inter", sans-serif;
+  margin-bottom: -2rem;
 }
 
 /* ====== Card do Login ====== */

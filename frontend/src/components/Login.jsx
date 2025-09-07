@@ -51,7 +51,7 @@ const Login = () => {
     }
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (passwordValue !== confirmPasswordValue) {
       setNotification({
         type: "error",
@@ -71,28 +71,25 @@ const Login = () => {
       password: passwordValue,
     };
 
-    const response = register(
+    const response = await register(
       usernameValue,
       nicknameValue,
       emailValue,
       passwordValue
     );
 
-    if (response) {
-      setNotification({
-        type: "sucess",
-        message: "usuario cadastrado com sucesso",
-      });
+    setNotification({
+      type: response.type,
+      message: response.message,
+    });
 
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
+
+    if (response.type === "success") {
       setIsCreatingAccount(false);
-      handleLogin();
-    } else {
-      console.log("eh rapaz deu erro");
     }
-
-    // Aqui eu chamo a funcao de registrar, e ai caso ela retorne sucesso, eu limpo os inputs (somente de confirmPassword e email) e printo a notificacao de que registrou com sucesso
-    // Caso de erro, eu dou uma notificacao e dou um return
-    // const response =
   };
 
   const handleLogin = async () => {
@@ -101,15 +98,23 @@ const Login = () => {
       password: passwordValue,
     };
 
-    const token = await login(usernameValue, passwordValue);
+    const response = await login(usernameValue, passwordValue);
 
-    if (token) {
-      fetchData(token);
-      navigate("/home");
+    setNotification({
+      type: response.type,
+      message: response.message,
+    });
+
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
+
+    if (response.type === "success") {
+      fetchData(response.token);
+      setTimeout(() => {
+        navigate("/home");
+      }, 500);
     }
-    // Aqui eu chamo a funcao de logar, e ai caso ela retorne sucesso, eu limpo os inputs e printo a notificacao de que logou com sucesso
-    // Caso de erro, eu dou uma notificacao e dou um return
-    // const response =
   };
 
   return (

@@ -32,19 +32,19 @@ public class WorkoutRoutineService {
         return repository.save(routine);
     }
 
-    public WorkoutRoutine update(String name, WorkoutRoutine routine) {
-        return repository.findByName(name).map(existing -> {
+    public WorkoutRoutine update(String id, WorkoutRoutine routine) {
+        return repository.findById(id).map(existing -> {
             routine.getExercises().forEach(wEx -> {
                 Exercise fullExercise = exerciseRepository.findById(wEx.getExercise().getId()).orElseThrow(() -> new RuntimeException("Exercise not found"));
                 wEx.setExercise(fullExercise);
             });
-            routine.setId(existing.getId());
+            routine.setId(id);
             return repository.save(routine);
         }).orElse(null);
     }
 
-    public WorkoutRoutine updatePlannedSets(String routineName, String exerciseId, int newPlannedSets) {
-        WorkoutRoutine routine = repository.findByName(routineName)
+    public WorkoutRoutine updatePlannedSets(String routineId, String exerciseId, int newPlannedSets) {
+        WorkoutRoutine routine = repository.findById(routineId)
                 .orElseThrow(() -> new RuntimeException("Routine not found"));
 
         routine.getExercises().forEach(ex -> {
@@ -56,10 +56,8 @@ public class WorkoutRoutineService {
         return repository.save(routine);
     }
 
-    public WorkoutRoutine deleteExercise(String routineName, String exerciseId) {
-        WorkoutRoutine routine = repository.findByName(routineName).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Routine not found"));
-
-        System.out.println(routine.getId());
+    public WorkoutRoutine deleteExercise(String routineId, String exerciseId) {
+        WorkoutRoutine routine = repository.findById(routineId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Routine not found"));
 
         routine.getExercises().forEach(exercise -> System.out.println(exercise.getExercise().getId()));
 
@@ -70,8 +68,8 @@ public class WorkoutRoutineService {
         return repository.save(routine);
     }
 
-    public void deleteRoutine(String routineName) {
-        repository.deleteByName(routineName).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Routine not found"));
+    public void deleteRoutine(String routineId) {
+        repository.deleteById(routineId);
     }
 
     public WorkoutRoutine updateName(String id, String name) {

@@ -2,16 +2,43 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useMuscles } from "./MusclesContext";
 import api from "../config/axiosConfig";
+import { useNavigate } from "react-router-dom";
 
 const TokenContext = createContext();
 
 export const useToken = () => useContext(TokenContext);
 
 export const TokenProvider = ({ children }) => {
-  const [username, setUsername] = useState(
-    localStorage.getItem("username") || ""
-  );
+  const [nickname, setNickname] = useState("Usuário");
   const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [loading, setLoading] = useState(true);
+  const { navigate } = useNavigate();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (!token) {
+        setNickname(null);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await api.get("/auth/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setNickname(response.data.nickname);
+      } catch (err) {
+        console.error("Erro ao buscar usuário:", err);
+        setToken(null);
+        localStorage.removeItem("token");
+        setNickname(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [token]);
 
   const login = async (username, password) => {
     const body = {
@@ -20,17 +47,21 @@ export const TokenProvider = ({ children }) => {
     };
 
     try {
-      const response = await api.post("http://localhost:8080/auth/login", body);
-      if (response.data.token) {
-        setToken(response.data.token);
-        setUsername(username);
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("username", username);
-        return response.data.token;
-      }
-      return false;
+      const response = await api.post(`/auth/login`, body);
+      setNickname(response.data.nickname);
+      setToken(response.data.token);
+      localStorage.setItem("token", response.data.token);
+
+      return {
+        type: response.data.type,
+        message: response.data.message,
+        token: response.data.token,
+      };
     } catch (error) {
-      return error.message;
+      return {
+        type: error.response?.data?.type,
+        message: error.response?.data?.message,
+      };
     }
   };
 
@@ -43,28 +74,28 @@ export const TokenProvider = ({ children }) => {
     };
 
     try {
-      const response = await api.post(
-        "http://localhost:8080/auth/register",
-        body
-      );
-      if (response.status >= 200 && response.status <= 299) {
-        return true;
-      }
-      return false;
+      const response = await api.post(`/auth/register`, body);
+
+      return {
+        type: response.data.type,
+        message: response.data.message,
+      };
     } catch (error) {
-      return error.message;
+      return {
+        type: error.response?.data?.type,
+        message: error.response?.data?.message,
+      };
     }
   };
 
   const logout = () => {
     setToken(null);
-    setUsername("");
     localStorage.removeItem("token");
-    localStorage.removeItem("username");
+    navigate("/");
   };
 
   return (
-    <TokenContext.Provider value={{ username, token, login, register }}>
+    <TokenContext.Provider value={{ logout, nickname, token, login, register, loading }}>
       {children}
     </TokenContext.Provider>
   );

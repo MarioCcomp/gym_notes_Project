@@ -34,8 +34,13 @@ const AddWorkout = ({ setIsAddingWorkout }) => {
   };
 
   const handleSaveWorkout = () => {
+    let name = newRoutineName;
+    if (newRoutineName === "") {
+      name = `Treino ${routines.length + 1}`;
+    }
+
     const newRoutine = {
-      name: newRoutineName,
+      name: name,
       exercises: addedExercises,
     };
 

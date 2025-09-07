@@ -54,13 +54,13 @@ public class WorkoutRoutineController {
         return ResponseEntity.ok(service.create(routine, username));
     }
 
-    @PutMapping(path = "/routine/{name}")
-    public ResponseEntity<?> update(HttpServletRequest request, @PathVariable String name, @RequestBody WorkoutRoutine routine) {
+    @PutMapping(path = "/routine/{id}")
+    public ResponseEntity<?> update(HttpServletRequest request, @PathVariable String id, @RequestBody WorkoutRoutine routine) {
         String username = getUserFromToken(request);
         if(username == null) {
             return ResponseEntity.status(401).body("Token invalido ou ausente");
         }
-        WorkoutRoutine updated = service.update(name, routine);
+        WorkoutRoutine updated = service.update(id, routine);
         if(updated == null) {
             return ResponseEntity.notFound().build();
         }
@@ -83,10 +83,10 @@ public class WorkoutRoutineController {
         return ResponseEntity.ok(updated);
     }
 
-    @PutMapping("/{routineName}/exercises/{exerciseId}")
+    @PutMapping("/{routineId}/exercises/{exerciseId}")
     public ResponseEntity<?> updatePlannedSets(
             HttpServletRequest request,
-            @PathVariable String routineName,
+            @PathVariable String routineId,
             @PathVariable String exerciseId,
             @RequestBody Map<String, Integer> body) {
 
@@ -96,29 +96,29 @@ public class WorkoutRoutineController {
         }
 
         Integer plannedSets = body.get("plannedSets");
-        WorkoutRoutine updated = service.updatePlannedSets(routineName, exerciseId, plannedSets);
+        WorkoutRoutine updated = service.updatePlannedSets(routineId, exerciseId, plannedSets);
         return ResponseEntity.ok(updated);
     }
 
-    @DeleteMapping("/{routineName}/exercises/{exerciseId}")
-    public ResponseEntity<?> deleteExercise(HttpServletRequest request, @PathVariable String routineName, @PathVariable String exerciseId) {
+    @DeleteMapping("/{routineId}/exercises/{exerciseId}")
+    public ResponseEntity<?> deleteExercise(HttpServletRequest request, @PathVariable String routineId, @PathVariable String exerciseId) {
         String username = getUserFromToken(request);
         if (username == null) {
             return ResponseEntity.status(401).body("Token inválido ou ausente");
         }
 
-        WorkoutRoutine routine = service.deleteExercise(routineName, exerciseId);
+        WorkoutRoutine routine = service.deleteExercise(routineId, exerciseId);
         return ResponseEntity.ok(routine);
     }
 
-    @DeleteMapping("/{routineName}")
-    public ResponseEntity<?> deleteRoutine(HttpServletRequest request, @PathVariable String routineName) {
+    @DeleteMapping("/{routineId}")
+    public ResponseEntity<?> deleteRoutine(HttpServletRequest request, @PathVariable String routineId) {
         String username = getUserFromToken(request);
         if (username == null) {
             return ResponseEntity.status(401).body("Token inválido ou ausente");
         }
 
-        service.deleteRoutine(routineName);
+        service.deleteRoutine(routineId);
         return ResponseEntity.noContent().build();
     }
 

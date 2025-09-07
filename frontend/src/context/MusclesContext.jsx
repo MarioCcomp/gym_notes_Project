@@ -20,29 +20,23 @@ export const MusclesProvider = ({ children }) => {
   const fetchData = async (authToken = token) => {
     if (!authToken) return;
     try {
-      const musclesRes = await api.get("http://localhost:8080/api/muscles", {
+      const musclesRes = await api.get(`/api/muscles`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
       });
 
-      const exercisesRes = await api.get(
-        "http://localhost:8080/api/exercises",
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        }
-      );
+      const exercisesRes = await api.get(`/api/exercises`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
 
-      const routinesRes = await api.get(
-        "http://localhost:8080/api/routines",
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        }
-      );
+      const routinesRes = await api.get(`/api/routines`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
 
       setMuscles(musclesRes.data);
       setExercises(exercisesRes.data);
@@ -50,6 +44,7 @@ export const MusclesProvider = ({ children }) => {
       console.log(exercisesRes.data);
     } catch (err) {
       console.error("Erro ao buscar músculos ou exercícios ou rotinas:", err);
+      console.error(err.message);
     }
   };
 

@@ -3,9 +3,13 @@ import "./Workout.css";
 import axios from "axios";
 import gymNotes from "../../assets/gymnotes.png";
 import { useState, useEffect } from "react";
+import { FaLongArrowAltDown } from "react-icons/fa";
+import { FaLongArrowAltRight } from "react-icons/fa";
 import { useMuscles } from "../../context/MusclesContext";
 import AddExercises from "./AddExercises";
 import { useExercises } from "../../hooks/useExercises";
+import { IoReturnUpBack } from "react-icons/io5";
+import { SlOptions } from "react-icons/sl";
 import { capitalizeWords } from "../../utils/utils";
 import ConfirmEdit from "../notifications/ConfirmEdit";
 import ConfirmDeleteExercise from "../notifications/ConfirmDeleteExercise";
@@ -167,7 +171,10 @@ const Workout = ({}) => {
     };
 
     addWorkoutExercises(updatedRoutine);
-    setNotification("✅ Treino salvo com sucesso!");
+    setNotification({
+      type: "success",
+      message: "✅ Treino salvo com sucesso!",
+    });
 
     setTimeout(() => {
       setNotification(null);
@@ -217,7 +224,10 @@ const Workout = ({}) => {
 
     const key = getSetKey(exercise.exercise.id, index);
     setEditingSets((prev) => ({ ...prev, [key]: false }));
-    setNotification("✅ Série salva com sucesso!");
+    setNotification({
+      type: "success",
+      message: "✅ Série salva com sucesso!",
+    });
 
     setTimeout(() => {
       setNotification(null);
@@ -269,7 +279,10 @@ const Workout = ({}) => {
       ...prev,
       [exerciseBeingEdited.index]: false,
     }));
-    setNotification("✅ Exercicio excluído com sucesso!");
+    setNotification({
+      type: "success",
+      message: "✅ Exercicio excluído com sucesso!",
+    });
 
     setTimeout(() => {
       setNotification(null);
@@ -307,7 +320,10 @@ const Workout = ({}) => {
       [exerciseBeingEdited.index]: false,
     }));
 
-    setNotification("✅ Exercício editado com sucesso!");
+    setNotification({
+      type: "success",
+      message: "✅ Exercício editado com sucesso!",
+    });
 
     setTimeout(() => {
       setNotification(null);
@@ -317,6 +333,8 @@ const Workout = ({}) => {
   return (
     <div className="main">
       {/* <Graphic /> */}
+
+      <div className="top">
         <button
           className="back"
           onClick={() => {
@@ -324,7 +342,7 @@ const Workout = ({}) => {
             else navigate("/workouts");
           }}
         >
-          Voltar
+          <IoReturnUpBack />
         </button>
 
         {!isAddingExercise && (
@@ -336,67 +354,74 @@ const Workout = ({}) => {
           </button>
         )}
 
-      <div className="header">
-        <img src={gymNotes} alt="" />
-        <h2>
-          {workout ? (
-            <>
-              Treino selecionado: <span>{capitalizeWords(workout.name)}</span>
-            </>
-          ) : (
-            "Carregando treino..."
-          )}
-        </h2>
-        {!isAddingExercise &&
-          (exercises.length > 0 ? (
-            isWorkoutRunning ? (
-              <button onClick={handleCancelClick}>Cancelar</button>
+        <div className="header">
+          <img src={gymNotes} alt="" />
+          <h2>
+            {workout ? (
+              <>
+                <span>{capitalizeWords(workout.name)}</span>
+              </>
             ) : (
-              <button className="startBtn" onClick={handleStart}>
-                Iniciar Treino
-              </button>
-            )
-          ) : (
-            <p>Adicione exercícios para poder iniciar seu treino</p>
-          ))}
+              "Carregando treino..."
+            )}
+          </h2>
+          {!isAddingExercise &&
+            (exercises.length > 0 ? (
+              isWorkoutRunning ? (
+                <button className="cancelBtn" onClick={handleCancelClick}>
+                  Cancelar
+                </button>
+              ) : (
+                <button className="startBtn" onClick={handleStart}>
+                  Iniciar Treino
+                </button>
+              )
+            ) : (
+              <p>Adicione exercícios para poder iniciar seu treino</p>
+            ))}
 
-        {/* notificacoes */}
+          {/* notificacoes */}
 
-        {/* confirm cancel workout */}
+          {/* confirm cancel workout */}
 
-        <ConfirmCancelWorkout
-          confirmCancel={confirmCancel}
-          closeCancelModal={closeCancelModal}
-          confirmCancelWorkout={confirmCancelWorkout}
-        />
+          <ConfirmCancelWorkout
+            confirmCancel={confirmCancel}
+            closeCancelModal={closeCancelModal}
+            confirmCancelWorkout={confirmCancelWorkout}
+          />
 
-        {/* confirm save incomplete */}
+          {/* confirm save incomplete */}
 
-        <ConfirmSaveIncompleteWorkout
-          confirmSaveModal={confirmSaveModal}
-          setConfirmSaveModal={setConfirmSaveModal}
-          saveWorkout={saveWorkout}
-        />
+          <ConfirmSaveIncompleteWorkout
+            confirmSaveModal={confirmSaveModal}
+            setConfirmSaveModal={setConfirmSaveModal}
+            saveWorkout={saveWorkout}
+          />
 
-        {/* confirmDelete */}
+          {/* confirmDelete */}
 
-        <ConfirmDeleteExercise
-          toggleConfirmDelete={toggleConfirmDelete}
-          confirmDelete={confirmDelete}
-          confirmDeleteExercise={confirmDeleteExercise}
-        />
+          <ConfirmDeleteExercise
+            toggleConfirmDelete={toggleConfirmDelete}
+            confirmDelete={confirmDelete}
+            confirmDeleteExercise={confirmDeleteExercise}
+          />
 
-        {/* confirmEdit */}
-        <ConfirmEdit
-          setExerciseBeingEdited={setExerciseBeingEdited}
-          toggleEditingExercise={toggleEditingExercise}
-          exerciseBeingEdited={exerciseBeingEdited}
-          isEditingExercise={isEditingExercise}
-          handleEditExercise={handleEditExercise}
-        />
+          {/* confirmEdit */}
+          <ConfirmEdit
+            setExerciseBeingEdited={setExerciseBeingEdited}
+            toggleEditingExercise={toggleEditingExercise}
+            exerciseBeingEdited={exerciseBeingEdited}
+            isEditingExercise={isEditingExercise}
+            handleEditExercise={handleEditExercise}
+          />
+        </div>
       </div>
       <div className="body">
-        {notification && <div className="notification">{notification}</div>}
+        {notification && (
+          <div className={`notification ${notification?.type || ""}`}>
+            {notification.message}
+          </div>
+        )}
 
         {/* --------------- */}
 
@@ -417,7 +442,7 @@ const Workout = ({}) => {
                       className="options especific"
                       onClick={() => handleExpandOptions(ind)}
                     >
-                      ⋮
+                      <SlOptions size={13} />
                     </p>
                     <iframe
                       width="560"
@@ -435,7 +460,11 @@ const Workout = ({}) => {
                       <span
                         onClick={() => toggleExercise(exercise.exercise.name)}
                       >
-                        {isExpanded ? "↓" : "→"}
+                        {isExpanded ? (
+                          <FaLongArrowAltDown />
+                        ) : (
+                          <FaLongArrowAltRight />
+                        )}
                       </span>
                     </p>
                     <div className="sets">

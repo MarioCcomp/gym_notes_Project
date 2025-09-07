@@ -7,6 +7,10 @@
   margin-top: -7rem;
 }
 
+.header h2 {
+  margin-bottom: 2.5rem;
+}
+
 /* Exercicio */
 
 .exercise {
@@ -24,6 +28,10 @@
   align-items: center;
   margin-top: 4rem;
   gap: 1rem;
+}
+
+.exercise p {
+  display: flex;
 }
 
 .exercise iframe {
@@ -71,11 +79,9 @@
 
 /* Criacao de exercicios */
 
-.addExerciseBtn,
-.back {
+.addExerciseBtn {
   position: fixed;
   top: 20px;
-  margin: 20px 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,14 +92,12 @@
   cursor: pointer;
   box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.6);
   transition: background-color 0.2s, color 0.2s;
+  z-index: 900;
+  margin-top: 0;
+
 }
 
-.back {
-  left: 20px;
-  border: 1px solid #ddd;
-  background: #00bfff;
-  color: #fff;
-}
+
 
 .addExerciseBtn {
   right: 20px;
@@ -102,22 +106,24 @@
   border: none;
 }
 
-.back:hover {
-  background: #1e90ff;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
-}
+
 
 .addExerciseBtn:hover {
   background: #1e90ff;
 }
 
 .startBtn,
-.endBtn {
+.endBtn
+ {
   background-color: #d62828;
   font-size: 1rem;
   padding: 0.8rem 1.5rem;
   margin-top: 1rem;
-  z-index: 1000;
+  z-index: 900;
+}
+
+.cancelBtn {
+  z-index: 900;
 }
 
 .startBtn:hover,
@@ -221,10 +227,19 @@
   flex-direction: column;
 }
 
+.top {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+}
+
 @media (max-width: 768px) {
-  .back,
   .addExerciseBtn {
     position: absolute;
+    right: 0px;
+    top: 20px;
+    width: 25%;
+    transform: scale(0.8);
   }
 
   .exercise {
@@ -250,9 +265,8 @@
 }
 
 @media (max-width: 650px) {
-  .back,
-  .addExerciseBtn {
-    top: 20px;
-    transform: scale(0.8);
+
+  .header h2 {
+    font-size: 1.8rem;
   }
 }

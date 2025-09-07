@@ -1,4 +1,6 @@
 import "./ExpandedSet.css";
+import { FaCircleInfo } from "react-icons/fa6";
+
 
 const ExpandedSet = ({
   isExpanded,
@@ -26,7 +28,7 @@ const ExpandedSet = ({
                 className="infoBtn"
                 onClick={() => handleInfoBtn(index, exercise)}
               >
-                🛈
+                <FaCircleInfo />
               </div>
               <p>Série {index + 1}</p>
               <form

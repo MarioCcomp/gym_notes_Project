@@ -1,4 +1,5 @@
 import "./OptionsExpanded.css";
+import { IoClose } from "react-icons/io5";
 
 const OptionsExpanded = ({
   optionsExpanded,
@@ -16,7 +17,7 @@ const OptionsExpanded = ({
         <div className="overlay" onClick={closeOverlay}>
           <div className="lis" onClick={(e) => e.stopPropagation()}>
             <p onClick={closeOverlay} className="close-btn">
-              X
+              < IoClose size={20}/>
             </p>
             <ul>
               <li

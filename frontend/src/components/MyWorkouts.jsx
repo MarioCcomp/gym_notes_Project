@@ -1,10 +1,14 @@
 import "./MyWorkouts.css";
 import gymNotes from "../assets/gymnotes.png";
 import axios from "axios";
+import { SlOptions } from "react-icons/sl";
+import { IoClose } from "react-icons/io5";
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddWorkout from "./AddWorkout";
 import { useMuscles } from "../context/MusclesContext";
+import { IoReturnUpBack } from "react-icons/io5";
 import { useWorkouts } from "../hooks/useWorkouts";
 import { useToken } from "../context/TokenContext";
 import api from "../config/axiosConfig";
@@ -17,7 +21,7 @@ const MyWorkouts = () => {
       setIsCreatingWorkout(false);
       return;
     }
-    navigate("/");
+    navigate("/home");
   };
 
   const { exercises, routines, setRoutines } = useMuscles();
@@ -55,14 +59,11 @@ const MyWorkouts = () => {
 
   const confirmDeleteWorkout = () => {
     try {
-      const response = api.delete(
-        `http://localhost:8080/api/${selectedWorkout.name}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = api.delete(`/api/${selectedWorkout.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setRoutines((prev) =>
         prev.filter((routine) => routine.name !== selectedWorkout.name)
       );
@@ -118,27 +119,29 @@ const MyWorkouts = () => {
   return (
     <div className="main mainWorkouts">
       {notification && <div className="notification">{notification}</div>}
+      <button className="back" onClick={handleBack}>
+        <IoReturnUpBack />
+      </button>
+      {!isCreatingWorkout && (
+        <button
+          className="createWorkout"
+          onClick={() => setIsCreatingWorkout(true)}
+        >
+          Criar novo treino
+        </button>
+      )}
       <div className="header">
         <img src={gymNotes} alt="" />
-        <p>
-          {isCreatingWorkout
-            ? "Crie seu treino abaixo"
-            : "Aqui estão suas rotinas de treinos"}
-        </p>
+        {isCreatingWorkout && <p>Crie seu treino abaixo</p>}
+        {!isCreatingWorkout && (
+          <p>
+            {" "}
+            {routines.length > 0
+              ? "Aqui estão suas rotinas de treinos"
+              : "Crie um treino para visualiza-lo"}
+          </p>
+        )}
 
-        <div className="headerActions">
-          <div className="back-workouts" onClick={handleBack}>
-            Voltar
-          </div>
-          {!isCreatingWorkout && (
-            <div
-              className="createWorkout"
-              onClick={() => setIsCreatingWorkout(true)}
-            >
-              Criar novo treino
-            </div>
-          )}
-        </div>
         {confirmDelete && (
           <div className="overlay" onClick={toggleConfirmDelete}>
             <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -177,7 +180,7 @@ const MyWorkouts = () => {
             <div className="modal" onClick={(e) => e.stopPropagation()}>
               <form onSubmit={handleEditRoutine}>
                 <label>Digite o novo apelido para o seu treino </label>
-                <input type="text" />
+                <input type="text" required />
                 <div className="actions">
                   <button type="submit">Salvar</button>
                   <button
@@ -202,7 +205,7 @@ const MyWorkouts = () => {
             <div key={routine.id || index}>
               <ul className="buttons">
                 <li onClick={() => navigate(`/workouts/${routine.name}`)}>
-                  {routine.name ? routine.name : "Treino " + (index + 1)}
+                  {routine.name}
                   <p
                     className="options"
                     onClick={(e) => {
@@ -210,7 +213,7 @@ const MyWorkouts = () => {
                       handleClickOptions(e, routine);
                     }}
                   >
-                    ⋮
+                    <SlOptions size={13} />
                   </p>
                 </li>
               </ul>
@@ -220,7 +223,7 @@ const MyWorkouts = () => {
                   <div className="overlay" onClick={handleClose}>
                     <div className="lis" onClick={(e) => e.stopPropagation()}>
                       <p onClick={handleClose} className="close-btn">
-                        X
+                        <IoClose size={20} />
                       </p>
                       <ul>
                         <li

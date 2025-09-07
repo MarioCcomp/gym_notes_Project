@@ -21,8 +21,9 @@ body {
   position: relative;
   align-items: center;
   padding: 0 20px;
-
+  margin-bottom: 2rem;
   min-height: 100vh;
+
   color: #f0f0f0;
 }
 
@@ -42,7 +43,7 @@ body {
   width: 100%;
   max-width: 250px;
   height: auto;
-  margin-top: 0;
+  margin-top: -3rem;
   /* margin-top: -2rem; */
 }
 
@@ -123,6 +124,24 @@ button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   box-shadow: none;
+}
+
+.back {
+  left: 20px;
+  top: 20px;
+  position: absolute;
+  background: transparent; 
+  border: none; 
+  color: #fff; 
+  font-size: 2rem; 
+  padding: 0.4rem; 
+  border-radius: 50%; 
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.back:hover {
+  background: rgba(0, 191, 255, 0.15); /* circulo leve ao redor */
+  transform: scale(1.1); /* cresce um pouquinho */
 }
 
 @media (max-width: 650px) {

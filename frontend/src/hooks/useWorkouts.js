@@ -3,14 +3,13 @@ import axios from "axios";
 import { useToken } from "../context/TokenContext";
 import api from "../config/axiosConfig";
 
-
 export const useWorkouts = () => {
   const { routines, setRoutines } = useMuscles();
   const { token } = useToken();
 
   const saveWorkout = async (newRoutine) => {
     const response = await api.post(
-      "http://localhost:8080/api/routine",
+      `/api/routine`,
       newRoutine,
       {
         headers: {
@@ -26,7 +25,7 @@ export const useWorkouts = () => {
 
   const updateWorkoutName = async (routine, name) => {
     const response = await api.put(
-      `http://localhost:8080/api/routine/name/${routine.id}`,
+      `/api/routine/name/${routine.id}`,
       { name },
       {
         headers: {
