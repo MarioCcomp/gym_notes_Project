@@ -331,7 +331,7 @@ const Workout = ({}) => {
   };
 
   return (
-    <div className="main">
+    <div className="main main-workout">
       {/* <Graphic /> */}
 
       <div className="top">
@@ -355,8 +355,8 @@ const Workout = ({}) => {
         )}
 
         <div className="header">
-          <img src={gymNotes} alt="" />
-          <h2>
+          <img className="img-workout" src={gymNotes} alt="" />
+          {!isAddingExercise ? <h2>
             {workout ? (
               <>
                 <span>{capitalizeWords(workout.name)}</span>
@@ -364,7 +364,7 @@ const Workout = ({}) => {
             ) : (
               "Carregando treino..."
             )}
-          </h2>
+          </h2> : <h3 className="addExerciseTitle">Adicione exercicios abaixo</h3>}
           {!isAddingExercise &&
             (exercises.length > 0 ? (
               isWorkoutRunning ? (

@@ -1,3 +1,8 @@
+.main-workout {
+  padding-top: 15vh;
+
+}
+
 .exercises {
   display: flex;
   flex-direction: column;
@@ -9,6 +14,10 @@
 
 .header h2 {
   margin-bottom: 2.5rem;
+}
+
+.header h2 span {
+  color: #3b82f6;
 }
 
 /* Exercicio */
@@ -43,7 +52,7 @@
 }
 
 .exercise.expanded {
-  max-width: 90%;
+  max-width: 86%;
 }
 
 .exercise:hover {
@@ -233,12 +242,21 @@
   width: 100vw;
 }
 
+.img-workout {
+  margin-bottom: -4rem;
+}
+
+.addExerciseTitle {
+  font-size: 1.5rem;
+  margin-bottom: -1rem;
+}
+
 @media (max-width: 768px) {
   .addExerciseBtn {
     position: absolute;
     right: 0px;
     top: 20px;
-    width: 25%;
+    width: 38%;
     transform: scale(0.8);
   }
 
@@ -268,5 +286,22 @@
 
   .header h2 {
     font-size: 1.8rem;
+  }
+
+  .addExerciseBtn {
+    width: 50%;
+  }
+}
+
+@media (max-width: 500px) {
+  .exercise {
+    max-width: 85%;
+  }
+  .exercise.expanded {
+    max-width: 95%;
+  }
+
+  .addExerciseBtn {
+    width: 60%;
   }
 }

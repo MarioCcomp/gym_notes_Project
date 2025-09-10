@@ -4,6 +4,7 @@ package br.com.mario.GymNotes.controller;
 import br.com.mario.GymNotes.model.User;
 import br.com.mario.GymNotes.repository.UserRepository;
 import br.com.mario.GymNotes.security.JwtUtil;
+import br.com.mario.GymNotes.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ import java.util.Map;
 public class AuthController {
 
     @Autowired
+    private AuthService service;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -27,24 +31,17 @@ public class AuthController {
     @PostMapping("register")
     public ResponseEntity<Map<String, String>> register (@RequestBody Map<String, String> request) {
         String username = request.get("username");
-
-        if(userRepository.findByUsername(username).isPresent()) {
-            return ResponseEntity.badRequest().body(Map.of("type", "error", "message", "O usuario ja existe"));
-        }
-
         String nickname = request.get("nickname");
         String email = request.get("email");
         String password = request.get("password");
 
-        User user = new User();
-        user.setUsername(username);
-        user.setNickname(nickname);
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
+        Map<String, String> response = service.register(username, nickname, email, password);
+        
+        if(response.get("type").equals("error")) {
+            return ResponseEntity.badRequest().body(response);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
-        userRepository.save(user);
-
-        return  ResponseEntity.status(HttpStatus.CREATED).body(Map.of("type", "success", "message", "Usuario registrado com sucesso"));
     }
 
     @PostMapping("login")
@@ -52,13 +49,14 @@ public class AuthController {
         String username = request.get("username");
         String password = request.get("password");
 
-        User user  = userRepository.findByUsername(username).orElse(null);
+        Map<String, String> response = service.login(username, password);
 
-        if(user == null || !passwordEncoder.matches(password, user.getPassword())) {
-            return ResponseEntity.badRequest().body(Map.of("type", "error", "message", "Credenciais invalidas"));
+        if(response.get("type").equals("error")) {
+            return ResponseEntity.badRequest().body(response);
         }
-        String token = jwtUtil.generateToken(username);
-        return ResponseEntity.ok(Map.of("type", "success", "message", "Login efetuado com sucesso" ,"token", token, "nickname", user.getNickname()));
+        return ResponseEntity.ok(response);
+
+
     }
 
     @GetMapping("/me")

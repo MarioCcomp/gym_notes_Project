@@ -16,7 +16,7 @@
 .modal {
   position: relative;
   background: #2c2c2c;
-  padding: 2rem 1.5rem;
+  padding: 4rem 1.5rem;
   border-radius: 16px;
   max-width: 400px;
   width: 90%;
@@ -139,3 +139,4 @@
     opacity: 1;
   }
 }
+

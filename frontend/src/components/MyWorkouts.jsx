@@ -69,7 +69,10 @@ const MyWorkouts = () => {
       );
       setSelectedWorkout(null);
       toggleConfirmDelete();
-      setNotification("✅ Treino excluído com sucesso!");
+      setNotification({
+        type: "success",
+        message: "✅ Treino excluído com sucesso!",
+      });
 
       setTimeout(() => {
         setNotification(null);
@@ -100,7 +103,10 @@ const MyWorkouts = () => {
     updateWorkoutName(routineBeingEdited, name);
     toggleEditingRoutine();
     setRoutineBeingEdited({});
-    setNotification("✅ Treino editado com sucesso!");
+    setNotification({
+      type: "success",
+      message: "✅ Treino editado com sucesso!",
+    });
 
     setTimeout(() => {
       setNotification(null);
@@ -118,7 +124,11 @@ const MyWorkouts = () => {
 
   return (
     <div className="main mainWorkouts">
-      {notification && <div className="notification">{notification}</div>}
+      {notification && (
+        <div className={`notification ${notification?.type || ""}`}>
+          {notification.message}
+        </div>
+      )}
       <button className="back" onClick={handleBack}>
         <IoReturnUpBack />
       </button>
