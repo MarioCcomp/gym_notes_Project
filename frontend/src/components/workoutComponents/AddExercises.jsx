@@ -7,7 +7,7 @@ import { useExercises } from "../../hooks/useExercises";
 const AddExercises = ({ routine, setIsAddingExercise }) => {
   const [isCreatingWorkout, setIsCreatingWorkout] = useState(false);
   const [selectedMuscle, setSelectedMuscle] = useState("");
-  const [plannedSets, setPlannedSets] = useState("");
+  const [plannedSets, setPlannedSets] = useState(1);
   const [selectedExercise, setSelectedExercise] = useState();
   const { muscles, exercises } = useMuscles();
   const exercisesPerPage = 5;

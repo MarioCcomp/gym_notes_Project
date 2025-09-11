@@ -4,7 +4,7 @@ package br.com.mario.GymNotes.model;
 
 public class ExerciseSet {
 
-    private String weight;
+    private Double weight;
     private Double reps;
     private Double rir;
     private String notes;
@@ -12,18 +12,18 @@ public class ExerciseSet {
     public ExerciseSet() {
     }
 
-    public ExerciseSet(String weight, Double reps, Double rir, String notes) {
+    public ExerciseSet(Double weight, Double reps, Double rir, String notes) {
         this.weight = weight;
         this.reps = reps;
         this.rir = rir;
         this.notes = notes;
     }
 
-    public String getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 

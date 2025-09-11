@@ -36,7 +36,7 @@ public class AuthController {
         String password = request.get("password");
 
         Map<String, String> response = service.register(username, nickname, email, password);
-        
+
         if(response.get("type").equals("error")) {
             return ResponseEntity.badRequest().body(response);
         }

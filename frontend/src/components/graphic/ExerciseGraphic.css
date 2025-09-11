@@ -1,0 +1,128 @@
+/* reaproveita overlay/modal que vc já tem */
+.exercise-modal {
+  max-width: 60%;
+  min-width: 50%;
+  width: 95%;
+  padding: 2rem 1.5rem;
+  background: #0f172a;
+  border: 2px solid #9333ea;
+  border-radius: 16px;
+  position: relative;
+  color: #fff;
+}
+
+/* botão de fechar no canto superior direito */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  color: #f1f5f9;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.no-data {
+  margin-top: .1rem !important; /* distância entre o título e o parágrafo */
+  text-align: center;
+  font-size: 1rem;
+  color: #94a3b8; /* cinza suave */
+  font-style: italic;
+}
+
+.close-btn:hover {
+  color: #e74c3c;
+}
+
+/* título centralizado */
+.exercise-title {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-top: -2rem;
+  color: #38bdf8;
+}
+
+.exercise-chart {
+  width: 100%;
+  height: 440px; /* ajusta */
+  background-color: #1e293b;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* tooltip customizado */
+.tooltip-box {
+  background: #1e293b;
+  color: #f1f5f9;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  min-width: 160px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+.tooltip-box hr {
+  border: 0;
+  border-top: 1px solid #334155;
+  margin: 6px 0;
+}
+
+.tooltip-highlight {
+  color: #facc15;
+  font-weight: bold;
+}
+
+.tooltip-series {
+  color: #38bdf8;
+}
+
+@media (max-width: 950px) {
+  .exercise-modal {
+    max-width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .exercise-modal {
+    padding: 1.5rem 1rem;
+    max-width: 90%;
+  }
+
+  .exercise-chart {
+    height: 450px;
+  }
+
+  .exercise-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .exercise-modal {
+    width: 100%;
+    border-radius: 12px;
+    padding: 1rem;
+  }
+
+  .exercise-chart {
+    max-height: 420px; /* garante espaço até em celulares pequenos */
+    padding: 8px;
+  }
+
+  .exercise-title {
+    font-size: 1rem;
+  }
+
+  .tooltip-box {
+    font-size: 12px;
+    min-width: 140px;
+    padding: 8px 10px;
+  }
+}

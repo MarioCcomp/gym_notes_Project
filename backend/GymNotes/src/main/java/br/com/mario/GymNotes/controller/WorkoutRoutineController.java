@@ -1,6 +1,7 @@
 package br.com.mario.GymNotes.controller;
 
 
+import br.com.mario.GymNotes.model.ExerciseData;
 import br.com.mario.GymNotes.model.WorkoutRoutine;
 import br.com.mario.GymNotes.security.JwtUtil;
 import br.com.mario.GymNotes.service.WorkoutRoutineService;
@@ -120,6 +121,17 @@ public class WorkoutRoutineController {
 
         service.deleteRoutine(routineId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{routineId}/exercises/{exerciseId}")
+    public ResponseEntity<?> getData(HttpServletRequest request, @PathVariable String routineId, @PathVariable String exerciseId) {
+        String username = getUserFromToken(request);
+        if (username == null) {
+            return ResponseEntity.status(401).body("Token inválido ou ausente");
+        }
+
+        ExerciseData data = service.getData(routineId,exerciseId);
+        return ResponseEntity.ok(data);
     }
 
 }

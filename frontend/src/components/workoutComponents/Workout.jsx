@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./Workout.css";
 import axios from "axios";
 import gymNotes from "../../assets/gymnotes.png";
+import { MdTimeline } from "react-icons/md";
 import { useState, useEffect } from "react";
 import { FaLongArrowAltDown } from "react-icons/fa";
 import { FaLongArrowAltRight } from "react-icons/fa";
@@ -19,6 +20,7 @@ import ConfirmCancelWorkout from "../notifications/ConfirmCancelWorkout";
 import ExpandedSet from "../workoutComponents/ExpandedSet";
 import InfoBox from "../workoutComponents/InfoBox";
 import OptionsExpanded from "../workoutComponents/OptionsExpanded";
+import ExerciseGraphic from "../graphic/ExerciseGraphic";
 
 import Graphic from "./Graphic";
 import {
@@ -30,11 +32,14 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import api from "../../config/axiosConfig";
+import { useToken } from "../../context/TokenContext";
 
 const Workout = ({}) => {
   // ------------------------------------------------------
 
   const { routines, updateRoutine } = useMuscles();
+  const { token } = useToken();
 
   const exercisesPerPage = 5;
 
@@ -45,6 +50,7 @@ const Workout = ({}) => {
   const [editingSets, setEditingSets] = useState({});
   const [notification, setNotification] = useState(null);
   const [optionsExpanded, setOptionsExpanded] = useState({});
+  const [isGraphicVisible, setIsGraphicVisible] = useState(false);
 
   const { workoutName } = useParams();
 
@@ -330,6 +336,31 @@ const Workout = ({}) => {
     }, 3000);
   };
 
+  const [graphicData, setGraphicData] = useState(null);
+
+  const handleGraphic = async (exercise, e) => {
+    // dps jogo isso pra um arquivo so com requisicao
+    e.preventDefault();
+
+    try {
+      const response = await api.get(
+        `http://192.168.0.5:8080/api/${workout.id}/exercises/${exercise.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setGraphicData(response.data);
+      console.log(response.data);
+      setIsGraphicVisible(true);
+    } catch (err) {
+      console.error("Erro ao buscar gráfico:", err);
+    }
+
+    // setIsGraphicVisible(true);
+  };
+
   return (
     <div className="main main-workout">
       {/* <Graphic /> */}
@@ -356,15 +387,19 @@ const Workout = ({}) => {
 
         <div className="header">
           <img className="img-workout" src={gymNotes} alt="" />
-          {!isAddingExercise ? <h2>
-            {workout ? (
-              <>
-                <span>{capitalizeWords(workout.name)}</span>
-              </>
-            ) : (
-              "Carregando treino..."
-            )}
-          </h2> : <h3 className="addExerciseTitle">Adicione exercicios abaixo</h3>}
+          {!isAddingExercise ? (
+            <h2>
+              {workout ? (
+                <>
+                  <span>{capitalizeWords(workout.name)}</span>
+                </>
+              ) : (
+                "Carregando treino..."
+              )}
+            </h2>
+          ) : (
+            <h3 className="addExerciseTitle">Adicione exercicios abaixo</h3>
+          )}
           {!isAddingExercise &&
             (exercises.length > 0 ? (
               isWorkoutRunning ? (
@@ -414,6 +449,14 @@ const Workout = ({}) => {
             isEditingExercise={isEditingExercise}
             handleEditExercise={handleEditExercise}
           />
+
+          {isGraphicVisible && (
+            <ExerciseGraphic
+              isOpen={isGraphicVisible}
+              onClose={() => setIsGraphicVisible(false)}
+              exercise={graphicData}
+            />
+          )}
         </div>
       </div>
       <div className="body">
@@ -438,6 +481,14 @@ const Workout = ({}) => {
                     className={`exercise ${isExpanded ? "expanded" : ""}`}
                     key={exercise.exercise.id}
                   >
+                    <p
+                      type="button"
+                      className="graphicBtn"
+                      onClick={(e) => handleGraphic(exercise.exercise, e)}
+                    >
+                      <MdTimeline />
+                    </p>
+
                     <p
                       className="options especific"
                       onClick={() => handleExpandOptions(ind)}

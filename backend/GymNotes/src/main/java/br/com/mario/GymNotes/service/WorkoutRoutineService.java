@@ -1,15 +1,16 @@
 package br.com.mario.GymNotes.service;
 
-import br.com.mario.GymNotes.model.Exercise;
-import br.com.mario.GymNotes.model.WorkoutExercise;
-import br.com.mario.GymNotes.model.WorkoutRoutine;
+import br.com.mario.GymNotes.model.*;
 import br.com.mario.GymNotes.repository.ExerciseRepository;
 import br.com.mario.GymNotes.repository.WorkoutRoutineRepository;
+import jakarta.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -81,5 +82,33 @@ public class WorkoutRoutineService {
 
     public List<WorkoutRoutine> findByOwner(String username) {
         return repository.findByOwnerUsername(username);
+    }
+
+    public ExerciseData getData(String routineId, String exerciseId) {
+        WorkoutRoutine routine = repository.findById(routineId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Routine not found"));
+        WorkoutExercise exercise = routine.getExercises().stream().filter((ex) -> ex.getExercise().getId().equals(exerciseId)).findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Exercise not found"));
+
+        List<WorkoutSession> sessions = exercise.getSessions();
+
+        List<SetData> sets = new ArrayList<>();
+
+        List<SessionData> sessionsData = new ArrayList<>();
+
+        for(WorkoutSession s : sessions) {
+            LocalDate date = s.getDate();
+            List<ExerciseSet> setsSession = s.getSets();
+            for(ExerciseSet st : setsSession) {
+                SetData setData = new SetData(st.getReps(), st.getWeight());
+                sets.add(setData);
+            }
+            SessionData sessionData = new SessionData(date, sets);
+            sessionsData.add(sessionData);
+
+        }
+
+        ExerciseData data = new ExerciseData(exercise.getExercise().getName(), sessionsData);
+
+        return data;
+
     }
 }
