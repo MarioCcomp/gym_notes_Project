@@ -22,7 +22,14 @@ public class SessionData {
     }
 
     public Double getVolume() {
-        return sets.stream().mapToDouble((set) -> set.getKg() * set.getReps()).sum();
+        return sets.stream()
+                .mapToDouble(set -> {
+                    if (set.getKg() == null || set.getReps() == null) {
+                        return 0.0; // 
+                    }
+                    return set.getKg() * set.getReps();
+                })
+                .sum();
     }
 
     public void setVolume(Double volume) {

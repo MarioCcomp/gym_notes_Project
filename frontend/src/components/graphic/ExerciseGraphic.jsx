@@ -62,6 +62,7 @@ export default function ExerciseGraphic({ isOpen, onClose, exercise }) {
   if (!isOpen) return null;
 
   const hasData = exercise?.sessions && exercise.sessions.length > 0;
+    // const hasData = false;
 
   return (
     <div className="overlay" onClick={onClose}>

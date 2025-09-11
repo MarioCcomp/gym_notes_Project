@@ -344,7 +344,7 @@ const Workout = ({}) => {
 
     try {
       const response = await api.get(
-        `http://${import.meta.env.VITE_API_URL}:8080/api/${
+        `http://localhost:8080/api/${
           workout.id
         }/exercises/${exercise.id}`,
         {
