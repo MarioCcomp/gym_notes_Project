@@ -342,10 +342,11 @@ const Workout = ({}) => {
     // dps jogo isso pra um arquivo so com requisicao
     e.preventDefault();
 
-
     try {
       const response = await api.get(
-        `http://localhost:8080/api/${workout.id}/exercises/${exercise.id}`,
+        `http://${import.meta.env.VITE_API_URL}:8080/api/${
+          workout.id
+        }/exercises/${exercise.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
