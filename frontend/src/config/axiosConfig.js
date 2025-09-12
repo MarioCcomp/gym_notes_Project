@@ -2,7 +2,7 @@ import axios from "axios";
 import { useToken } from "../context/TokenContext";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL, // seu backend
+  baseURL: import.meta.env.VITE_API_URL
 });
 
 console.log("👉 API Base URL usada:", import.meta.env.VITE_API_URL);

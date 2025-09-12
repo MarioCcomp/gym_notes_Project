@@ -90,18 +90,18 @@ public class WorkoutRoutineService {
 
         List<WorkoutSession> sessions = exercise.getSessions();
 
-        List<SetData> sets = new ArrayList<>();
-
         List<SessionData> sessionsData = new ArrayList<>();
+
 
         for(WorkoutSession s : sessions) {
             LocalDate date = s.getDate();
             List<ExerciseSet> setsSession = s.getSets();
+            List<SetData> setsForThisSession = new ArrayList<>();
             for(ExerciseSet st : setsSession) {
                 SetData setData = new SetData(st.getReps(), st.getWeight());
-                sets.add(setData);
+                setsForThisSession.add(setData);
             }
-            SessionData sessionData = new SessionData(date, sets);
+            SessionData sessionData = new SessionData(date, setsForThisSession);
             sessionsData.add(sessionData);
 
         }

@@ -342,9 +342,10 @@ const Workout = ({}) => {
     // dps jogo isso pra um arquivo so com requisicao
     e.preventDefault();
 
+
     try {
       const response = await api.get(
-        `http://192.168.0.5:8080/api/${workout.id}/exercises/${exercise.id}`,
+        `http://localhost:8080/api/${workout.id}/exercises/${exercise.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
