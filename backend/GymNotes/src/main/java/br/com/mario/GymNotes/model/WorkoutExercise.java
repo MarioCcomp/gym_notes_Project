@@ -11,7 +11,7 @@ public class WorkoutExercise {
     @DBRef(lazy = false)
     private Exercise exercise;
 
-    private int plannedSets;
+    private Integer plannedSets;
 
     private List<WorkoutSession> sessions =  new ArrayList<>();
 
@@ -19,7 +19,7 @@ public class WorkoutExercise {
     public WorkoutExercise() {
     }
 
-    public WorkoutExercise(Exercise exercise, int plannedSets, List<WorkoutSession> sessions) {
+    public WorkoutExercise(Exercise exercise, Integer plannedSets, List<WorkoutSession> sessions) {
         this.exercise = exercise;
         this.plannedSets = plannedSets;
         this.sessions = sessions;
@@ -34,11 +34,11 @@ public class WorkoutExercise {
         this.exercise = exercise;
     }
 
-    public int getPlannedSets() {
+    public Integer getPlannedSets() {
         return plannedSets;
     }
 
-    public void setPlannedSets(int plannedSets) {
+    public void setPlannedSets(Integer plannedSets) {
         this.plannedSets = plannedSets;
     }
 

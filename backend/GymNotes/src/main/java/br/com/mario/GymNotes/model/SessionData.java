@@ -30,6 +30,7 @@ public class SessionData {
                     return set.getKg() * set.getReps();
                 })
                 .sum();
+
     }
 
     public void setVolume(Double volume) {

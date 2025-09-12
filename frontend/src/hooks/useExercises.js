@@ -8,16 +8,6 @@ export const useExercises = () => {
   const { token } = useToken();
 
   const addWorkoutExercises = async (newRoutine) => {
-    setRoutines((prev) =>
-      prev.map((routine) =>
-        routine.name === newRoutine.name
-          ? { ...routine, exercises: [...newRoutine.exercises] }
-          : routine
-      )
-    );
-
-    console.log("chegou aq a nova rotina", newRoutine);
-
     const response = await api.put(
       `/api/routine/${newRoutine.id}`,
       newRoutine,
@@ -27,6 +17,16 @@ export const useExercises = () => {
         },
       }
     );
+
+    setRoutines((prev) =>
+      prev.map((routine) =>
+        routine.name === newRoutine.name
+          ? { ...routine, exercises: [...newRoutine.exercises] }
+          : routine
+      )
+    );
+
+    return response;
   };
 
   const deleteWorkoutExercises = async (workout, exerciseBeingEdited) => {
@@ -52,25 +52,20 @@ export const useExercises = () => {
     exerciseBeingEdited,
     newPlannedSets
   ) => {
-    try {
-      const res = await api.put(
-        `/api/${workout.id}/exercises/${exerciseBeingEdited.id}`,
-        { plannedSets: Number(newPlannedSets) },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+    const res = await api.put(
+      `/api/${workout.id}/exercises/${exerciseBeingEdited.id}`,
+      { plannedSets: Number(newPlannedSets) },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-      const updatedRoutine = res.data;
+    const updatedRoutine = res.data;
 
-      updateRoutine(updatedRoutine);
-      return res;
-    } catch (err) {
-      console.error(err.message);
-      alert("Falha ao salvar alterações");
-    }
+    updateRoutine(updatedRoutine);
+    return res;
   };
 
   return {

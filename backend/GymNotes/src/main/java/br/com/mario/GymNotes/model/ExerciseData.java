@@ -21,7 +21,8 @@ public class ExerciseData {
     }
 
     public List<SessionData> getSessions() {
-        return sessions;
+        List<SessionData> realSessions = sessions.stream().filter((session) -> session.getVolume() != 0).toList();
+        return realSessions;
     }
 
     public void setSessions(List<SessionData> sessions) {

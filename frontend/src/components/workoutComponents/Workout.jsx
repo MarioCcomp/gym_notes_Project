@@ -311,29 +311,41 @@ const Workout = ({}) => {
     const newPlannedSets = e.target[0].value;
     if (!exerciseBeingEdited) return;
 
-    const res = updateWorkoutExercises(
-      workout,
-      exerciseBeingEdited,
-      newPlannedSets
-    );
+    try {
+      const res = await updateWorkoutExercises(
+        workout,
+        exerciseBeingEdited,
+        newPlannedSets
+      );
 
-    const updatedRoutine = res.data;
-    setWorkout(updatedRoutine);
-    setExerciseBeingEdited(null);
-    toggleEditingExercise();
-    setOptionsExpanded((prev) => ({
-      ...prev,
-      [exerciseBeingEdited.index]: false,
-    }));
 
-    setNotification({
-      type: "success",
-      message: "✅ Exercício editado com sucesso!",
-    });
+      const updatedRoutine = res.data;
+      setWorkout(updatedRoutine);
+      setExerciseBeingEdited(null);
+      toggleEditingExercise();
+      setOptionsExpanded((prev) => ({
+        ...prev,
+        [exerciseBeingEdited.index]: false,
+      }));
 
-    setTimeout(() => {
-      setNotification(null);
-    }, 3000);
+      setNotification({
+        type: "success",
+        message: "✅ Exercício editado com sucesso!",
+      });
+
+      setTimeout(() => {
+        setNotification(null);
+      }, 3000);
+    } catch (err) {
+      setNotification({
+        type: err.response.data.type,
+        message: err.response.data.message,
+      });
+
+      setTimeout(() => {
+        setNotification(null);
+      }, 3000);
+    }
   };
 
   const [graphicData, setGraphicData] = useState(null);
@@ -344,9 +356,7 @@ const Workout = ({}) => {
 
     try {
       const response = await api.get(
-        `http://localhost:8080/api/${
-          workout.id
-        }/exercises/${exercise.id}`,
+        `http://localhost:8080/api/${workout.id}/exercises/${exercise.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -6,13 +6,13 @@ import br.com.mario.GymNotes.model.WorkoutRoutine;
 import br.com.mario.GymNotes.security.JwtUtil;
 import br.com.mario.GymNotes.service.WorkoutRoutineService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -61,6 +61,18 @@ public class WorkoutRoutineController {
         if(username == null) {
             return ResponseEntity.status(401).body("Token invalido ou ausente");
         }
+
+        AtomicBoolean noSet = new AtomicBoolean(false);
+        routine.getExercises().forEach(ex -> {
+            if(ex.getPlannedSets() == null) {
+                noSet.set(true);
+            }
+        });
+
+        if(noSet.get()) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Coloque pelo menos uma série", "type", "info"));
+        }
+
         WorkoutRoutine updated = service.update(id, routine);
         if(updated == null) {
             return ResponseEntity.notFound().build();
@@ -96,8 +108,17 @@ public class WorkoutRoutineController {
             return ResponseEntity.status(401).body("Token inválido ou ausente");
         }
 
+
         Integer plannedSets = body.get("plannedSets");
+        if(plannedSets < 1) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Coloque ao menos uma série", "type", "info"));
+        }
         WorkoutRoutine updated = service.updatePlannedSets(routineId, exerciseId, plannedSets);
+
+        if(updated == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Você já possui esse número de séries", "type", "info"));
+        }
+
         return ResponseEntity.ok(updated);
     }
 

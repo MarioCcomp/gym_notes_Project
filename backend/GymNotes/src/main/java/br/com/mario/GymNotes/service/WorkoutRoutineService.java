@@ -3,7 +3,6 @@ package br.com.mario.GymNotes.service;
 import br.com.mario.GymNotes.model.*;
 import br.com.mario.GymNotes.repository.ExerciseRepository;
 import br.com.mario.GymNotes.repository.WorkoutRoutineRepository;
-import jakarta.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 public class WorkoutRoutineService {
@@ -34,6 +34,9 @@ public class WorkoutRoutineService {
     }
 
     public WorkoutRoutine update(String id, WorkoutRoutine routine) {
+
+
+
         return repository.findById(id).map(existing -> {
             routine.getExercises().forEach(wEx -> {
                 Exercise fullExercise = exerciseRepository.findById(wEx.getExercise().getId()).orElseThrow(() -> new RuntimeException("Exercise not found"));
@@ -48,11 +51,20 @@ public class WorkoutRoutineService {
         WorkoutRoutine routine = repository.findById(routineId)
                 .orElseThrow(() -> new RuntimeException("Routine not found"));
 
+        AtomicBoolean sameSets = new AtomicBoolean(false);
+
         routine.getExercises().forEach(ex -> {
             if (ex.getExercise().getId().equals(exerciseId)) {
+                if(ex.getPlannedSets() == newPlannedSets) {
+                    sameSets.set(true);
+
+                }
                 ex.setPlannedSets(newPlannedSets);
             }
         });
+        if(sameSets.get()) {
+            return null;
+        }
 
         return repository.save(routine);
     }

@@ -11,7 +11,10 @@ const AddExercises = ({ routine, setIsAddingExercise }) => {
   const [selectedExercise, setSelectedExercise] = useState();
   const { muscles, exercises } = useMuscles();
   const exercisesPerPage = 5;
-  const [notification, setNotification] = useState(null);
+  const [notification, setNotification] = useState({
+    type: "sucess",
+    message: "TESTE",
+  });
 
   const [workoutExercises, setWorkoutExercises] = useState(new Set());
 
@@ -35,10 +38,13 @@ const AddExercises = ({ routine, setIsAddingExercise }) => {
     }, 3000);
   };
 
-  const handleSaveExercise = (e) => {
+  const handleSaveExercise = async (e) => {
     e.preventDefault();
     if (workoutExercises.has(selectedExercise.name)) {
-      setNotification("Você já tem esse exercício no seu treino");
+      setNotification({
+        type: "success",
+        message: "Você já tem esse exercício no seu treino",
+      });
       console.log("aaaa");
 
       setTimeout(() => {
@@ -59,13 +65,27 @@ const AddExercises = ({ routine, setIsAddingExercise }) => {
       exercises: [...routine.exercises, newWorkoutExercise],
     };
 
-    setIsAddingExercise(false);
-    addWorkoutExercises(newRoutine);
+    try {
+      const response = await addWorkoutExercises(newRoutine);
+      setIsAddingExercise(false);
+    } catch (err) {
+      setNotification({
+        type: err.response.data.type,
+        message: err.response.data.message,
+      });
+      setTimeout(() => {
+        setNotification(null);
+      }, 3000);
+    }
   };
 
   return (
     <div>
-      {notification && <div className="notification">{notification}</div>}
+      {notification && (
+        <div className={`notification ${notification?.type || ""}`}>
+          {notification.message}
+        </div>
+      )}
       {/* <h3>Adicione um exercício ao seu treino</h3> */}
       <form className="creatingExercise" onSubmit={handleSaveExercise}>
         <label>Selecione o músculo</label>
