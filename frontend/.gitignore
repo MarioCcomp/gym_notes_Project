@@ -23,4 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 
-application.properties
+**/application.properties
+
