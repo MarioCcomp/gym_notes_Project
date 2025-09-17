@@ -4,6 +4,7 @@ import "./Login.css";
 import { useToken } from "../context/TokenContext";
 import { useMuscles } from "../context/MusclesContext";
 import { useNavigate } from "react-router-dom";
+import api from "../config/axiosConfig";
 
 const Login = () => {
   // states para manipular o placeholder
@@ -22,7 +23,9 @@ const Login = () => {
   const [nicknameValue, setNicknameValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
+  const [forgetPassword, setForgetPassword] = useState(false);
   const [emailValue, setEmailValue] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { login, register } = useToken();
   const { fetchData } = useMuscles();
@@ -46,8 +49,10 @@ const Login = () => {
     e.preventDefault();
     if (isCreatingAccount) {
       handleRegister();
-    } else {
+    } else if (!forgetPassword) {
       handleLogin();
+    } else {
+      handleForgetPassword();
     }
   };
 
@@ -117,6 +122,37 @@ const Login = () => {
     }
   };
 
+  const handleForgetPassword = async () => {
+    console.log("entrou");
+    try {
+      setLoading(true);
+      const response = await api.post("/auth/reset-password", {
+        email: emailValue,
+      });
+
+      const data = response.data;
+
+      setNotification({
+        type: "sucess",
+        message: "email enviado",
+      });
+      setTimeout(() => {
+        setNotification(null);
+      }, 3000);
+    } catch (err) {
+      setNotification({
+        type: "error",
+        message: "email nao enviado",
+      });
+
+      setTimeout(() => {
+        setNotification(null);
+      }, 3000);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="main main-login">
       {notification && (
@@ -133,17 +169,21 @@ const Login = () => {
         <img src={gymNotes} alt="" />
         <div className="ps">
           <p>Seu app de treino</p>
-          <p className="login-message">Faça login para utilizar o aplicativo</p>
+          {(!isCreatingAccount && !forgetPassword) && <p className="login-message">Faça login para utilizar o aplicativo</p>}
+          {(isCreatingAccount && !forgetPassword) && <p className="login-message">Crie uma conta para utilizar o aplicativo</p>}
+          {(forgetPassword) && <p className="login-message">Esqueceu sua senha?</p>}
         </div>
       </div>
 
       <form className="form-login" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder={usernamePlaceholder}
-          value={usernameValue}
-          onChange={(e) => setUsernameValue(e.target.value)}
-        />
+        {!forgetPassword && (
+          <input
+            type="text"
+            placeholder={usernamePlaceholder}
+            value={usernameValue}
+            onChange={(e) => setUsernameValue(e.target.value)}
+          />
+        )}
         {isCreatingAccount && (
           <input
             type="text"
@@ -152,7 +192,7 @@ const Login = () => {
             onChange={(e) => setNicknameValue(e.target.value)}
           />
         )}
-        {isCreatingAccount && (
+        {(forgetPassword || isCreatingAccount) && (
           <input
             type="email"
             placeholder="Informe seu email"
@@ -160,13 +200,15 @@ const Login = () => {
             onChange={(e) => setEmailValue(e.target.value)}
           />
         )}
-        <input
-          type="password"
-          placeholder={passwordPlaceholder}
-          value={passwordValue}
-          onChange={(e) => setPasswordValue(e.target.value)}
-        />
-        {isCreatingAccount && (
+        {!forgetPassword && (
+          <input
+            type="password"
+            placeholder={passwordPlaceholder}
+            value={passwordValue}
+            onChange={(e) => setPasswordValue(e.target.value)}
+          />
+        )}
+        {!forgetPassword && isCreatingAccount && (
           <input
             type="password"
             placeholder="Confirme sua senha"
@@ -174,22 +216,37 @@ const Login = () => {
             onChange={(e) => setConfirmPasswordValue(e.target.value)}
           />
         )}
-        {isCreatingAccount ? (
-          <button type="submit">Registrar</button>
+        {!forgetPassword ? (
+          isCreatingAccount ? (
+            <button type="submit">Registrar</button>
+          ) : (
+            <button type="submit">Logar</button>
+          )
         ) : (
-          <button type="submit">Logar</button>
+          <button type="submit" disabled={loading}>{loading ? "Enviando email..." : "Enviar link de redefinição"}</button>
         )}
       </form>
 
-      {isCreatingAccount ? (
-        <p>
-          Já tem uma conta? <span onClick={showLoginScreen}>Logar</span>
-        </p>
+      {!forgetPassword ? (
+        isCreatingAccount ? (
+          <p>
+            Já tem uma conta? <span onClick={showLoginScreen}>Logar</span>
+          </p>
+        ) : (
+          <>
+            <p>
+              Não tem uma conta?{" "}
+              <span onClick={showRegisterScreen}>Criar conta</span>
+            </p>
+            <span onClick={() => setForgetPassword(true)} id="forget-password">
+              Esqueci minha senha
+            </span>
+          </>
+        )
       ) : (
-        <p>
-          Não tem uma conta?{" "}
-          <span onClick={showRegisterScreen}>Criar conta</span>
-        </p>
+        <span id="back-login" onClick={() => setForgetPassword(false)}>
+          Voltar ao login
+        </span>
       )}
     </div>
   );

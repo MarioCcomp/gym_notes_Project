@@ -152,6 +152,11 @@
   }
 }
 
+#back-login,
+#forget-password {
+  margin-top: .8rem;
+}
+
 /* ====== Responsividade ====== */
 @media (max-width: 500px) {
   .form-login {

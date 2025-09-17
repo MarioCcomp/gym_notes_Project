@@ -14,7 +14,7 @@ const InfoBox = ({ infoBox, closeInfoBox, exercises, getLastSet }) => {
               if (!exercise) return <p>Exercício não encontrado.</p>;
 
               const lastSession =
-                exercise.sessions.length > 0
+                exercise.sessions.length > 1
                   ? exercise.sessions[exercise.sessions.length - 1]
                   : null;
 

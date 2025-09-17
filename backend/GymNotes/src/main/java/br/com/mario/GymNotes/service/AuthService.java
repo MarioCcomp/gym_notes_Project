@@ -35,7 +35,15 @@ public class AuthService {
     public Map<String, String> register(String username, String nickname, String email, String password) {
 
         if(userRepository.findByUsername(username).isPresent()) {
-            return Map.of("type", "error", "message", "O usuario ja existe");
+            return Map.of("type", "error", "message", "O usuário já existe");
+        }
+
+        if(userRepository.findByEmail(email).isPresent()) {
+            return Map.of("type", "error", "message", "E-email já cadastrado no sistema");
+        }
+
+        if(password.length() < 6) {
+            return Map.of("type", "error", "message", "A senha deve conter no mínimo 6 caracteres");
         }
 
         User user = new User();

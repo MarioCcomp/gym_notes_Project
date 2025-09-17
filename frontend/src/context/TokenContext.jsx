@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useMuscles } from "./MusclesContext";
 import api from "../config/axiosConfig";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const TokenContext = createContext();
 
@@ -12,9 +12,15 @@ export const TokenProvider = ({ children }) => {
   const [nickname, setNickname] = useState("Usuário");
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [loading, setLoading] = useState(true);
-  const { navigate } = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
+    if (location.pathname.startsWith("/reset")) {
+      setLoading(false);
+      return;
+    }
+
     const fetchUser = async () => {
       if (!token) {
         setNickname(null);
@@ -38,7 +44,7 @@ export const TokenProvider = ({ children }) => {
     };
 
     fetchUser();
-  }, [token]);
+  }, [token, location.pathname]);
 
   const login = async (username, password) => {
     const body = {
@@ -95,7 +101,9 @@ export const TokenProvider = ({ children }) => {
   };
 
   return (
-    <TokenContext.Provider value={{ logout, nickname, token, login, register, loading }}>
+    <TokenContext.Provider
+      value={{ logout, nickname, token, login, register, loading }}
+    >
       {children}
     </TokenContext.Provider>
   );

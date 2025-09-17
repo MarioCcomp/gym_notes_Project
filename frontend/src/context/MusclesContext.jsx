@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useToken } from "./TokenContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import api from "../config/axiosConfig";
 
 const MusclesContext = createContext();
@@ -48,7 +48,15 @@ export const MusclesProvider = ({ children }) => {
     }
   };
 
+  const location = useLocation();
+
   useEffect(() => {
+    const publicRoutes = ["/", "/login", "/register", "/reset"];
+
+    if (publicRoutes.some((path) => location.pathname.startsWith(path))) {
+      return;
+    }
+
     if (token) {
       fetchData();
     } else {
@@ -59,7 +67,7 @@ export const MusclesProvider = ({ children }) => {
         navigate("/");
       }
     }
-  }, [token]);
+  }, [token, location.pathname]);
 
   const updateRoutine = (updatedRoutine) => {
     setRoutines((prev) =>

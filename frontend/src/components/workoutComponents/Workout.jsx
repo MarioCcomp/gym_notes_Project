@@ -111,6 +111,10 @@ const Workout = ({}) => {
     );
     if (!exercise || exercise.sessions.length === 0) return null;
 
+    if(isWorkoutRunning && exercise.sessions.length === 1) {
+      return null;
+    }
+
     const minus = isWorkoutRunning ? 1 : 0;
     const last =
       exercise.sessions.length > 1
