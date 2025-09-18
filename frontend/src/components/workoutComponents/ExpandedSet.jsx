@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import "./ExpandedSet.css";
 import { FaCircleInfo } from "react-icons/fa6";
 
@@ -11,8 +12,15 @@ const ExpandedSet = ({
   isWorkoutRunning,
   handleEditSet,
   getSetKey,
+  setEditingSets
 }) => {
   const repeat = (n, fn) => Array.from({ length: n }, (_, i) => fn(i));
+
+  useEffect(() => {
+    if(!isWorkoutRunning) {
+      setEditingSets({});
+    }
+  }, [isWorkoutRunning]);
 
   return (
     <div className="sets">

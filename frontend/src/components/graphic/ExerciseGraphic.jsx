@@ -33,6 +33,7 @@ import "./ExerciseGraphic.css";
 // };
 
 // Tooltip customizado
+
 function CustomTooltip({ active, payload, label, exercise }) {
   if (active && payload && payload.length) {
     const session = payload[0].payload;
@@ -62,73 +63,85 @@ export default function ExerciseGraphic({ isOpen, onClose, exercise }) {
   if (!isOpen) return null;
 
   const hasData = exercise?.sessions && exercise.sessions.length > 0;
-    // const hasData = false;
+  // const hasData = false;
+
+  const dataWithUniqueKeys = exercise.sessions.map((s, idx) => ({
+    ...s,
+    x: `${s.date}-${idx}`, // garante chave única no eixo X
+  }));
 
   return (
     <div className="overlay" onClick={onClose}>
-      <div className="modal exercise-modal" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="modal exercise-modal"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Botão de fechar */}
         <button className="close-btn" onClick={onClose}>
           ✖
         </button>
 
         {/* Nome do exercício centralizado */}
-         <h2 className="exercise-title">{exercise.name}</h2>
+        <h2 className="exercise-title">{exercise.name}</h2>
 
         {/* Gráfico */}
 
-
         {/* Verificação se há dados */}
         {!hasData ? (
-          <p className="no-data">Não há dados disponíveis para este exercício.</p>
+          <p className="no-data">
+            Não há dados disponíveis para este exercício.
+          </p>
         ) : (
-
-        <div className="exercise-chart">
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart
-              data={exercise.sessions}
-               margin={{ top: 20, right: 20, bottom: 30, left: 40 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis
-                dataKey="date"
-                tick={{ fill: "#e2e8f0", fontSize: 12 }}
-                label={{
-                  value: "Sessões",
-                  position: "insideBottom",
-                  dy: 25,
-                  fill: "#fff",
-                }}
-              />
-              <YAxis
-                tick={{ fill: "#e2e8f0", fontSize: 12 }}
-                label={{
-                  value: "Tonelagem (kg)",
-                  angle: -90,
-                  position: "insideLeft",
-                  offset: 10,
-                  fill: "#fff",
-                }}
-              />
-              <Tooltip content={<CustomTooltip  exercise={exercise}/>} />
-              <Legend
-                verticalAlign="top"
-                align="right"
-                wrapperStyle={{ color: "#38bdf8", fontSize: 14 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="volume"
-                stroke="#facc15"
-                strokeWidth={3}
-                dot={{ r: 5, stroke: "#0f172a", strokeWidth: 2 }}
-                activeDot={{ r: 7, stroke: "#facc15", strokeWidth: 2 }}
-                name={exercise.name} // legenda = nome do exercício
-                isAnimationActive={true}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>)}
+          <div className="exercise-chart">
+            <ResponsiveContainer width="100%" height={400}>
+              <LineChart
+                // data={exercise.sessions}
+                data={dataWithUniqueKeys}
+                margin={{ top: 20, right: 20, bottom: 30, left: 40 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                <XAxis
+                  dataKey="x"
+                  tickFormatter={(val) => val.split("-").slice(0, 3).join("-")}
+                  // dataKey="date"
+                  tick={{ fill: "#e2e8f0", fontSize: 12 }}
+                  label={{
+                    value: "Sessões",
+                    position: "insideBottom",
+                    dy: 25,
+                    fill: "#fff",
+                  }}
+                />
+                <YAxis
+                  tick={{ fill: "#e2e8f0", fontSize: 12 }}
+                  label={{
+                    value: "Tonelagem (kg)",
+                    angle: -90,
+                    position: "insideLeft",
+                    offset: 10,
+                    fill: "#fff",
+                  }}
+                />
+                <Tooltip content={<CustomTooltip exercise={exercise} />} />
+                <Legend
+                  verticalAlign="top"
+                  align="right"
+                  wrapperStyle={{ color: "#38bdf8", fontSize: 14 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="volume"
+                  stroke="#facc15"
+                  strokeWidth={3}
+                  dot={{ r: 5, stroke: "#0f172a", strokeWidth: 2 }}
+                  activeDot={{ r: 7, stroke: "#facc15", strokeWidth: 2 }}
+                  name={exercise.name} // legenda = nome do exercício
+                  isAnimationActive={true}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        )}
       </div>
     </div>
   );

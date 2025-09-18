@@ -16,6 +16,7 @@ import ConfirmEdit from "../notifications/ConfirmEdit";
 import ConfirmDeleteExercise from "../notifications/ConfirmDeleteExercise";
 import ConfirmSaveIncompleteWorkout from "../notifications/ConfirmSaveIncompleteWorkout";
 import ConfirmCancelWorkout from "../notifications/ConfirmCancelWorkout";
+import ConfirmFinishWorkout from "../notifications/ConfirmFinishWorkout";
 
 import ExpandedSet from "../workoutComponents/ExpandedSet";
 import InfoBox from "../workoutComponents/InfoBox";
@@ -51,6 +52,7 @@ const Workout = ({}) => {
   const [notification, setNotification] = useState(null);
   const [optionsExpanded, setOptionsExpanded] = useState({});
   const [isGraphicVisible, setIsGraphicVisible] = useState(false);
+  const [confirmFinishWorkout, setConfirmFinishWorkout] = useState(false);
 
   const { workoutName } = useParams();
 
@@ -111,7 +113,7 @@ const Workout = ({}) => {
     );
     if (!exercise || exercise.sessions.length === 0) return null;
 
-    if(isWorkoutRunning && exercise.sessions.length === 1) {
+    if (isWorkoutRunning && exercise.sessions.length === 1) {
       return null;
     }
 
@@ -169,7 +171,7 @@ const Workout = ({}) => {
       return;
     }
 
-    saveWorkout();
+    setConfirmFinishWorkout(true);
     setEditingSets({});
   };
 
@@ -299,8 +301,10 @@ const Workout = ({}) => {
     }, 3000);
   };
   useEffect(() => {
-    setExpandedExercises({});
-  }, [isWorkoutRunning, isAddingExercise]);
+    if (!isWorkoutRunning) {
+      setExpandedExercises({});
+    }
+  }, [isWorkoutRunning]); // , isAddingExercise
 
   const handleExpandOptions = (index) => {
     setOptionsExpanded((prev) => ({
@@ -321,7 +325,6 @@ const Workout = ({}) => {
         exerciseBeingEdited,
         newPlannedSets
       );
-
 
       const updatedRoutine = res.data;
       setWorkout(updatedRoutine);
@@ -392,7 +395,7 @@ const Workout = ({}) => {
           <IoReturnUpBack />
         </button>
 
-        {!isAddingExercise && (
+        {!isAddingExercise && !isWorkoutRunning && (
           <button
             className="addExerciseBtn"
             onClick={() => setIsAddingExercise(true)}
@@ -446,6 +449,12 @@ const Workout = ({}) => {
           <ConfirmSaveIncompleteWorkout
             confirmSaveModal={confirmSaveModal}
             setConfirmSaveModal={setConfirmSaveModal}
+            saveWorkout={saveWorkout}
+          />
+
+          <ConfirmFinishWorkout
+            confirmFinishWorkout={confirmFinishWorkout}
+            setConfirmFinishWorkout={setConfirmFinishWorkout}
             saveWorkout={saveWorkout}
           />
 
@@ -545,6 +554,7 @@ const Workout = ({}) => {
                         handleSaveSet={handleSaveSet}
                         isWorkoutRunning={isWorkoutRunning}
                         getSetKey={getSetKey}
+                        setEditingSets={setEditingSets}
                       />
                     </div>
                   </div>
