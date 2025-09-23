@@ -24,4 +24,5 @@ dist-ssr
 *.sw?
 
 **/application.properties
+src/main/resources/application-secret.properties
 

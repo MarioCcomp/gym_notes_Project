@@ -13,10 +13,24 @@ const ResetPassword = () => {
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
-  const  navigate  = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (passwordValue !== confirmPasswordValue) {
+      setNotification({
+        type: "error",
+        message: "As senhas digitadas devem ser iguais!",
+      });
+
+      setTimeout(() => {
+        setNotification(null);
+      }, 3000);
+
+      return;
+    }
+
     try {
       console.log(
         "Aq eu tento mudar a senha do usuario baseado no id dele, caso de certo notifico"

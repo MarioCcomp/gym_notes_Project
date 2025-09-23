@@ -508,19 +508,19 @@ const Workout = ({}) => {
                   >
                     <p
                       type="button"
-                      className="graphicBtn"
+                      className="iconBtn graphicBtn"
                       onClick={(e) => handleGraphic(exercise.exercise, e)}
                     >
-                      <MdTimeline />
+                      <MdTimeline className="simbol"/>
                     </p>
 
                     <p
-                      className="options especific"
+                      className="iconBtn optionsBtn"
                       onClick={() => handleExpandOptions(ind)}
                     >
-                      <SlOptions size={13} />
+                      <SlOptions size={13} className="simbol"/>
                     </p>
-                    <iframe
+                    {/* <iframe
                       width="560"
                       height="315"
                       src="https://www.youtube.com/embed/_FkbD0FhgVE"
@@ -528,7 +528,7 @@ const Workout = ({}) => {
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                       className="rounded-2xl shadow-lg"
-                    />
+                    /> */}
                     <h3>{exercise.exercise.name}</h3>
 
                     <p>

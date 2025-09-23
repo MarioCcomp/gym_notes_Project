@@ -28,6 +28,7 @@
   padding: 1.5rem;
   width: 100%;
   max-width: 420px;
+  min-width: 250px;
   text-align: center;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
   transition: all 0.3s ease;
@@ -53,6 +54,7 @@
 
 .exercise.expanded {
   max-width: 86%;
+  min-width: 100%;
 }
 
 .exercise:hover {
@@ -63,6 +65,7 @@
 .exercise h3 {
   font-size: 1.3rem;
   margin: 0.5rem 0;
+  margin-top: 2.5rem;
   font-weight: 700;
   color: #fff;
 }
@@ -78,6 +81,7 @@
 .exercise span:hover {
   color: #1e90ff;
 }
+
 
 .sets {
   display: flex;
@@ -223,7 +227,7 @@
 }
 
 .options.especific {
-  transform: scale(1.2);
+  transform: scale(1.5);
 }
 
 .outExercise {
@@ -264,7 +268,7 @@
     background: #2c2c2c;
     border-radius: 16px;
     padding: 1.5rem 2rem;
-    min-width: 200px;
+    min-width: 250px;
     max-width: 420px;
     text-align: center;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
@@ -295,7 +299,7 @@
 
 @media (max-width: 500px) {
   .exercise {
-    max-width: 85%;
+    max-width: 80%;
   }
   .exercise.expanded {
     max-width: 95%;
@@ -306,12 +310,17 @@
   }
 }
 
-.graphicBtn {
+@media (max-width: 350px) {
+  .exercise.expanded {
+  min-width: 80%;
+}
+}
+
+.iconBtn {
   position: absolute;
-  left: 8px;
   top: 12px;
-  width: 20px;
-  height: 20px;
+  width: 36px;      /* aumenta pra ficar padronizado */
+  height: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -319,11 +328,21 @@
 
   background: #3b82f6;
   border-radius: 50%;
-
+  transition: background 0.2s;
 }
 
-.graphicBtn:hover {
+.iconBtn:hover {
   background: #2563eb;
 }
+
+.graphicBtn {
+  left: 8px;   /* canto esquerdo */
+}
+
+.optionsBtn {
+  right: 8px;  /* canto direito */
+}
+
+
 
 
