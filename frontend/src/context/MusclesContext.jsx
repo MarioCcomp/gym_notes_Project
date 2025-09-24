@@ -13,12 +13,17 @@ export const MusclesProvider = ({ children }) => {
   const [exercises, setExercises] = useState([]);
   const [routines, setRoutines] = useState([]);
 
+  const { token, loading } = useToken();
+
   const navigate = useNavigate();
 
-  const { token } = useToken();
-
   const fetchData = async (authToken = token) => {
-    if (!authToken) return;
+    console.log("fetchData chamado com token:", authToken);
+
+    if (!authToken) {
+      console.log("Sem token, abortando fetchData");
+      return;
+    }
     try {
       const musclesRes = await api.get(`/api/muscles`, {
         headers: {
@@ -31,6 +36,9 @@ export const MusclesProvider = ({ children }) => {
           Authorization: `Bearer ${authToken}`,
         },
       });
+      console.log("aaaaaaaaaaa");
+
+      console.log(exercisesRes.data, "teste");
 
       const routinesRes = await api.get(`/api/routines`, {
         headers: {
@@ -51,7 +59,13 @@ export const MusclesProvider = ({ children }) => {
   const location = useLocation();
 
   useEffect(() => {
-    const publicRoutes = ["/", "/login", "/register", "/reset"];
+    if (loading) return;
+    const publicRoutes = ["/login", "/register", "/reset"];
+    console.log("useEffect executou!", {
+      token,
+      loading,
+      path: location.pathname,
+    });
 
     if (publicRoutes.some((path) => location.pathname.startsWith(path))) {
       return;
@@ -67,7 +81,7 @@ export const MusclesProvider = ({ children }) => {
         navigate("/");
       }
     }
-  }, [token, location.pathname]);
+  }, [loading, token, location.pathname]);
 
   const updateRoutine = (updatedRoutine) => {
     setRoutines((prev) =>

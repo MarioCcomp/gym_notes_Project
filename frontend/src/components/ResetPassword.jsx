@@ -41,9 +41,11 @@ const ResetPassword = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
+      const data = response.data;
+
       setNotification({
-        type: "sucess",
-        message: "Senha redefinida com sucesso",
+        type: data.type,
+        message: data.message,
       });
 
       setTimeout(() => {

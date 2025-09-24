@@ -5,6 +5,8 @@ import { useToken } from "../context/TokenContext";
 import { useMuscles } from "../context/MusclesContext";
 import { useNavigate } from "react-router-dom";
 import api from "../config/axiosConfig";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   // states para manipular o placeholder
@@ -22,7 +24,9 @@ const Login = () => {
   const [usernameValue, setUsernameValue] = useState("");
   const [nicknameValue, setNicknameValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
+  const [isSeeingPassword, setIsSeeingPassword] = useState(false);
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
+  const [isSeeingConfirmPassword, setIsSeeingConfirmPassword] = useState(false);
   const [forgetPassword, setForgetPassword] = useState(false);
   const [emailValue, setEmailValue] = useState("");
   const [loading, setLoading] = useState(false);
@@ -133,16 +137,16 @@ const Login = () => {
       const data = response.data;
 
       setNotification({
-        type: "sucess",
-        message: "email enviado",
+        type: data.type,
+        message: data.message,
       });
       setTimeout(() => {
         setNotification(null);
       }, 3000);
     } catch (err) {
       setNotification({
-        type: "error",
-        message: "email nao enviado",
+        type: err.response.data.type,
+        message: err.response.data.message,
       });
 
       setTimeout(() => {
@@ -169,9 +173,19 @@ const Login = () => {
         <img src={gymNotes} alt="" />
         <div className="ps">
           <p>Seu app de treino</p>
-          {(!isCreatingAccount && !forgetPassword) && <p className="login-message">Faça login para utilizar o aplicativo</p>}
-          {(isCreatingAccount && !forgetPassword) && <p className="login-message">Crie uma conta para utilizar o aplicativo</p>}
-          {(forgetPassword) && <p className="login-message">Esqueceu sua senha?</p>}
+          {!isCreatingAccount && !forgetPassword && (
+            <p className="login-message">
+              Faça login para utilizar o aplicativo
+            </p>
+          )}
+          {isCreatingAccount && !forgetPassword && (
+            <p className="login-message">
+              Crie uma conta para utilizar o aplicativo
+            </p>
+          )}
+          {forgetPassword && (
+            <p className="login-message">Esqueceu sua senha?</p>
+          )}
         </div>
       </div>
 
@@ -201,20 +215,46 @@ const Login = () => {
           />
         )}
         {!forgetPassword && (
-          <input
-            type="password"
-            placeholder={passwordPlaceholder}
-            value={passwordValue}
-            onChange={(e) => setPasswordValue(e.target.value)}
-          />
+          <div className="password-box">
+            <input
+              type={isSeeingPassword ? "text" : "password"}
+              placeholder={passwordPlaceholder}
+              value={passwordValue}
+              onChange={(e) => setPasswordValue(e.target.value)}
+            />
+            {isSeeingPassword ? (
+              <FaEye
+                onClick={() => setIsSeeingPassword(false)}
+                className="eye"
+              />
+            ) : (
+              <FaEyeSlash
+                className="eye"
+                onClick={() => setIsSeeingPassword(true)}
+              />
+            )}
+          </div>
         )}
         {!forgetPassword && isCreatingAccount && (
-          <input
-            type="password"
-            placeholder="Confirme sua senha"
-            value={confirmPasswordValue}
-            onChange={(e) => setConfirmPasswordValue(e.target.value)}
-          />
+          <div className="password-box">
+            <input
+              type={isSeeingConfirmPassword ? "text" : "password"}
+              placeholder="Confirme sua senha"
+              value={confirmPasswordValue}
+              onChange={(e) => setConfirmPasswordValue(e.target.value)}
+            />
+            {isSeeingConfirmPassword ? (
+              <FaEye
+                onClick={() => setIsSeeingConfirmPassword(false)}
+                className="eye"
+              />
+            ) : (
+              <FaEyeSlash
+                className="eye"
+                onClick={() => setIsSeeingConfirmPassword(true)}
+              />
+            )}
+          </div>
         )}
         {!forgetPassword ? (
           isCreatingAccount ? (
@@ -223,7 +263,9 @@ const Login = () => {
             <button type="submit">Logar</button>
           )
         ) : (
-          <button type="submit" disabled={loading}>{loading ? "Enviando email..." : "Enviar link de redefinição"}</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Enviando email..." : "Enviar link de redefinição"}
+          </button>
         )}
       </form>
 

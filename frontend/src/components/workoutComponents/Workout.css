@@ -27,8 +27,8 @@
   border-radius: 16px;
   padding: 1.5rem;
   width: 100%;
-  max-width: 420px;
-  min-width: 250px;
+  max-width: 300px;
+  min-width: 290px;
   text-align: center;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
   transition: all 0.3s ease;
@@ -269,7 +269,7 @@
     border-radius: 16px;
     padding: 1.5rem 2rem;
     min-width: 250px;
-    max-width: 420px;
+    max-width: 300px;
     text-align: center;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
     transition: all 0.3s ease;

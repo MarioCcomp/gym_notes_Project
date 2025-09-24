@@ -143,9 +143,27 @@ button:disabled {
 }
 
 .back:hover {
-  background: rgba(0, 191, 255, 0.15); /* circulo leve ao redor */
-  transform: scale(1.1); /* cresce um pouquinho */
+  background: rgba(0, 191, 255, 0.15); 
+  transform: scale(1.1); 
 }
+
+
+/* config pra tirar os estilos do navegador */
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #1e293b inset !important; 
+  -webkit-text-fill-color: #f9fafb !important; 
+  transition: background-color 5000s ease-in-out 0s !important; 
+  caret-color: #f9fafb !important; 
+}
+
+input:-webkit-autofill:focus,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px #0f172a inset !important; 
+  -webkit-text-fill-color: #f9fafb !important;
+}
+
 
 @media (max-width: 650px) {
   button {

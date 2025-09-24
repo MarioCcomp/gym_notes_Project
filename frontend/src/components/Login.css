@@ -16,7 +16,7 @@
 .main-login .header {
   text-align: center;
   margin-bottom: 2rem;
-   gap: 5px;
+  gap: 5px;
 }
 
 .main-login .header img {
@@ -32,10 +32,10 @@
 }
 
 .ps {
-    display: flex;
-    flex-direction: column;
-    gap: .4rem;
-    margin-top: -4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: -4rem;
 }
 
 .main-login .login-message {
@@ -152,9 +152,21 @@
   }
 }
 
+.password-box {
+  display: flex;
+  position: relative;
+}
+.password-box .eye {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  right: 10px;
+  cursor: pointer;
+}
+
 #back-login,
 #forget-password {
-  margin-top: .8rem;
+  margin-top: 0.8rem;
 }
 
 /* ====== Responsividade ====== */

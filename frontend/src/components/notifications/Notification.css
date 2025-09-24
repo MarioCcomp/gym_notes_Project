@@ -119,6 +119,44 @@
   background-color: #9333ea;
 }
 
+.highlight {
+  color: #facc15; /* amarelo */
+  font-weight: 600;
+}
+
+.rir-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #38bdf8; /* azul destaque */
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+/* explicação */
+.rir-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #e5e7eb;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+/* lista de exemplos */
+.rir-list {
+  list-style: none;
+  margin: 0 0 1.5rem 0;
+  padding: 0;
+  text-align: left;
+}
+
+.rir-list li {
+  font-size: 0.9rem;
+  color: #d1d5db;
+  margin-bottom: 0.6rem;
+  padding-left: 1.2rem;
+  position: relative;
+}
+
 /* animações */
 @keyframes fadeIn {
   from {
@@ -139,4 +177,3 @@
     opacity: 1;
   }
 }
-

@@ -50,7 +50,8 @@
   width: 100%;
 }
 
-.set input[type="text"] {
+.set input[type="text"],
+.set input[type="number"] {
   flex: 1;
   padding: 0.6rem;
   border: 1px solid #666;
@@ -60,7 +61,8 @@
   transition: border 0.2s ease;
 }
 
-.set input[type="text"]:focus {
+.set input[type="text"]:focus,
+.set input[type="number"]:focus {
   border: 1px solid #00bfff;
   outline: none;
 }
@@ -79,6 +81,19 @@
 
 .set input[type="submit"]:hover {
   background-color: #1e90ff;
+}
+
+.rir-box {
+  display: flex;
+  position: relative;
+}
+
+.rir-box .rir-info {
+  position: absolute;
+  cursor: pointer;
+  right: 0;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @media (max-width: 800px) {

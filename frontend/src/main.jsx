@@ -19,13 +19,15 @@ ReactDOM.createRoot(root).render(
     <TokenProvider>
       <MusclesProvider>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/workouts" element={<WorkoutsLayout />}>
             <Route index element={<MyWorkouts />} />
             <Route path=":workoutName" element={<Workout />} />
           </Route>
           <Route path="/reset" element={<ResetPassword />} />
+
+          <Route path="*" element={<Login />} />
         </Routes>
       </MusclesProvider>
     </TokenProvider>

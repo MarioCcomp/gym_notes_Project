@@ -71,7 +71,7 @@ const MyWorkouts = () => {
       toggleConfirmDelete();
       setNotification({
         type: "success",
-        message: "✅ Treino excluído com sucesso!",
+        message: "Treino excluído com sucesso!",
       });
 
       setTimeout(() => {
@@ -105,7 +105,7 @@ const MyWorkouts = () => {
     setRoutineBeingEdited({});
     setNotification({
       type: "success",
-      message: "✅ Treino editado com sucesso!",
+      message: "Treino editado com sucesso!",
     });
 
     setTimeout(() => {

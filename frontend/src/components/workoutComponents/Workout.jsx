@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import "./Workout.css";
+import "../notifications/Notification.css";
 import axios from "axios";
 import gymNotes from "../../assets/gymnotes.png";
 import { MdTimeline } from "react-icons/md";
@@ -380,6 +381,12 @@ const Workout = ({}) => {
     // setIsGraphicVisible(true);
   };
 
+  const [rirInfo, setRirInfo] = useState(false);
+
+  const closeRirModal = () => {
+    setRirInfo(false);
+  };
+
   return (
     <div className="main main-workout">
       {/* <Graphic /> */}
@@ -435,6 +442,43 @@ const Workout = ({}) => {
             ))}
 
           {/* notificacoes */}
+
+          {rirInfo && (
+            <div className="overlay" onClick={closeRirModal}>
+              <div className="modal" onClick={(e) => e.stopPropagation()}>
+                <p className="rir-title">O que é RIR?</p>
+                <p className="rir-text">
+                  RIR significa{" "}
+                  <span className="highlight">Repetições em Reserva</span>. É
+                  uma métrica de esforço que mostra quantas repetições você
+                  ainda conseguiria executar antes de atingir a falha muscular.
+                </p>
+                <ul className="rir-list">
+                  <li>
+                    <span className="highlight">RIR F</span> → falha
+                    completa, você tentou mas não conseguiu concluir a
+                    repetição.
+                  </li>
+                  <li>
+                    <span className="highlight">RIR 0</span> → conseguiu
+                    concluir a última repetição, mas não sairia nenhuma a mais.
+                  </li>
+                  <li>
+                    <span className="highlight">RIR 2</span> → parou com
+                    aproximadamente 2 repetições de sobra.
+                  </li>
+                  <li>
+                    <span className="highlight">RIR 4</span> → treino leve,
+                    ainda poderia fazer cerca de 4 repetições.
+                  </li>
+                </ul>
+
+                <div className="actions">
+                  <button onClick={closeRirModal}>Fechar</button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* confirm cancel workout */}
 
@@ -511,14 +555,14 @@ const Workout = ({}) => {
                       className="iconBtn graphicBtn"
                       onClick={(e) => handleGraphic(exercise.exercise, e)}
                     >
-                      <MdTimeline className="simbol"/>
+                      <MdTimeline className="simbol" />
                     </p>
 
                     <p
                       className="iconBtn optionsBtn"
                       onClick={() => handleExpandOptions(ind)}
                     >
-                      <SlOptions size={13} className="simbol"/>
+                      <SlOptions size={13} className="simbol" />
                     </p>
                     {/* <iframe
                       width="560"
@@ -555,6 +599,7 @@ const Workout = ({}) => {
                         isWorkoutRunning={isWorkoutRunning}
                         getSetKey={getSetKey}
                         setEditingSets={setEditingSets}
+                        setRirInfo={setRirInfo}
                       />
                     </div>
                   </div>

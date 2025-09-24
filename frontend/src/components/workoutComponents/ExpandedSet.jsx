@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import "./ExpandedSet.css";
 import { FaCircleInfo } from "react-icons/fa6";
-
+import { TiInfoLarge } from "react-icons/ti";
+import "../notifications/Notification.css";
 
 const ExpandedSet = ({
   isExpanded,
@@ -12,12 +13,13 @@ const ExpandedSet = ({
   isWorkoutRunning,
   handleEditSet,
   getSetKey,
-  setEditingSets
+  setEditingSets,
+  setRirInfo,
 }) => {
   const repeat = (n, fn) => Array.from({ length: n }, (_, i) => fn(i));
 
   useEffect(() => {
-    if(!isWorkoutRunning) {
+    if (!isWorkoutRunning) {
       setEditingSets({});
     }
   }, [isWorkoutRunning]);
@@ -45,26 +47,48 @@ const ExpandedSet = ({
               >
                 <div className="above-set">
                   <input
-                    type="text"
+                    type="number"
                     placeholder="peso"
                     name="weight"
+                    step="any"
+                    min="0"
                     disabled={!isEditing || !isWorkoutRunning}
                   />
                   <input
-                    type="text"
+                    type="number"
                     placeholder="repetições"
                     name="reps"
+                    step="any"
+                    min="0"
                     disabled={!isEditing || !isWorkoutRunning}
                   />
                 </div>
 
                 <div className="down-set">
-                  <input
-                    type="text"
-                    placeholder="rir (opcional)"
-                    name="rir"
-                    disabled={!isEditing || !isWorkoutRunning}
-                  />
+                  <div className="rir-box">
+                    <input
+                      type="text"
+                      placeholder="rir (opcional)"
+                      onInput={(e) => {
+                        const value = e.target.value;
+
+                        if (
+                          value === "" ||
+                          value.toLowerCase() === "f" ||
+                          /^(?:\d+(?:\.\d+)?)$/.test(value)
+                        ) {
+                          e.target.dataset.lastValid = value;
+                        } else {
+                          e.target.value = e.target.dataset.lastValid || "";
+                        }
+                      }}
+                      disabled={!isEditing || !isWorkoutRunning}
+                    />
+                    <TiInfoLarge
+                      onClick={() => setRirInfo(true)}
+                      className="rir-info"
+                    />
+                  </div>
                   <input
                     type="text"
                     placeholder="observações (opcional)"
