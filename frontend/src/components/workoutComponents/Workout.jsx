@@ -364,7 +364,7 @@ const Workout = ({}) => {
 
     try {
       const response = await api.get(
-        `http://localhost:8080/api/${workout.id}/exercises/${exercise.id}`,
+        `api/${workout.id}/exercises/${exercise.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
