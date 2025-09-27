@@ -11,10 +11,7 @@ const AddExercises = ({ routine, setIsAddingExercise }) => {
   const [selectedExercise, setSelectedExercise] = useState();
   const { muscles, exercises } = useMuscles();
   const exercisesPerPage = 5;
-  const [notification, setNotification] = useState({
-    type: "sucess",
-    message: "TESTE",
-  });
+  const [notification, setNotification] = useState(null);
 
   const [workoutExercises, setWorkoutExercises] = useState(new Set());
 
@@ -29,14 +26,7 @@ const AddExercises = ({ routine, setIsAddingExercise }) => {
 
   const { addWorkoutExercises } = useExercises();
 
-  const handleNotification = () => {
-    setNotification("Teste");
-    console.log(workoutExercises);
 
-    setTimeout(() => {
-      setNotification(null);
-    }, 3000);
-  };
 
   const handleSaveExercise = async (e) => {
     e.preventDefault();
@@ -95,7 +85,7 @@ const AddExercises = ({ routine, setIsAddingExercise }) => {
         >
           <option value="">-- Selecione um músculo --</option>
           {muscles.map((muscle) => (
-            <option key={muscle.id}>{capitalizeWords(muscle.name)}</option>
+            <option key={muscle.id} onClick={() => setCurrentPage(1)}>{capitalizeWords(muscle.name)}</option>
           ))}
         </select>
 

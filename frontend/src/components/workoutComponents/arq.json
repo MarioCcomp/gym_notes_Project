@@ -1,0 +1,59 @@
+[
+  { "name": "Rosca concentrada", "targetMuscle": { "id": "68abcb70db03a1b24cc0560a" } },
+  { "name": "Rosca bayesian", "targetMuscle": { "id": "68abcb70db03a1b24cc0560a" } },
+
+  { "name": "Tríceps testa", "targetMuscle": { "id": "68abcb70db03a1b24cc0560b" } },
+  { "name": "Tríceps na polia com barra", "targetMuscle": { "id": "68abcb70db03a1b24cc0560b" } },
+  { "name": "Tríceps na polia unilateral", "targetMuscle": { "id": "68abcb70db03a1b24cc0560b" } },
+  { "name": "Tríceps banco", "targetMuscle": { "id": "68abcb70db03a1b24cc0560b" } },
+
+  { "name": "Supino declinado", "targetMuscle": { "id": "68abcb70db03a1b24cc0560c" } },
+  { "name": "Supino reto máquina", "targetMuscle": { "id": "68abcb70db03a1b24cc0560c" } },
+  { "name": "Supino reto no smith", "targetMuscle": { "id": "68abcb70db03a1b24cc0560c" } },
+  { "name": "Supino declinado máquina", "targetMuscle": { "id": "68abcb70db03a1b24cc0560c" } },
+  { "name": "Supino inclinado máquina", "targetMuscle": { "id": "68abcb70db03a1b24cc0560c" } },
+  { "name": "Supino inclinado no smith", "targetMuscle": { "id": "68abcb70db03a1b24cc0560c" } },
+  { "name": "Crucifixo inclinado com halteres", "targetMuscle": { "id": "68abcb70db03a1b24cc0560c" } },
+  { "name": "Crucifixo máquina", "targetMuscle": { "id": "68abcb70db03a1b24cc0560c" } },
+  { "name": "Pull-over com halter", "targetMuscle": { "id": "68abcb70db03a1b24cc0560c" } },
+
+  { "name": "Desenvolvimento arnold", "targetMuscle": { "id": "68abcb70db03a1b24cc0560d" } },
+  { "name": "Elevação frontal na polia", "targetMuscle": { "id": "68abcb70db03a1b24cc0560d" } },
+  { "name": "Elevação frontal com halter", "targetMuscle": { "id": "68abcb70db03a1b24cc0560d" } },
+  { "name": "Desenvolvimento com halteres", "targetMuscle": { "id": "68abcb70db03a1b24cc0560d" } },
+  { "name": "Desenvolvimento com barra", "targetMuscle": { "id": "68abcb70db03a1b24cc0560d" } },
+  { "name": "Desenvolvimento no smith", "targetMuscle": { "id": "68abcb70db03a1b24cc0560d" } },
+
+  { "name": "Remada baixa unilateral", "targetMuscle": { "id": "68abcb70db03a1b24cc0560e" } },
+  { "name": "Remada baixa máquina", "targetMuscle": { "id": "68abcb70db03a1b24cc0560e" } },
+  { "name": "Remada baixa na polia", "targetMuscle": { "id": "68abcb70db03a1b24cc0560e" } },
+  { "name": "Remada aberta máquina", "targetMuscle": { "id": "68abcb70db03a1b24cc0560e" } },
+  { "name": "Remada aberta na polia", "targetMuscle": { "id": "68abcb70db03a1b24cc0560e" } },
+  { "name": "Remada aberta na polia", "targetMuscle": { "id": "68abcb70db03a1b24cc0560e" } },
+  { "name": "Puxada alta unilateral na polia", "targetMuscle": { "id": "68abcb70db03a1b24cc0560e" } },
+  { "name": "Puxada alta unilateral máquina", "targetMuscle": { "id": "68abcb70db03a1b24cc0560e" } },
+
+  { "name": "Afundo", "targetMuscle": { "id": "68abcb70db03a1b24cc0560f" } },
+  { "name": "Avanço", "targetMuscle": { "id": "68abcb70db03a1b24cc0560f" } },
+  { "name": "Hack squat", "targetMuscle": { "id": "68abcb70db03a1b24cc0560f" } },
+  { "name": "Agachamento pêndulo", "targetMuscle": { "id": "68abcb70db03a1b24cc0560f" } },
+
+  { "name": "Flexora em pé", "targetMuscle": { "id": "68abcb70db03a1b24cc05610" } },
+  { "name": "Cadeira flexora", "targetMuscle": { "id": "68abcb70db03a1b24cc05610" } },
+
+  { "name": "Glúteo na polia", "targetMuscle": { "id": "68abcb70db03a1b24cc05611" } },
+  { "name": "Levantamento terra", "targetMuscle": { "id": "68abcb70db03a1b24cc05611" } },
+  { "name": "Cadeira abdutora", "targetMuscle": { "id": "68abcb70db03a1b24cc05611" } },
+
+
+  { "name": "Panturrilha no leg press", "targetMuscle": { "id": "68abcb70db03a1b24cc05612" } },
+  { "name": "Panturrilha no smith", "targetMuscle": { "id": "68abcb70db03a1b24cc05612" } },
+
+  { "name": "Rosca inversa", "targetMuscle": { "id": "68abcb70db03a1b24cc05613" } },
+
+
+  { "name": "Prancha abdominal", "targetMuscle": { "id": "68d727d958426eb95f0b744e" } },
+  { "name": "Abdominal supra", "targetMuscle": { "id": "68d727d958426eb95f0b744e" } },
+  { "name": "Abdominal infra", "targetMuscle": { "id": "68d727d958426eb95f0b744e" } },
+  { "name": "Abdominal supra na polia", "targetMuscle": { "id": "68d727d958426eb95f0b744e" } }
+]
