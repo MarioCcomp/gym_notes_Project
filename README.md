@@ -39,8 +39,8 @@ Antes de começar, certifique-se de ter instalado:
 
 1. **Clone o repositório**
    ```bash
-   git clone https://github.com/seuusuario/GymNotes.git
-   cd GymNotes
+   git clone https://github.com/seuusuario/gym_notes_Project.git
+   cd gym_notes_Project
    ```
 
 2. **Configure o arquivo `.env` com base no `.env.example`**  
