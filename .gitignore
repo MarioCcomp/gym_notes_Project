@@ -1,3 +1,5 @@
 backend/GymNotes/src/main/resources/application-secret.properties
 
 **/application.properties
+
+.env
