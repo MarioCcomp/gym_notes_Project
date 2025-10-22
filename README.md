@@ -2,8 +2,6 @@
 
 ![Image](https://m.media-amazon.com/images/I/51yUeZCS8FL._AC_UF1000,1000_QL80_.jpg)
 
-A web app for tracking workouts, allowing users to add exercises, log sets and reps, and save data of each set.
-
 Este projeto é uma aplicação **full stack** composta por:
 
 - **Frontend:** React + Vite  
@@ -22,7 +20,8 @@ A stack foi **totalmente containerizada com Docker** para facilitar o desenvolvi
 ├── frontend/             # Aplicação React (porta 5173)
 ├── backend/
 │   └── GymNotes/         # Aplicação Spring Boot (porta 8080)
-└── .env                  # Variáveis de ambiente do backend
+├── .env.example          # Exemplo de variáveis de ambiente
+└── .env                  # (crie este arquivo com base no exemplo)
 ```
 
 ---
@@ -44,11 +43,26 @@ Antes de começar, certifique-se de ter instalado:
    cd GymNotes
    ```
 
-2. **Crie um arquivo `.env` na raiz do projeto (caso ainda não exista)**  
-   Exemplo:
+2. **Configure o arquivo `.env` com base no `.env.example`**  
+   Um arquivo `.env.example` já está incluído no projeto.  
+   Copie-o e ajuste suas variáveis conforme necessário:
+   ```bash
+   cp .env.example .env
+   ```
+
+   O conteúdo de exemplo é o seguinte:
+
    ```env
+   # Exemplo de variáveis para rodar o projeto
+
+   # Configurações de e-mail (coloque suas credenciais do Gmail ou outro SMTP)
+   SPRING_MAIL_HOST=smtp.gmail.com
+   SPRING_MAIL_PORT=587
+   SPRING_MAIL_USERNAME=seu-email@gmail.com
+   SPRING_MAIL_PASSWORD=sua-senha-ou-app-password
+
+   # Configuração do MongoDB (não precisa alterar se for rodar localmente via Docker)
    SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/gymnotes
-   JWT_SECRET=seuSegredoAqui
    ```
 
 3. **Suba os containers**
@@ -147,5 +161,4 @@ docker-compose logs -f mongo
 
 **Mario Junior**  
 💼 Desenvolvedor Full Stack  
-📧 [seuemail@exemplo.com](mailto:seuemail@exemplo.com)  
-🔗 [LinkedIn](https://linkedin.com/in/seuperfil)
+📧 [marioccomp@gmail.com](mailto:marioccomp@gmail.com)  
