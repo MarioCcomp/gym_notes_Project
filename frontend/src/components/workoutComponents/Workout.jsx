@@ -5,6 +5,7 @@ import axios from "axios";
 import gymNotes from "../../assets/gymnotes.png";
 import { MdTimeline } from "react-icons/md";
 import { useState, useEffect } from "react";
+import { useVideoThumbnail } from "../../hooks/useVideoThumbnail";
 import { FaLongArrowAltDown } from "react-icons/fa";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { useMuscles } from "../../context/MusclesContext";
@@ -19,6 +20,7 @@ import ConfirmDeleteExercise from "../notifications/ConfirmDeleteExercise";
 import ConfirmSaveIncompleteWorkout from "../notifications/ConfirmSaveIncompleteWorkout";
 import ConfirmCancelWorkout from "../notifications/ConfirmCancelWorkout";
 import ConfirmFinishWorkout from "../notifications/ConfirmFinishWorkout";
+import teste from "../../assets/teste.mp4";
 
 import ExpandedSet from "../workoutComponents/ExpandedSet";
 import InfoBox from "../workoutComponents/InfoBox";
@@ -389,6 +391,8 @@ const Workout = ({}) => {
     setRirInfo(false);
   };
 
+  const thumbnail = useVideoThumbnail(teste);
+
   return (
     <div className="main main-workout">
       {/* <Graphic /> */}
@@ -576,9 +580,12 @@ const Workout = ({}) => {
                     /> */}
 
                     <div className="exercise-card-video-workout">
+                      
                       <video
-                        src="https://www.w3schools.com/html/mov_bbb.mp4"
+                        src={teste}
                         controls={videoOpen === exercise.exercise.id}
+                        poster={thumbnail || ""}
+                        preload="metadata"
                         onClick={(e) => {
                           e.stopPropagation();
                           setVideoOpen(exercise.exercise.id);

@@ -21,7 +21,7 @@ const Home = () => {
 
       <ul className="buttons">
         <li onClick={() => navigate("/workouts")}>Meus Treinos</li>
-        <li>Meu Progresso</li>
+        <li>Meu ProgresAAAAso</li>
       </ul>
     </div>
   );
