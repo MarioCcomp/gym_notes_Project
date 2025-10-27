@@ -43,14 +43,12 @@
   background-color: #555;
 }
 
-
 .pagination-controls {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   margin-top: 10px;
-  
 }
 
 .pagination-controls button {
@@ -60,44 +58,80 @@
 
 .exercise-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #141414;
   margin-top: 12px;
 }
 
-
 .exercise-card {
-  width: 100%;
-  max-width: 280px;  /* largura máxima fixa */
-  /* min-width: 280px; */
-  margin: 0 auto;    /* centraliza se tiver espaço */
-  padding: 12px;
-  border-radius: 10px;
+  padding: 12px 10px;
+  border-radius: 8px;
   background-color: #2a2a2a;
   color: #ddd;
   text-align: center;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+  /* font-size: 13px; */
+  font-weight: 500;
+  line-height: 1.3;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
   word-break: break-word;
 }
 
-
-
-
-
 .exercise-card:hover {
   background-color: #333;
-  transform: scale(1.02);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.exercise-card:active {
+  transform: translateY(0);
 }
 
 .exercise-card.selected {
-  background-color: #444;
-  border: 1px solid #888;
-  font-weight: bold;
+  background-color: #3b82f6;
+  border-color: #2563eb;
+  font-weight: 600;
   color: #fff;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
 }
 
+.exercise-card-video {
+  width: 100%;
+  height: 140px;
+  background-color: #1a1a1a;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  overflow: hidden;
+  font-size: 11px;
+  border: 1px solid #333;
+  position: relative;
+}
+
+.exercise-card.selected .exercise-card-video {
+  border-color: #2563eb;
+  background-color: rgba(37, 99, 235, 0.1);
+  color: #93c5fd;
+}
+
+.exercise-card-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
 
 /* Barra de pesquisa de exercicios */
 
@@ -119,4 +153,84 @@
 .creatingExercise input[type="text"]:focus {
   outline: none;
   border-color: #888;
+}
+
+.play-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  pointer-events: none; /* Não bloqueia o clique no vídeo */
+  transition: background-color 0.2s ease;
+}
+
+.exercise-card:hover .play-overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.play-icon {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(59, 130, 246, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  padding-left: 3px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.exercise-card:hover .play-icon {
+  transform: scale(1.1);
+  background-color: rgba(37, 99, 235, 1);
+}
+
+.exercise-card.selected .play-overlay {
+  background-color: rgba(37, 99, 235, 0.3);
+}
+
+@media (min-width: 1024px) {
+  .exercise-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .exercise-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .exercise-card {
+    font-size: 14px;
+    min-height: 220px;
+  }
+
+  .exercise-card-video {
+    height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .exercise-grid {
+    gap: 8px;
+  }
+
+  .exercise-card {
+    font-size: 12px;
+    padding: 10px 8px;
+    min-height: 180px;
+  }
+
+  .exercise-card-video {
+    height: 120px;
+  }
 }

@@ -1,6 +1,22 @@
+/* NOVO */
+:root {
+  --primary-blue: #3b82f6;
+  --primary-blue-hover: #2563eb;
+  --success-green: #198754;
+  --success-green-hover: #146c43;
+  --danger-red: #d62828;
+  --danger-red-hover: #9b0c0c;
+  --bg-dark: #2c2c2c;
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 6px 14px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.45);
+  --shadow-button: 1px 4px 20px rgba(0, 0, 0, 0.6);
+  --accent-cyan: #00bfff;
+  --accent-cyan-hover: #1e90ff;
+}
+
 .main-workout {
   padding-top: 15vh;
-
 }
 
 .exercises {
@@ -31,8 +47,8 @@
   max-width: 300px;
   min-width: 290px;
   text-align: center;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
-  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -40,8 +56,6 @@
   margin-top: 4rem;
   gap: 1rem;
 }
-
-
 
 .exercise p {
   display: flex;
@@ -62,7 +76,7 @@
 
 .exercise:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45);
+  box-shadow: var(--shadow-lg);
 }
 
 .exercise h3 {
@@ -77,14 +91,13 @@
   cursor: pointer;
   font-size: 1.2rem;
   margin-left: 0.6rem;
-  color: #00bfff;
+  color: var(--accent-cyan);
   transition: color 0.2s ease;
 }
 
 .exercise span:hover {
-  color: #1e90ff;
+  color: var(--accent-cyan-hover);
 }
-
 
 .sets {
   display: flex;
@@ -110,10 +123,7 @@
   transition: background-color 0.2s, color 0.2s;
   z-index: 900;
   margin-top: 0;
-
 }
-
-
 
 .addExerciseBtn {
   right: 20px;
@@ -122,20 +132,23 @@
   border: none;
 }
 
-
-
 .addExerciseBtn:hover {
   background: #1e90ff;
 }
 
 .startBtn,
-.endBtn
- {
-  background-color: #d62828;
+.endBtn {
+  background-color: var(--danger-red-hover);
   font-size: 1rem;
   padding: 0.8rem 1.5rem;
   margin-top: 1rem;
   z-index: 900;
+  transform: translateY(-2px);
+}
+
+.startBtn:active,
+.endBtn:active {
+  transform: translateY(0);
 }
 
 .cancelBtn {
@@ -150,23 +163,30 @@
 .editBtn {
   margin: 10px 0;
   padding: 8px 14px;
-  background-color: #198754;
+  background-color: var(--success-green);
+  box-shadow: var(--shadow-sm);
   color: #fff;
   border: none;
   border-radius: 8px;
   font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .editBtn:hover {
-  background-color: #146c43;
+  background-color: var(--success-green-hover);
+  transform: translateY(-1px);
+}
+
+.editBtn:active {
+  transform: translateY(0);
 }
 
 /* Notificações */
 .notification {
   position: fixed;
   top: 20px;
+  z-index: 1000;
   right: 20px;
   color: #fff;
   padding: 12px 20px;
@@ -209,7 +229,7 @@
   width: 16px;
   height: 18px;
 
-  background: #3b82f6;
+  background: var(--primary-blue);
   border-radius: 50%;
 
   display: flex;
@@ -221,11 +241,11 @@
   font-weight: bold;
 
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  transition: background 0.2s, transform 0.15s ease-in-out;
+  transition: background-color 0.2s ease, transform 0.15s ease-in-out;
 }
 
 .options:hover {
-  background: #2563eb;
+  background: var(--primary-blue-hover);
   transform: translateY(-50%) scale(1.1);
 }
 
@@ -261,6 +281,7 @@
 @media (max-width: 768px) {
   .addExerciseBtn {
     position: absolute;
+
     right: 0px;
     top: 20px;
     width: 38%;
@@ -268,14 +289,14 @@
   }
 
   .exercise {
-    background: #2c2c2c;
     border-radius: 16px;
     padding: 1.5rem 2rem;
     min-width: 250px;
     max-width: 300px;
     text-align: center;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
-    transition: all 0.3s ease;
+    background: var(--bg-dark);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
   }
 
@@ -289,8 +310,96 @@
   }
 }
 
-@media (max-width: 650px) {
+.exercise-card-video-workout {
+  width: 100%;
+  height: 200px;
+  max-width: 100%;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid #444;
+  position: relative;
+  margin-top: 3rem;
+  margin-bottom: -2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
 
+.exercise-card-video-workout:hover {
+  border-color: var(--primary-blue); /* Borda azul no hover */
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+}
+
+.exercise-card-video-workout video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: #000;
+  border-radius: 8px;
+}
+
+.play-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  transition: background-color 0.2s ease;
+  border-radius: 8px;
+}
+
+.exercise:hover .play-overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.play-icon {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(59, 130, 246, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: white;
+  padding-left: 3px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.exercise:hover .play-icon {
+  transform: scale(1.1);
+  background-color: rgba(37, 99, 235, 1);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .exercise-card-video-workout {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .exercise-card-video-workout {
+    height: 150px;
+  }
+
+  .play-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 650px) {
   .header h2 {
     font-size: 1.8rem;
   }
@@ -315,37 +424,41 @@
 
 @media (max-width: 350px) {
   .exercise.expanded {
-  min-width: 80%;
-}
+    min-width: 80%;
+  }
 }
 
 .iconBtn {
   position: absolute;
   top: 12px;
-  width: 36px;      /* aumenta pra ficar padronizado */
+  width: 36px; /* aumenta pra ficar padronizado */
   height: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 
-  background: #3b82f6;
+  background: var(--primary-blue);
+  border: none;
+  color: #fff;
   border-radius: 50%;
-  transition: background 0.2s;
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .iconBtn:hover {
-  background: #2563eb;
+  background: var(--primary-blue-hover);
+  transform: scale(1.1);
+}
+
+.iconBtn:active {
+  transform: scale(1);
 }
 
 .graphicBtn {
-  left: 8px;   /* canto esquerdo */
+  left: 8px; /* canto esquerdo */
 }
 
 .optionsBtn {
-  right: 8px;  /* canto direito */
+  right: 8px; /* canto direito */
 }
-
-
-
-

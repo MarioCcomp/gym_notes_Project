@@ -12,6 +12,7 @@ import AddExercises from "./AddExercises";
 import { useExercises } from "../../hooks/useExercises";
 import { IoReturnUpBack } from "react-icons/io5";
 import { SlOptions } from "react-icons/sl";
+import { FaPlay } from "react-icons/fa";
 import { capitalizeWords } from "../../utils/utils";
 import ConfirmEdit from "../notifications/ConfirmEdit";
 import ConfirmDeleteExercise from "../notifications/ConfirmDeleteExercise";
@@ -54,6 +55,7 @@ const Workout = ({}) => {
   const [optionsExpanded, setOptionsExpanded] = useState({});
   const [isGraphicVisible, setIsGraphicVisible] = useState(false);
   const [confirmFinishWorkout, setConfirmFinishWorkout] = useState(false);
+  const [videoOpen, setVideoOpen] = useState(null);
 
   const { workoutName } = useParams();
 
@@ -455,9 +457,8 @@ const Workout = ({}) => {
                 </p>
                 <ul className="rir-list">
                   <li>
-                    <span className="highlight">RIR F</span> → falha
-                    completa, você tentou mas não conseguiu concluir a
-                    repetição.
+                    <span className="highlight">RIR F</span> → falha completa,
+                    você tentou mas não conseguiu concluir a repetição.
                   </li>
                   <li>
                     <span className="highlight">RIR 0</span> → conseguiu
@@ -573,6 +574,30 @@ const Workout = ({}) => {
                       allowFullScreen
                       className="rounded-2xl shadow-lg"
                     /> */}
+
+                    <div className="exercise-card-video-workout">
+                      <video
+                        src="https://www.w3schools.com/html/mov_bbb.mp4"
+                        controls={videoOpen === exercise.exercise.id}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setVideoOpen(exercise.exercise.id);
+                        }}
+                        style={{
+                          cursor:
+                            videoOpen === exercise.exercise.id
+                              ? "default"
+                              : "pointer",
+                        }}
+                      />
+                      {videoOpen !== exercise.exercise.id && (
+                        <div className="play-overlay">
+                          <div className="play-icon">
+                            <FaPlay />
+                          </div>
+                        </div>
+                      )}
+                    </div>
                     <h3>{exercise.exercise.name}</h3>
 
                     <p>

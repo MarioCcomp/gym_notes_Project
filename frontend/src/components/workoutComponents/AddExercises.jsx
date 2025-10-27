@@ -3,6 +3,7 @@ import { useMuscles } from "../../context/MusclesContext";
 import { capitalizeWords, getFilteredExercises } from "../../utils/utils";
 import "./AddExercises.css";
 import { useExercises } from "../../hooks/useExercises";
+import { FaPlay } from "react-icons/fa";
 
 const AddExercises = ({ routine, setIsAddingExercise }) => {
   const [isCreatingWorkout, setIsCreatingWorkout] = useState(false);
@@ -10,8 +11,9 @@ const AddExercises = ({ routine, setIsAddingExercise }) => {
   const [plannedSets, setPlannedSets] = useState(1);
   const [selectedExercise, setSelectedExercise] = useState();
   const { muscles, exercises } = useMuscles();
-  const exercisesPerPage = 5;
+  const exercisesPerPage = 12;
   const [notification, setNotification] = useState(null);
+  const [videoOpen, setVideoOpen] = useState(null); // Pra qnd tiver video
 
   const [workoutExercises, setWorkoutExercises] = useState(new Set());
 
@@ -25,8 +27,6 @@ const AddExercises = ({ routine, setIsAddingExercise }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { addWorkoutExercises } = useExercises();
-
-
 
   const handleSaveExercise = async (e) => {
     e.preventDefault();
@@ -81,11 +81,14 @@ const AddExercises = ({ routine, setIsAddingExercise }) => {
         <label>Selecione o músculo</label>
         <select
           value={selectedMuscle}
-          onChange={(e) => setSelectedMuscle(e.target.value)}
+          onChange={(e) => {
+            setSelectedMuscle(e.target.value);
+            setCurrentPage(1);
+          }}
         >
           <option value="">-- Selecione um músculo --</option>
           {muscles.map((muscle) => (
-            <option key={muscle.id} onClick={() => setCurrentPage(1)}>{capitalizeWords(muscle.name)}</option>
+            <option key={muscle.id}>{capitalizeWords(muscle.name)}</option>
           ))}
         </select>
 
@@ -114,6 +117,27 @@ const AddExercises = ({ routine, setIsAddingExercise }) => {
                 onClick={() => setSelectedExercise(ex)}
               >
                 {capitalizeWords(ex.name)}
+
+                <div className="exercise-card-video">
+                  <video
+                    src="https://www.w3schools.com/html/mov_bbb.mp4"
+                    controls={videoOpen === ex.id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setVideoOpen(ex.id);
+                    }}
+                    style={{
+                      cursor: videoOpen === ex.id ? "default" : "pointer",
+                    }}
+                  />
+                  {videoOpen !== ex.id && (
+                    <div className="play-overlay">
+                      <div className="play-icon">
+                        <FaPlay />
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
         </div>
