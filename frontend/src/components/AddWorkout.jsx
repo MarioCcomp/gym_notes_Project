@@ -3,6 +3,7 @@ import { useMuscles } from "../context/MusclesContext";
 import "./AddWorkout.css";
 import { capitalizeWords, getFilteredExercises } from "../utils/utils";
 import { useWorkouts } from "../hooks/useWorkouts";
+import { FaPlay } from "react-icons/fa";
 
 const AddWorkout = ({ setIsAddingWorkout }) => {
   const { muscles, exercises, routines } = useMuscles();
@@ -14,8 +15,9 @@ const AddWorkout = ({ setIsAddingWorkout }) => {
   const [selectedExercise, setSelectedExercise] = useState();
   const [plannedSets, setPlannedSets] = useState(1);
   const { saveWorkout } = useWorkouts();
+  const [videoOpen, setVideoOpen] = useState(null);
 
-  const exercisesPerPage = 5;
+  const exercisesPerPage = 12;
 
   const handleSaveExercise = (e) => {
     e.preventDefault();
@@ -103,6 +105,27 @@ const AddWorkout = ({ setIsAddingWorkout }) => {
                 onClick={() => setSelectedExercise(ex)}
               >
                 {capitalizeWords(ex.name)}
+
+                <div className="exercise-card-video">
+                  <video
+                    src="https://www.w3schools.com/html/mov_bbb.mp4"
+                    controls={videoOpen === ex.id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setVideoOpen(ex.id);
+                    }}
+                    style={{
+                      cursor: videoOpen === ex.id ? "default" : "pointer",
+                    }}
+                  />
+                  {videoOpen !== ex.id && (
+                    <div className="play-overlay">
+                      <div className="play-icon">
+                        <FaPlay />
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
         </div>
